@@ -1,0 +1,59 @@
+{
+    "type": "object",
+    "title": "New Unit of Measurement",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "minLength": 1,
+            "maxLength": 50
+        },
+        "symbol": {
+            "type": "string",
+            "title": "Symbol",
+            "x-seam-input": "text"
+        },
+        "iso_code": {
+            "type": "string",
+            "title": "Iso Code",
+            "minLength": 1,
+            "maxLength": 3,
+            "x-seam-input": "text"
+        },
+        "add_reference_unit": {
+            "type": "boolean",
+            "title": "Define Equivalence with Another Unit",
+            "x-seam-input": "checkbox"
+        },
+        "reference_unit": {
+            "type": "integer",
+            "title": "Reference Unit",
+            "x-seam-visible-when": {
+                "field": "add_reference_unit",
+                "op": "eq",
+                "value": true
+            },
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:unit"
+        },
+        "conversion_factor": {
+            "type": "string",
+            "title": "Conversion Factor",
+            "format": "decimal",
+            "decimalPrecision": 18,
+            "decimalScale": 9,
+            "x-seam-input": "decimal",
+            "x-seam-visible-when": {
+                "field": "add_reference_unit",
+                "op": "eq",
+                "value": true
+            }
+        }
+    },
+    "required": [
+        "name",
+        "symbol",
+        "iso_code"
+    ]
+}

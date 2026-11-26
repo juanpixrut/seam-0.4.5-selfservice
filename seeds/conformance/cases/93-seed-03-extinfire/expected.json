@@ -1,0 +1,3953 @@
+{
+ "alert_types": {
+  "1": {
+   "criticality": "Alta",
+   "description": "Recarga vencida — polvo ABC / CO2 (>2 años)",
+   "type": "Mantenimiento"
+  },
+  "10": {
+   "criticality": "Baja",
+   "description": "Habilitación DNB del cliente por vencer (60 días)",
+   "type": "Operativa"
+  },
+  "11": {
+   "criticality": "Media",
+   "description": "Mantenimiento anual vencido",
+   "type": "Mantenimiento"
+  },
+  "12": {
+   "criticality": "Baja",
+   "description": "Extintor próximo a fin de vida útil (<2 años)",
+   "type": "Operativa"
+  },
+  "2": {
+   "criticality": "Alta",
+   "description": "Recarga vencida — espuma / agua / Clase K (>1 año)",
+   "type": "Mantenimiento"
+  },
+  "3": {
+   "criticality": "Alta",
+   "description": "Ensayo hidrostático vencido — polvo (>4 años)",
+   "type": "Mantenimiento"
+  },
+  "4": {
+   "criticality": "Alta",
+   "description": "Ensayo hidrostático vencido — CO2 (>5 años)",
+   "type": "Mantenimiento"
+  },
+  "5": {
+   "criticality": "Alta",
+   "description": "Vida útil superada — 20 años (UNIT 598:2017)",
+   "type": "Seguridad"
+  },
+  "6": {
+   "criticality": "Media",
+   "description": "Presión fuera de rango (manómetro zona roja)",
+   "type": "Operativa"
+  },
+  "7": {
+   "criticality": "Media",
+   "description": "Sello de seguridad roto o faltante",
+   "type": "Operativa"
+  },
+  "8": {
+   "criticality": "Alta",
+   "description": "Extintor faltante en ubicación requerida",
+   "type": "Operativa"
+  },
+  "9": {
+   "criticality": "Media",
+   "description": "Inspección trimestral vencida (>100 días)",
+   "type": "Operativa"
+  }
+ },
+ "alerts": {
+  "1": {
+   "alerta_id": 0,
+   "asset_id": 31,
+   "asset_name": "Extintor ABC 10kg — LIB-A08 (vencido)",
+   "created_at": "2027-02-11T09:00:00Z",
+   "message": "Última recarga registrada: marzo 2022. Vencimiento superado en más de 2 años. Retirar para recarga inmediata.",
+   "severity": "high",
+   "source": "seed",
+   "status": "open",
+   "title": "Recarga vencida — LIB-A08"
+  },
+  "2": {
+   "alerta_id": 0,
+   "asset_id": 21,
+   "asset_name": "Extintor ABC 5kg — PORT-012 (2006)",
+   "created_at": "2027-02-04T08:00:00Z",
+   "message": "Fabricado en 2006. Vida útil de 20 años (UNIT 598:2017) vence el 31/12/2026. Planificar reemplazo y destrucción según art. 50 Decreto 372/023.",
+   "severity": "medium",
+   "source": "seed",
+   "status": "open",
+   "title": "Vida útil próxima — PORT-012"
+  },
+  "3": {
+   "acknowledged_at": "2027-01-31T09:30:00Z",
+   "acknowledged_by": "hl@example.com",
+   "alerta_id": 0,
+   "asset_id": 72,
+   "asset_name": "Extintor ABC 5kg — LIC-009 (2007)",
+   "created_at": "2027-01-30T10:00:00Z",
+   "message": "Fabricado en 2007. Vida útil vence en diciembre 2027. Incluido en plan de reemplazo 2027.",
+   "severity": "low",
+   "source": "seed",
+   "status": "acknowledged",
+   "title": "Vida útil próxima — LIC-009"
+  }
+ },
+ "asset_types": {
+  "1": {
+   "color": "#ef4444",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "default_alerta_id": 0,
+   "description": "Extintores manuales a base de polvo químico seco ABC presurizado (UNIT 598). Recarga cada 2 años, ensayo hidrostático cada 4 años, vida útil 20 años.",
+   "fsm_id": 1,
+   "identity_template": {
+    "capacity_kg": {
+     "label": "Capacidad (kg)",
+     "required": true,
+     "type": "number"
+    },
+    "dnb_number": {
+     "label": "Nro. aprobación DNB",
+     "required": false,
+     "type": "text"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "pressure_bar": {
+     "label": "Presión de trabajo (bar)",
+     "required": false,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie (cilindro)",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Extintor Polvo ABC",
+   "slug": "extintor-polvo-abc",
+   "state_template": {
+    "condition_grade": {
+     "label": "Grado de condición",
+     "required": false,
+     "type": "text"
+    },
+    "hose_status": {
+     "label": "Estado manguera/boquilla",
+     "required": false,
+     "type": "text"
+    },
+    "pressure_ok": {
+     "label": "Presión en zona verde",
+     "required": false,
+     "type": "boolean"
+    },
+    "seal_intact": {
+     "label": "Sello de seguridad intacto",
+     "required": false,
+     "type": "boolean"
+    }
+   }
+  },
+  "2": {
+   "color": "#6366f1",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "default_alerta_id": 0,
+   "description": "Extintores manuales a dióxido de carbono (UNIT 586). Recarga cada 2 años, ensayo hidrostático cada 5 años. Verificación por pesaje (sin manómetro).",
+   "fsm_id": 1,
+   "identity_template": {
+    "capacity_kg": {
+     "label": "Capacidad (kg)",
+     "required": true,
+     "type": "number"
+    },
+    "dnb_number": {
+     "label": "Nro. aprobación DNB",
+     "required": false,
+     "type": "text"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "tare_weight_kg": {
+     "label": "Peso tara (kg)",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Extintor CO2",
+   "slug": "extintor-co2",
+   "state_template": {
+    "current_weight_kg": {
+     "label": "Peso actual (kg)",
+     "required": false,
+     "type": "number"
+    },
+    "horn_status": {
+     "label": "Estado corneta/difusor",
+     "required": false,
+     "type": "text"
+    },
+    "seal_intact": {
+     "label": "Sello intacto",
+     "required": false,
+     "type": "boolean"
+    },
+    "weight_ok": {
+     "label": "Peso dentro de tolerancia",
+     "required": false,
+     "type": "boolean"
+    }
+   }
+  },
+  "3": {
+   "color": "#06b6d4",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "default_alerta_id": 0,
+   "description": "Extintores manuales a base de espuma AFFF. Recarga anual. Ensayo hidrostático cada 2 años. Concentrado tiene fecha de vencimiento.",
+   "fsm_id": 1,
+   "identity_template": {
+    "capacity_liters": {
+     "label": "Capacidad (litros)",
+     "required": true,
+     "type": "number"
+    },
+    "concentrate_type": {
+     "label": "Tipo concentrado espuma",
+     "required": true,
+     "type": "text"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Extintor Espuma AFFF",
+   "slug": "extintor-espuma",
+   "state_template": {
+    "concentrate_expiry_date": {
+     "label": "Vto. concentrado",
+     "required": false,
+     "type": "text"
+    },
+    "pressure_ok": {
+     "label": "Presión en zona verde",
+     "required": false,
+     "type": "boolean"
+    },
+    "seal_intact": {
+     "label": "Sello intacto",
+     "required": false,
+     "type": "boolean"
+    }
+   }
+  },
+  "4": {
+   "color": "#84cc16",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "default_alerta_id": 0,
+   "description": "Extintores para fuegos de aceites y grasas de cocción (UNIT 1221:2015). Obligatorio en cocinas comerciales. Recarga anual.",
+   "fsm_id": 1,
+   "identity_template": {
+    "capacity_liters": {
+     "label": "Capacidad (litros)",
+     "required": true,
+     "type": "number"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Extintor Clase K",
+   "slug": "extintor-clase-k",
+   "state_template": {
+    "pressure_ok": {
+     "label": "Presión en zona verde",
+     "required": false,
+     "type": "boolean"
+    },
+    "seal_intact": {
+     "label": "Sello intacto",
+     "required": false,
+     "type": "boolean"
+    }
+   }
+  },
+  "5": {
+   "color": "#f59e0b",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "default_alerta_id": 0,
+   "description": "Extintores sobre ruedas de 25–50 kg para plantas industriales y grandes superficies (UNIT 741). Mismo ciclo de recarga que portátiles más inspección de movilidad.",
+   "fsm_id": 1,
+   "identity_template": {
+    "capacity_kg": {
+     "label": "Capacidad (kg)",
+     "required": true,
+     "type": "number"
+    },
+    "extinguishing_agent": {
+     "label": "Agente extintor",
+     "required": true,
+     "type": "text"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Extintor Sobre Ruedas",
+   "slug": "extintor-rodante",
+   "state_template": {
+    "mobility_ok": {
+     "label": "Ruedas / eje en buen estado",
+     "required": false,
+     "type": "boolean"
+    },
+    "pressure_ok": {
+     "label": "Presión en zona verde",
+     "required": false,
+     "type": "boolean"
+    },
+    "seal_intact": {
+     "label": "Sello intacto",
+     "required": false,
+     "type": "boolean"
+    }
+   }
+  },
+  "6": {
+   "color": "#dc2626",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "description": "Gabinete con válvula, manguera y lanza. Inspección bimestral. Ensayo de presión anual.",
+   "identity_template": {
+    "diameter_mm": {
+     "label": "Diámetro manguera (mm)",
+     "required": true,
+     "type": "number"
+    },
+    "floor": {
+     "label": "Piso de instalación",
+     "required": true,
+     "type": "text"
+    },
+    "length_m": {
+     "label": "Largo manguera (m)",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie gabinete",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Boca de Incendio Equipada",
+   "slug": "bie",
+   "state_template": {
+    "cabinet_intact": {
+     "label": "Gabinete íntegro",
+     "required": false,
+     "type": "boolean"
+    },
+    "hose_status": {
+     "label": "Estado manguera",
+     "required": false,
+     "type": "text"
+    },
+    "line_pressure_bar": {
+     "label": "Presión red (bar)",
+     "required": false,
+     "type": "number"
+    },
+    "valve_status": {
+     "label": "Estado válvula",
+     "required": false,
+     "type": "text"
+    }
+   }
+  },
+  "7": {
+   "color": "#8b5cf6",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "description": "Central de detección de incendio con detectores y pulsadores. Inspección bimestral, ensayo anual de detectores, baterías cada 2 años (UNIT 962).",
+   "identity_template": {
+    "detectors": {
+     "label": "Cantidad de detectores",
+     "required": true,
+     "type": "number"
+    },
+    "push_buttons": {
+     "label": "Cantidad de pulsadores",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie central",
+     "required": true,
+     "type": "text"
+    },
+    "zones": {
+     "label": "Cantidad de zonas",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Panel de Detección y Alarma",
+   "slug": "panel-deteccion",
+   "state_template": {
+    "batteries_ok": {
+     "label": "Baterías en rango",
+     "required": false,
+     "type": "boolean"
+    },
+    "detectors_ok_pct": {
+     "label": "Detectores funcionales (%)",
+     "required": false,
+     "type": "number"
+    },
+    "general_status": {
+     "label": "Estado general",
+     "required": false,
+     "type": "text"
+    },
+    "last_siren_test_date": {
+     "label": "Última prueba sirena",
+     "required": false,
+     "type": "text"
+    }
+   }
+  }
+ },
+ "assets": {
+  "1": {
+   "arrival_date": "2019-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-001",
+   "purchase_date": "2019-03-10",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2019-0441",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 730
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "PORT-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "10": {
+   "arrival_date": "2024-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-010",
+   "purchase_date": "2024-06-01",
+   "purchase_price": "3100",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2024-0901",
+   "status": "active",
+   "tag_tecnico": "PORT-010",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "100": {
+   "arrival_date": "2022-04-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 10,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — EST-K02",
+   "purchase_date": "2022-04-01",
+   "purchase_price": "12500",
+   "region_id": 1,
+   "serial_1": "MEL-6CLK-2022-0111",
+   "status": "active",
+   "tag_tecnico": "EST-K02",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "101": {
+   "arrival_date": "2022-04-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 10,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — EST-001",
+   "purchase_date": "2022-04-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2022-0999",
+   "status": "active",
+   "tag_tecnico": "EST-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "102": {
+   "arrival_date": "2022-04-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 10,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — EST-002",
+   "purchase_date": "2022-04-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2022-1000",
+   "status": "active",
+   "tag_tecnico": "EST-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "103": {
+   "arrival_date": "2023-01-20",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 11,
+   "model_id": 15,
+   "name": "Extintor Clase K 6L — EST-K03",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "14200",
+   "region_id": 1,
+   "serial_1": "AME-B262-2023-0501",
+   "status": "active",
+   "tag_tecnico": "EST-K03",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "104": {
+   "arrival_date": "2023-01-20",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 11,
+   "model_id": 15,
+   "name": "Extintor Clase K 6L — EST-K04",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "14200",
+   "region_id": 1,
+   "serial_1": "AME-B262-2023-0502",
+   "status": "active",
+   "tag_tecnico": "EST-K04",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "105": {
+   "arrival_date": "2023-01-20",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 11,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — EST-003",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2023-0101",
+   "status": "active",
+   "tag_tecnico": "EST-003",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "106": {
+   "arrival_date": "2023-01-20",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 11,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — EST-004",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2023-0102",
+   "status": "active",
+   "tag_tecnico": "EST-004",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "107": {
+   "arrival_date": "2018-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 1,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PLAS-W01 (recarga)",
+   "purchase_date": "2018-06-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2018-0457",
+   "status": "maintenance",
+   "tag_tecnico": "PLAS-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "108": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 1,
+   "model_id": 8,
+   "name": "Extintor ABC 10kg — TDP-W01 (recarga)",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "3900",
+   "region_id": 1,
+   "serial_1": "DRA-10PQ-2019-0890",
+   "status": "maintenance",
+   "tag_tecnico": "TDP-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "109": {
+   "arrival_date": "2021-09-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 1,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — EST-W01 (recarga)",
+   "purchase_date": "2021-09-01",
+   "purchase_price": "12500",
+   "region_id": 1,
+   "serial_1": "MEL-6CLK-2021-0055",
+   "status": "maintenance",
+   "tag_tecnico": "EST-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "11": {
+   "arrival_date": "2024-06-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-011",
+   "purchase_date": "2024-06-01",
+   "purchase_price": "2900",
+   "region_id": 1,
+   "serial_1": "MEL-5ABC-2024-0055",
+   "status": "active",
+   "tag_tecnico": "PORT-011",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "110": {
+   "arrival_date": "2019-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 1,
+   "model_id": 6,
+   "name": "Extintor CO2 5kg — HOT-W01 (hidrostático)",
+   "purchase_date": "2019-10-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "FAD-5CO2-2019-0200",
+   "status": "maintenance",
+   "tag_tecnico": "HOT-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "111": {
+   "arrival_date": "2017-04-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 1,
+   "model_id": 18,
+   "name": "Extintor Rodante 25kg — PLAS-W02 (hidrostático)",
+   "purchase_date": "2017-04-01",
+   "purchase_price": "18000",
+   "region_id": 1,
+   "serial_1": "YAM-25RD-2017-0008",
+   "status": "maintenance",
+   "tag_tecnico": "PLAS-W02",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "112": {
+   "arrival_date": "2008-02-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — LIB-W01 (reprobado)",
+   "purchase_date": "2008-02-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-10AB-2008-0045",
+   "status": "inactive",
+   "tag_tecnico": "LIB-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "113": {
+   "arrival_date": "2005-01-20",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "decommission_date": "2025-12-31",
+   "decommission_reason": "Desguace",
+   "location_id": 1,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-W01 (20 años)",
+   "purchase_date": "2005-01-15",
+   "purchase_price": "1400",
+   "region_id": 1,
+   "serial_1": "MEL-5ABC-2005-0009",
+   "status": "inactive",
+   "tag_tecnico": "PORT-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "12": {
+   "arrival_date": "2020-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 6,
+   "name": "Extintor CO2 5kg — PORT-C01",
+   "purchase_date": "2020-06-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "FAD-5CO2-2020-0088",
+   "status": "active",
+   "tag_tecnico": "PORT-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "13": {
+   "arrival_date": "2020-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 6,
+   "name": "Extintor CO2 5kg — PORT-C02",
+   "purchase_date": "2020-06-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "FAD-5CO2-2020-0089",
+   "status": "active",
+   "tag_tecnico": "PORT-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "14": {
+   "arrival_date": "2022-08-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — PORT-C03",
+   "purchase_date": "2022-08-01",
+   "purchase_price": "5900",
+   "region_id": 1,
+   "serial_1": "FAD-2CO2-2022-0340",
+   "status": "active",
+   "tag_tecnico": "PORT-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "15": {
+   "arrival_date": "2023-06-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — PORT-K01",
+   "purchase_date": "2023-06-01",
+   "purchase_price": "12500",
+   "region_id": 1,
+   "serial_1": "MEL-6CLK-2023-0045",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 365
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "PORT-K01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "16": {
+   "arrival_date": "2023-06-10",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 15,
+   "name": "Extintor Clase K 6L — PORT-K02",
+   "purchase_date": "2023-06-01",
+   "purchase_price": "14200",
+   "region_id": 1,
+   "serial_1": "AME-B262-2023-0901",
+   "status": "active",
+   "tag_tecnico": "PORT-K02",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "17": {
+   "arrival_date": "2023-06-10",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 15,
+   "name": "Extintor Clase K 6L — PORT-K03",
+   "purchase_date": "2023-06-01",
+   "purchase_price": "14200",
+   "region_id": 1,
+   "serial_1": "AME-B262-2023-0902",
+   "status": "active",
+   "tag_tecnico": "PORT-K03",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "18": {
+   "arrival_date": "2024-02-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — PORT-K04",
+   "purchase_date": "2024-02-01",
+   "purchase_price": "13000",
+   "region_id": 1,
+   "serial_1": "MEL-6CLK-2024-0112",
+   "status": "active",
+   "tag_tecnico": "PORT-K04",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "19": {
+   "arrival_date": "2022-09-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 11,
+   "name": "Extintor Espuma AFFF 10L — PORT-E01",
+   "purchase_date": "2022-09-01",
+   "purchase_price": "9500",
+   "region_id": 1,
+   "serial_1": "MEL-10AF-2022-0041",
+   "status": "active",
+   "tag_tecnico": "PORT-E01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "2": {
+   "arrival_date": "2019-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-002",
+   "purchase_date": "2019-03-10",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2019-0442",
+   "status": "active",
+   "tag_tecnico": "PORT-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "20": {
+   "arrival_date": "2022-09-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 11,
+   "name": "Extintor Espuma AFFF 10L — PORT-E02",
+   "purchase_date": "2022-09-01",
+   "purchase_price": "9500",
+   "region_id": 1,
+   "serial_1": "MEL-10AF-2022-0042",
+   "status": "active",
+   "tag_tecnico": "PORT-E02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "21": {
+   "arrival_date": "2006-04-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "expiration_date": "2026-12-31",
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-012 (2006)",
+   "purchase_date": "2006-04-01",
+   "purchase_price": "1800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2006-0012",
+   "status": "active",
+   "tag_tecnico": "PORT-012",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "22": {
+   "arrival_date": "2005-02-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "decommission_date": "2025-06-15",
+   "decommission_reason": "Desguace",
+   "location_id": 1,
+   "model_id": 20,
+   "name": "Extintor ABC 10kg — PORT-013 (2005 — baja)",
+   "purchase_date": "2005-02-01",
+   "purchase_price": "1500",
+   "region_id": 1,
+   "serial_1": "MEL-10AB-2005-0003",
+   "status": "inactive",
+   "tag_tecnico": "PORT-013",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "23": {
+   "arrival_date": "2020-04-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-014 (usado)",
+   "purchase_date": "2020-04-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0710",
+   "status": "maintenance",
+   "tag_tecnico": "PORT-014",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "24": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-A01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0880",
+   "status": "active",
+   "tag_tecnico": "LIB-A01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "25": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-A02",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0881",
+   "status": "active",
+   "tag_tecnico": "LIB-A02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "26": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-A03",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0882",
+   "status": "active",
+   "tag_tecnico": "LIB-A03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "27": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-A04",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0883",
+   "status": "active",
+   "tag_tecnico": "LIB-A04",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "28": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — LIB-A05",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "4200",
+   "region_id": 1,
+   "serial_1": "FAD-10AB-2020-0401",
+   "status": "active",
+   "tag_tecnico": "LIB-A05",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "29": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — LIB-A06",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "5900",
+   "region_id": 1,
+   "serial_1": "FAD-2CO2-2020-0112",
+   "status": "active",
+   "tag_tecnico": "LIB-A06",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "3": {
+   "arrival_date": "2019-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-003",
+   "purchase_date": "2019-03-10",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2019-0443",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 730
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "PORT-003",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "30": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 6,
+   "name": "Extintor CO2 5kg — LIB-A07",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "FAD-5CO2-2020-0310",
+   "status": "active",
+   "tag_tecnico": "LIB-A07",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "31": {
+   "arrival_date": "2015-04-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "model_id": 8,
+   "name": "Extintor ABC 10kg — LIB-A08 (vencido)",
+   "purchase_date": "2015-04-01",
+   "purchase_price": "3200",
+   "region_id": 1,
+   "serial_1": "DRA-10PQ-2015-0221",
+   "status": "active",
+   "tag_tecnico": "LIB-A08",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "32": {
+   "arrival_date": "2008-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "expiration_date": "2028-12-31",
+   "location_id": 4,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-A09 (2008)",
+   "purchase_date": "2008-03-01",
+   "purchase_price": "2000",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2008-0190",
+   "status": "active",
+   "tag_tecnico": "LIB-A09",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "33": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-B01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0884",
+   "status": "active",
+   "tag_tecnico": "LIB-B01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "34": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-B02",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2020-0885",
+   "status": "active",
+   "tag_tecnico": "LIB-B02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "35": {
+   "arrival_date": "2023-07-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-B03",
+   "purchase_date": "2023-07-01",
+   "purchase_price": "2700",
+   "region_id": 1,
+   "serial_1": "GRA-5ABC-2023-0410",
+   "status": "active",
+   "tag_tecnico": "LIB-B03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "36": {
+   "arrival_date": "2023-07-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-B04",
+   "purchase_date": "2023-07-01",
+   "purchase_price": "2700",
+   "region_id": 1,
+   "serial_1": "GRA-5ABC-2023-0411",
+   "status": "active",
+   "tag_tecnico": "LIB-B04",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "37": {
+   "arrival_date": "2023-01-20",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — LIB-B05",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "4100",
+   "region_id": 1,
+   "serial_1": "GRA-10AB-2023-0191",
+   "status": "active",
+   "tag_tecnico": "LIB-B05",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "38": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — LIB-B06",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "5900",
+   "region_id": 1,
+   "serial_1": "FAD-2CO2-2020-0113",
+   "status": "active",
+   "tag_tecnico": "LIB-B06",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "39": {
+   "arrival_date": "2021-02-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-B07 (sello roto)",
+   "purchase_date": "2021-02-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2021-0550",
+   "status": "active",
+   "tag_tecnico": "LIB-B07",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "4": {
+   "arrival_date": "2021-01-20",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 7,
+   "name": "Extintor ABC 5kg — PORT-004",
+   "purchase_date": "2021-01-15",
+   "purchase_price": "2600",
+   "region_id": 1,
+   "serial_1": "DRA-5PQS-2021-1102",
+   "status": "active",
+   "tag_tecnico": "PORT-004",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "40": {
+   "arrival_date": "2025-01-20",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIB-B08",
+   "purchase_date": "2025-01-15",
+   "purchase_price": "3200",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2025-0101",
+   "status": "active",
+   "tag_tecnico": "LIB-B08",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-01-15"
+  },
+  "41": {
+   "arrival_date": "2018-01-15",
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "name": "BIE Piso 1 Torre A — LIB-BIE-A1",
+   "purchase_date": "2018-01-01",
+   "purchase_price": "18000",
+   "region_id": 1,
+   "serial_1": "BIE-LIB-T1-P1-001",
+   "status": "active",
+   "tag_tecnico": "LIB-BIE-A1",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "42": {
+   "arrival_date": "2018-01-15",
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 4,
+   "name": "BIE Piso 4 Torre A — LIB-BIE-A4",
+   "purchase_date": "2018-01-01",
+   "purchase_price": "18000",
+   "region_id": 1,
+   "serial_1": "BIE-LIB-T1-P4-001",
+   "status": "active",
+   "tag_tecnico": "LIB-BIE-A4",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "43": {
+   "arrival_date": "2018-01-15",
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "name": "BIE Piso 1 Torre B — LIB-BIE-B1",
+   "purchase_date": "2018-01-01",
+   "purchase_price": "18000",
+   "region_id": 1,
+   "serial_1": "BIE-LIB-T2-P1-001",
+   "status": "active",
+   "tag_tecnico": "LIB-BIE-B1",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "44": {
+   "arrival_date": "2018-01-15",
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 5,
+   "name": "BIE Piso 4 Torre B — LIB-BIE-B4",
+   "purchase_date": "2018-01-01",
+   "purchase_price": "18000",
+   "region_id": 1,
+   "serial_1": "BIE-LIB-T2-P4-001",
+   "status": "active",
+   "tag_tecnico": "LIB-BIE-B4",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "45": {
+   "arrival_date": "2018-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PLAS-001",
+   "purchase_date": "2018-06-01",
+   "purchase_price": "4000",
+   "region_id": 2,
+   "serial_1": "FAD-10AB-2018-0455",
+   "status": "active",
+   "tag_tecnico": "PLAS-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "46": {
+   "arrival_date": "2018-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PLAS-002",
+   "purchase_date": "2018-06-01",
+   "purchase_price": "4000",
+   "region_id": 2,
+   "serial_1": "FAD-10AB-2018-0456",
+   "status": "active",
+   "tag_tecnico": "PLAS-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "47": {
+   "arrival_date": "2020-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 8,
+   "name": "Extintor ABC 10kg — PLAS-003",
+   "purchase_date": "2020-02-01",
+   "purchase_price": "3900",
+   "region_id": 2,
+   "serial_1": "DRA-10PQ-2020-0567",
+   "status": "active",
+   "tag_tecnico": "PLAS-003",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "48": {
+   "arrival_date": "2020-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 8,
+   "name": "Extintor ABC 10kg — PLAS-004",
+   "purchase_date": "2020-02-01",
+   "purchase_price": "3900",
+   "region_id": 2,
+   "serial_1": "DRA-10PQ-2020-0568",
+   "status": "active",
+   "tag_tecnico": "PLAS-004",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "49": {
+   "arrival_date": "2022-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PLAS-005",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "4200",
+   "region_id": 2,
+   "serial_1": "FAD-10AB-2022-0712",
+   "status": "active",
+   "tag_tecnico": "PLAS-005",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "5": {
+   "arrival_date": "2021-01-20",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 7,
+   "name": "Extintor ABC 5kg — PORT-005",
+   "purchase_date": "2021-01-15",
+   "purchase_price": "2600",
+   "region_id": 1,
+   "serial_1": "DRA-5PQS-2021-1103",
+   "status": "active",
+   "tag_tecnico": "PORT-005",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "50": {
+   "arrival_date": "2022-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PLAS-006",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "4200",
+   "region_id": 2,
+   "serial_1": "FAD-10AB-2022-0713",
+   "status": "active",
+   "tag_tecnico": "PLAS-006",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "51": {
+   "arrival_date": "2021-05-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PLAS-007",
+   "purchase_date": "2021-05-01",
+   "purchase_price": "2700",
+   "region_id": 2,
+   "serial_1": "GRA-5ABC-2021-0190",
+   "status": "active",
+   "tag_tecnico": "PLAS-007",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "52": {
+   "arrival_date": "2021-05-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PLAS-008",
+   "purchase_date": "2021-05-01",
+   "purchase_price": "2700",
+   "region_id": 2,
+   "serial_1": "GRA-5ABC-2021-0191",
+   "status": "active",
+   "tag_tecnico": "PLAS-008",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "53": {
+   "arrival_date": "2020-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 9,
+   "name": "Extintor CO2 5kg — PLAS-C01",
+   "purchase_date": "2020-02-01",
+   "purchase_price": "7200",
+   "region_id": 2,
+   "serial_1": "DRA-35C2-2020-0089",
+   "status": "active",
+   "tag_tecnico": "PLAS-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "54": {
+   "arrival_date": "2020-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 9,
+   "name": "Extintor CO2 5kg — PLAS-C02",
+   "purchase_date": "2020-02-01",
+   "purchase_price": "7200",
+   "region_id": 2,
+   "serial_1": "DRA-35C2-2020-0090",
+   "status": "active",
+   "tag_tecnico": "PLAS-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "55": {
+   "arrival_date": "2019-09-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 19,
+   "name": "Extintor Rodante ABC 50kg — PLAS-R01",
+   "purchase_date": "2019-09-01",
+   "purchase_price": "28000",
+   "region_id": 2,
+   "serial_1": "YAM-50RD-2019-0014",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 730
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "PLAS-R01",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "56": {
+   "arrival_date": "2019-09-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 19,
+   "name": "Extintor Rodante ABC 50kg — PLAS-R02",
+   "purchase_date": "2019-09-01",
+   "purchase_price": "28000",
+   "region_id": 2,
+   "serial_1": "YAM-50RD-2019-0015",
+   "status": "active",
+   "tag_tecnico": "PLAS-R02",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "57": {
+   "arrival_date": "2019-09-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 18,
+   "name": "Extintor Rodante ABC 25kg — PLAS-R03",
+   "purchase_date": "2019-09-01",
+   "purchase_price": "18000",
+   "region_id": 2,
+   "serial_1": "YAM-25RD-2019-0031",
+   "status": "active",
+   "tag_tecnico": "PLAS-R03",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "58": {
+   "arrival_date": "2023-04-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 11,
+   "name": "Extintor Espuma AFFF 10L — PLAS-E01",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "9500",
+   "region_id": 2,
+   "serial_1": "MEL-10AF-2023-0078",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 365
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "PLAS-E01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "59": {
+   "arrival_date": "2023-04-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 11,
+   "name": "Extintor Espuma AFFF 10L — PLAS-E02",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "9500",
+   "region_id": 2,
+   "serial_1": "MEL-10AF-2023-0079",
+   "status": "active",
+   "tag_tecnico": "PLAS-E02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "6": {
+   "arrival_date": "2019-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PORT-006",
+   "purchase_date": "2019-03-10",
+   "purchase_price": "4200",
+   "region_id": 1,
+   "serial_1": "FAD-10AB-2019-0210",
+   "status": "active",
+   "tag_tecnico": "PORT-006",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "60": {
+   "arrival_date": "2018-06-15",
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 7,
+   "name": "Panel Detección — PLAS-PD01",
+   "purchase_date": "2018-06-01",
+   "purchase_price": "45000",
+   "region_id": 2,
+   "serial_1": "KID-PNL-2018-0034",
+   "status": "active",
+   "tag_tecnico": "PLAS-PD01",
+   "tenure_type": "Propiedad",
+   "type_id": 7
+  },
+  "61": {
+   "arrival_date": "2010-08-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PLAS-009 (reprobado)",
+   "purchase_date": "2010-08-01",
+   "purchase_price": "3000",
+   "region_id": 1,
+   "serial_1": "FAD-10AB-2010-0088",
+   "status": "inactive",
+   "tag_tecnico": "PLAS-009",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "62": {
+   "arrival_date": "2009-04-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "expiration_date": "2029-12-31",
+   "location_id": 7,
+   "model_id": 8,
+   "name": "Extintor ABC 10kg — PLAS-010 (2009)",
+   "purchase_date": "2009-04-01",
+   "purchase_price": "2800",
+   "region_id": 2,
+   "serial_1": "DRA-10PQ-2009-0121",
+   "status": "active",
+   "tag_tecnico": "PLAS-010",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "63": {
+   "arrival_date": "2024-08-15",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 2,
+   "custodian_id": 5,
+   "location_id": 7,
+   "model_id": 13,
+   "name": "Extintor ABC 5lb — PLAS-011 (Amerex)",
+   "purchase_date": "2024-08-01",
+   "purchase_price": "85",
+   "region_id": 2,
+   "serial_1": "AME-B500-2024-1100",
+   "status": "active",
+   "tag_tecnico": "PLAS-011",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2029-08-01"
+  },
+  "64": {
+   "arrival_date": "2021-03-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIC-001",
+   "purchase_date": "2021-03-01",
+   "purchase_price": "2700",
+   "region_id": 3,
+   "serial_1": "GRA-5ABC-2021-0201",
+   "status": "active",
+   "tag_tecnico": "LIC-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "65": {
+   "arrival_date": "2021-03-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIC-002",
+   "purchase_date": "2021-03-01",
+   "purchase_price": "2700",
+   "region_id": 3,
+   "serial_1": "GRA-5ABC-2021-0202",
+   "status": "active",
+   "tag_tecnico": "LIC-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "66": {
+   "arrival_date": "2021-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 2,
+   "name": "Extintor ABC 2.5kg — LIC-003",
+   "purchase_date": "2021-03-01",
+   "purchase_price": "1900",
+   "region_id": 3,
+   "serial_1": "FAD-25AB-2021-0310",
+   "status": "active",
+   "tag_tecnico": "LIC-003",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "67": {
+   "arrival_date": "2021-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 2,
+   "name": "Extintor ABC 2.5kg — LIC-004",
+   "purchase_date": "2021-03-01",
+   "purchase_price": "1900",
+   "region_id": 3,
+   "serial_1": "FAD-25AB-2021-0311",
+   "status": "active",
+   "tag_tecnico": "LIC-004",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "68": {
+   "arrival_date": "2019-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIC-005",
+   "purchase_date": "2019-06-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2019-0600",
+   "status": "active",
+   "tag_tecnico": "LIC-005",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "69": {
+   "arrival_date": "2019-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIC-006",
+   "purchase_date": "2019-06-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2019-0601",
+   "status": "active",
+   "tag_tecnico": "LIC-006",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "7": {
+   "arrival_date": "2017-08-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PORT-007",
+   "purchase_date": "2017-08-01",
+   "purchase_price": "3800",
+   "region_id": 1,
+   "serial_1": "FAD-10AB-2017-0098",
+   "status": "active",
+   "tag_tecnico": "PORT-007",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "70": {
+   "arrival_date": "2021-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — LIC-007",
+   "purchase_date": "2021-03-01",
+   "purchase_price": "5900",
+   "region_id": 3,
+   "serial_1": "FAD-2CO2-2021-0501",
+   "status": "active",
+   "tag_tecnico": "LIC-007",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "71": {
+   "arrival_date": "2023-08-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 6,
+   "model_id": 1,
+   "name": "Extintor ABC 1kg — LIC-008",
+   "purchase_date": "2023-08-01",
+   "purchase_price": "1200",
+   "region_id": 3,
+   "serial_1": "FAD-1ABC-2023-0090",
+   "status": "active",
+   "tag_tecnico": "LIC-008",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "72": {
+   "arrival_date": "2007-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "expiration_date": "2027-12-31",
+   "location_id": 6,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — LIC-009 (2007)",
+   "purchase_date": "2007-06-01",
+   "purchase_price": "1600",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2007-0088",
+   "status": "active",
+   "tag_tecnico": "LIC-009",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "73": {
+   "arrival_date": "2008-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "expiration_date": "2028-12-31",
+   "location_id": 6,
+   "model_id": 7,
+   "name": "Extintor ABC 5kg — LIC-010 (2008)",
+   "purchase_date": "2008-02-01",
+   "purchase_price": "1500",
+   "region_id": 3,
+   "serial_1": "DRA-5PQS-2008-0045",
+   "status": "active",
+   "tag_tecnico": "LIC-010",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "74": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — HOT-001",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2022-1201",
+   "status": "active",
+   "tag_tecnico": "HOT-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "75": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — HOT-002",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2022-1202",
+   "status": "active",
+   "tag_tecnico": "HOT-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "76": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — HOT-003",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2022-1203",
+   "status": "active",
+   "tag_tecnico": "HOT-003",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "77": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — HOT-004",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2022-1204",
+   "status": "active",
+   "tag_tecnico": "HOT-004",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "78": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 7,
+   "name": "Extintor ABC 5kg — HOT-005",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2600",
+   "region_id": 3,
+   "serial_1": "DRA-5PQS-2022-0910",
+   "status": "active",
+   "tag_tecnico": "HOT-005",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "79": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 7,
+   "name": "Extintor ABC 5kg — HOT-006",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2600",
+   "region_id": 3,
+   "serial_1": "DRA-5PQS-2022-0911",
+   "status": "active",
+   "tag_tecnico": "HOT-006",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "8": {
+   "arrival_date": "2023-01-20",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 21,
+   "name": "Extintor ABC 10kg — PORT-008",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "4100",
+   "region_id": 1,
+   "serial_1": "GRA-10AB-2023-0190",
+   "status": "active",
+   "tag_tecnico": "PORT-008",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "80": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 2,
+   "name": "Extintor ABC 2.5kg — HOT-007",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "1900",
+   "region_id": 3,
+   "serial_1": "FAD-25AB-2022-0890",
+   "status": "active",
+   "tag_tecnico": "HOT-007",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "81": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 2,
+   "name": "Extintor ABC 2.5kg — HOT-008",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "1900",
+   "region_id": 3,
+   "serial_1": "FAD-25AB-2022-0891",
+   "status": "active",
+   "tag_tecnico": "HOT-008",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "82": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 6,
+   "name": "Extintor CO2 5kg — HOT-C01",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "8500",
+   "region_id": 3,
+   "serial_1": "FAD-5CO2-2022-0145",
+   "status": "active",
+   "tag_tecnico": "HOT-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "83": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — HOT-C02",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "5900",
+   "region_id": 3,
+   "serial_1": "FAD-2CO2-2022-0401",
+   "status": "active",
+   "tag_tecnico": "HOT-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "84": {
+   "arrival_date": "2023-03-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 17,
+   "name": "Extintor CO2 2kg — HOT-C03",
+   "purchase_date": "2023-03-01",
+   "purchase_price": "6800",
+   "region_id": 3,
+   "serial_1": "KID-P10C-2023-0201",
+   "status": "active",
+   "tag_tecnico": "HOT-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "85": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 15,
+   "name": "Extintor Clase K 6L — HOT-K01",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "14200",
+   "region_id": 3,
+   "serial_1": "AME-B262-2022-0455",
+   "status": "active",
+   "tag_tecnico": "HOT-K01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "86": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — HOT-K02",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "12500",
+   "region_id": 3,
+   "serial_1": "MEL-6CLK-2022-0088",
+   "status": "active",
+   "tag_tecnico": "HOT-K02",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "87": {
+   "arrival_date": "2024-04-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — HOT-K03",
+   "purchase_date": "2024-04-01",
+   "purchase_price": "13000",
+   "region_id": 3,
+   "serial_1": "MEL-6CLK-2024-0201",
+   "status": "active",
+   "tag_tecnico": "HOT-K03",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "88": {
+   "arrival_date": "2022-10-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 8,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — HOT-009 (extraviado)",
+   "purchase_date": "2022-10-01",
+   "purchase_price": "2800",
+   "region_id": 3,
+   "serial_1": "FAD-5ABC-2022-1205",
+   "status": "lost",
+   "tag_tecnico": "HOT-009",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "89": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — TDP-001",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2021-0560",
+   "status": "active",
+   "tag_tecnico": "TDP-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "9": {
+   "arrival_date": "2022-03-25",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 3,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — PORT-009",
+   "purchase_date": "2022-03-20",
+   "purchase_price": "2700",
+   "region_id": 1,
+   "serial_1": "GRA-5ABC-2022-0334",
+   "status": "active",
+   "tag_tecnico": "PORT-009",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "90": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — TDP-002",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2021-0561",
+   "status": "active",
+   "tag_tecnico": "TDP-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "91": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — TDP-003",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2021-0562",
+   "status": "active",
+   "tag_tecnico": "TDP-003",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "92": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — TDP-004",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "2800",
+   "region_id": 1,
+   "serial_1": "FAD-5ABC-2021-0563",
+   "status": "active",
+   "tag_tecnico": "TDP-004",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "93": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 2,
+   "name": "Extintor ABC 2.5kg — TDP-005",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "1900",
+   "region_id": 1,
+   "serial_1": "FAD-25AB-2021-0780",
+   "status": "active",
+   "tag_tecnico": "TDP-005",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "94": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 2,
+   "name": "Extintor ABC 2.5kg — TDP-006",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "1900",
+   "region_id": 1,
+   "serial_1": "FAD-25AB-2021-0781",
+   "status": "active",
+   "tag_tecnico": "TDP-006",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "95": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — TDP-C01",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "5900",
+   "region_id": 1,
+   "serial_1": "FAD-2CO2-2021-0220",
+   "status": "active",
+   "tag_tecnico": "TDP-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "96": {
+   "arrival_date": "2021-07-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 5,
+   "name": "Extintor CO2 2kg — TDP-C02",
+   "purchase_date": "2021-07-01",
+   "purchase_price": "5900",
+   "region_id": 1,
+   "serial_1": "FAD-2CO2-2021-0221",
+   "status": "active",
+   "tag_tecnico": "TDP-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "97": {
+   "arrival_date": "2010-05-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 8,
+   "name": "Extintor ABC 10kg — TDP-007 (2010)",
+   "purchase_date": "2010-05-01",
+   "purchase_price": "3000",
+   "region_id": 1,
+   "serial_1": "DRA-10PQ-2010-0340",
+   "status": "active",
+   "tag_tecnico": "TDP-007",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "98": {
+   "arrival_date": "2012-11-10",
+   "brand_id": 7,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 9,
+   "model_id": 20,
+   "name": "Extintor ABC 5kg — TDP-008 (2012)",
+   "purchase_date": "2012-11-01",
+   "purchase_price": "2200",
+   "region_id": 1,
+   "serial_1": "GRA-5ABC-2012-0044",
+   "status": "active",
+   "tag_tecnico": "TDP-008",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "99": {
+   "arrival_date": "2022-04-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 10,
+   "model_id": 12,
+   "name": "Extintor Clase K 6L — EST-K01",
+   "purchase_date": "2022-04-01",
+   "purchase_price": "12500",
+   "region_id": 1,
+   "serial_1": "MEL-6CLK-2022-0110",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 365
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "EST-K01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  }
+ },
+ "brands": {
+  "1": {
+   "code": "FAD",
+   "name": "Fadesa"
+  },
+  "2": {
+   "code": "DRA",
+   "name": "Drago"
+  },
+  "3": {
+   "code": "MEL",
+   "name": "Melisam"
+  },
+  "4": {
+   "code": "AME",
+   "name": "Amerex"
+  },
+  "5": {
+   "code": "KID",
+   "name": "Kidde"
+  },
+  "6": {
+   "code": "YAM",
+   "name": "Yamato"
+  },
+  "7": {
+   "code": "GRA",
+   "name": "Grauser"
+  }
+ },
+ "cost_centers": {
+  "1": {
+   "accounting_code": "REC-001",
+   "name": "Recargas"
+  },
+  "2": {
+   "accounting_code": "HID-001",
+   "name": "Ensayos Hidrostáticos"
+  },
+  "3": {
+   "accounting_code": "INST-001",
+   "name": "Instalaciones Nuevas"
+  },
+  "4": {
+   "accounting_code": "MPREV-001",
+   "name": "Mantenimiento Preventivo"
+  },
+  "5": {
+   "accounting_code": "SERV-001",
+   "name": "Servicio Técnico General"
+  }
+ },
+ "currencies": {
+  "1": {
+   "iso_code": "UYU",
+   "symbol": "$"
+  },
+  "2": {
+   "iso_code": "USD",
+   "symbol": "U$S"
+  }
+ },
+ "custodians": {
+  "1": {
+   "active": true,
+   "address": "Camino Carrasco 3450, Montevideo",
+   "alias": "Extinfire",
+   "email": "admin@extinfire.uy",
+   "legal_name": "Extinfire SRL",
+   "phone": "+598 2203 4567",
+   "subject_type": "RUT",
+   "tax_id": "21-654321-0016"
+  },
+  "2": {
+   "active": true,
+   "address": "Av. Italia 5775, Montevideo",
+   "alias": "Portones",
+   "email": "seguridad@portones.com.uy",
+   "legal_name": "Centro Comercial Portones S.A.",
+   "phone": "+598 2604 1000",
+   "subject_type": "RUT",
+   "tax_id": "21-432100-0019"
+  },
+  "3": {
+   "active": true,
+   "address": "Av. Libertador 1850, Montevideo",
+   "alias": "Libertador",
+   "email": "administracion@edificiolibertador.uy",
+   "legal_name": "Edificio Libertador S.R.L.",
+   "phone": "+598 2908 2200",
+   "subject_type": "RUT",
+   "tax_id": "21-876500-0022"
+  },
+  "4": {
+   "active": true,
+   "address": "Sarandí 870, Maldonado",
+   "alias": "Liceo 2 Maldo",
+   "email": "direccion@liceo2maldonado.edu.uy",
+   "legal_name": "Liceo Departamental N° 2 Maldonado",
+   "phone": "+598 4222 3456",
+   "subject_type": "RUT",
+   "tax_id": "21-000200-0042"
+  },
+  "5": {
+   "active": true,
+   "address": "Ruta 1 km 28, Ciudad de la Costa",
+   "alias": "PlastiSur",
+   "email": "seguridad@plastisur.com.uy",
+   "legal_name": "Plásticos del Sur S.A.",
+   "phone": "+598 2313 4500",
+   "subject_type": "RUT",
+   "tax_id": "21-345678-0031"
+  },
+  "6": {
+   "active": true,
+   "address": "Rambla Artigas, Punta del Este",
+   "alias": "HotEste",
+   "email": "mantenimiento@hotelesdeleste.com.uy",
+   "legal_name": "Hoteles del Este S.A.",
+   "phone": "+598 4248 5000",
+   "subject_type": "RUT",
+   "tax_id": "21-567890-0018"
+  },
+  "7": {
+   "active": true,
+   "address": "Rambla 25 de Agosto 500, Montevideo",
+   "alias": "C. Méndez",
+   "email": "cmendez@torrespuerto.uy",
+   "legal_name": "Carlos Méndez — Adm. Torres del Puerto",
+   "phone": "+598 99 456 789",
+   "subject_type": "CI",
+   "tax_id": "4.567.890-1"
+  },
+  "8": {
+   "active": true,
+   "address": "Av. Rivera 2400, Montevideo",
+   "alias": "La Estancia",
+   "email": "gerencia@laestancia.com.uy",
+   "legal_name": "Parrillada La Estancia S.R.L.",
+   "phone": "+598 2710 3456",
+   "subject_type": "RUT",
+   "tax_id": "21-234567-0045"
+  }
+ },
+ "events": {
+  "1": {
+   "asset_id": 1,
+   "timestamp": "2027-02-09T10:30:00Z",
+   "trigger_type": "qr_scan",
+   "value": {
+    "inspection": "trimestral",
+    "pressure_ok": true,
+    "seal_ok": true,
+    "status": "conforme",
+    "technician": "Martín Rodríguez"
+   }
+  },
+  "2": {
+   "asset_id": 2,
+   "timestamp": "2027-02-09T10:35:00Z",
+   "trigger_type": "qr_scan",
+   "value": {
+    "inspection": "trimestral",
+    "pressure_ok": true,
+    "seal_ok": true,
+    "status": "conforme",
+    "technician": "Martín Rodríguez"
+   }
+  },
+  "3": {
+   "sensor_id": 3,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "battery_pct": 85,
+    "pressure_bar": 14.2,
+    "zone": "verde"
+   }
+  },
+  "4": {
+   "sensor_id": 4,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "battery_pct": 72,
+    "pressure_bar": 12.8,
+    "zone": "verde"
+   }
+  },
+  "5": {
+   "sensor_id": 5,
+   "timestamp": "2027-02-13T14:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "tamper": false,
+    "uid_match": true
+   }
+  },
+  "6": {
+   "sensor_id": 6,
+   "timestamp": "2027-02-14T00:00:00Z",
+   "trigger_type": "gateway_poll",
+   "value": {
+    "active_zones": 8,
+    "battery_pct": 100,
+    "detectors_ok": 24,
+    "detectors_total": 24,
+    "status": "normal"
+   }
+  },
+  "7": {
+   "asset_id": 107,
+   "timestamp": "2027-02-12T11:00:00Z",
+   "trigger_type": "custom_driver",
+   "value": {
+    "agent": "polvo ABC",
+    "final_pressure_bar": 14.5,
+    "load_weight_kg": 5,
+    "operation": "recarga",
+    "result": "aprobado",
+    "technician": "Martín Rodríguez"
+   }
+  },
+  "8": {
+   "asset_id": 110,
+   "timestamp": "2027-02-13T09:00:00Z",
+   "trigger_type": "custom_driver",
+   "value": {
+    "deformation": "ninguna",
+    "operation": "ensayo_hidrostatico",
+    "result": "aprobado",
+    "technician": "Fabián Giaccossa",
+    "test_pressure_bar": 25
+   }
+  }
+ },
+ "fsm_machines": {
+  "1": {
+   "description": "Estados de un extintor desde alta hasta destrucción (Decreto 372/023, UNIT 607)",
+   "name": "Ciclo de Vida — Extintor",
+   "states": [
+    {
+     "color": "#10b981",
+     "is_initial": true,
+     "label": "En servicio",
+     "name": "en_servicio",
+     "transitions": [
+      {
+       "condition": {
+        "duration": "90d",
+        "type": "duration_exceeded"
+       },
+       "priority": 50,
+       "to": "inspeccion_pendiente"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 70,
+       "to": "en_taller"
+      },
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 90,
+       "to": "vida_util_excedida"
+      }
+     ]
+    },
+    {
+     "color": "#f59e0b",
+     "label": "Inspección pendiente",
+     "name": "inspeccion_pendiente",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "qr_scan",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "en_servicio"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 70,
+       "to": "en_taller"
+      }
+     ]
+    },
+    {
+     "color": "#3b82f6",
+     "label": "En taller (recarga / hidrostático)",
+     "name": "en_taller",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "en_servicio"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "reprobado"
+      }
+     ]
+    },
+    {
+     "color": "#ef4444",
+     "label": "Reprobado (no apto)",
+     "name": "reprobado",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "dado_de_baja"
+      }
+     ]
+    },
+    {
+     "color": "#dc2626",
+     "label": "Vida útil excedida (20 años)",
+     "name": "vida_util_excedida",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "dado_de_baja"
+      }
+     ]
+    },
+    {
+     "color": "#6b7280",
+     "is_final": true,
+     "label": "Dado de baja (destruido — reportado DNB)",
+     "name": "dado_de_baja",
+     "transitions": []
+    }
+   ]
+  },
+  "2": {
+   "description": "Estado de la habilitación de bomberos de un local cliente",
+   "name": "Habilitación DNB — Sitio",
+   "states": [
+    {
+     "color": "#10b981",
+     "is_initial": true,
+     "label": "Vigente",
+     "name": "vigente",
+     "transitions": [
+      {
+       "condition": {
+        "duration": "60d",
+        "type": "duration_exceeded"
+       },
+       "priority": 50,
+       "to": "por_vencer"
+      }
+     ]
+    },
+    {
+     "color": "#f59e0b",
+     "label": "Por vencer (60 días)",
+     "name": "por_vencer",
+     "transitions": [
+      {
+       "condition": {
+        "duration": "0d",
+        "type": "duration_exceeded"
+       },
+       "priority": 80,
+       "to": "vencida"
+      },
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "vigente"
+      }
+     ]
+    },
+    {
+     "color": "#ef4444",
+     "label": "Vencida",
+     "name": "vencida",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "vigente"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "locations": {
+  "1": {
+   "description": "Taller Extinfire — Camino Carrasco",
+   "region_id": 1,
+   "short_name": "TALLER-EF"
+  },
+  "10": {
+   "description": "Parrillada La Estancia — Av. Rivera 2400",
+   "region_id": 1,
+   "short_name": "ESTANCIA-1"
+  },
+  "11": {
+   "description": "Parrillada La Estancia — Punta Carretas",
+   "region_id": 1,
+   "short_name": "ESTANCIA-2"
+  },
+  "2": {
+   "description": "Depósito repuestos Extinfire",
+   "region_id": 1,
+   "short_name": "DEPOSITO-EF"
+  },
+  "3": {
+   "description": "Centro Comercial Portones — Av. Italia 5775",
+   "region_id": 1,
+   "short_name": "PORTONES"
+  },
+  "4": {
+   "description": "Edificio Libertador — Torre A",
+   "region_id": 1,
+   "short_name": "LIBERT-T1"
+  },
+  "5": {
+   "description": "Edificio Libertador — Torre B",
+   "region_id": 1,
+   "short_name": "LIBERT-T2"
+  },
+  "6": {
+   "description": "Liceo N° 2 Maldonado — Sarandí 870",
+   "region_id": 3,
+   "short_name": "LICEO2-MAL"
+  },
+  "7": {
+   "description": "Plásticos del Sur — Ruta 1 km 28",
+   "region_id": 2,
+   "short_name": "PLASTISUR"
+  },
+  "8": {
+   "description": "Hotel Enjoy — Rambla Artigas, Punta del Este",
+   "region_id": 3,
+   "short_name": "HOTEL-PDE"
+  },
+  "9": {
+   "description": "Torres del Puerto — Rambla 25 de Agosto",
+   "region_id": 1,
+   "short_name": "TORRES-PTO"
+  }
+ },
+ "models": {
+  "1": {
+   "brand_id": 1,
+   "name": "ABC 1 kg"
+  },
+  "10": {
+   "brand_id": 3,
+   "name": "ABC 5 kg"
+  },
+  "11": {
+   "brand_id": 3,
+   "name": "Espuma AFFF 10 L"
+  },
+  "12": {
+   "brand_id": 3,
+   "name": "Clase K 6 L"
+  },
+  "13": {
+   "brand_id": 4,
+   "name": "B500 ABC 5 lb"
+  },
+  "14": {
+   "brand_id": 4,
+   "name": "B402 ABC 5 lb"
+  },
+  "15": {
+   "brand_id": 4,
+   "name": "B262 Clase K 6 L"
+  },
+  "16": {
+   "brand_id": 5,
+   "name": "Pro 210 ABC"
+  },
+  "17": {
+   "brand_id": 5,
+   "name": "Pro 10 CO2"
+  },
+  "18": {
+   "brand_id": 6,
+   "name": "ABC 25 kg Rodante"
+  },
+  "19": {
+   "brand_id": 6,
+   "name": "ABC 50 kg Rodante"
+  },
+  "2": {
+   "brand_id": 1,
+   "name": "ABC 2.5 kg"
+  },
+  "20": {
+   "brand_id": 7,
+   "name": "ABC 5 kg"
+  },
+  "21": {
+   "brand_id": 7,
+   "name": "ABC 10 kg"
+  },
+  "3": {
+   "brand_id": 1,
+   "name": "ABC 5 kg"
+  },
+  "4": {
+   "brand_id": 1,
+   "name": "ABC 10 kg"
+  },
+  "5": {
+   "brand_id": 1,
+   "name": "CO2 2 kg"
+  },
+  "6": {
+   "brand_id": 1,
+   "name": "CO2 5 kg"
+  },
+  "7": {
+   "brand_id": 2,
+   "name": "PQS 5 kg"
+  },
+  "8": {
+   "brand_id": 2,
+   "name": "PQS 10 kg"
+  },
+  "9": {
+   "brand_id": 2,
+   "name": "CO2 3.5 kg"
+  }
+ },
+ "prop_associations": {
+  "1": {
+   "entity_id": 1,
+   "prop_definition_id": 1,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "10": {
+   "entity_id": 2,
+   "prop_definition_id": 9,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "11": {
+   "entity_id": 2,
+   "prop_definition_id": 11,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "12": {
+   "entity_id": 2,
+   "prop_definition_id": 19,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "13": {
+   "entity_id": 3,
+   "prop_definition_id": 22,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "14": {
+   "entity_id": 3,
+   "prop_definition_id": 23,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "15": {
+   "entity_id": 3,
+   "prop_definition_id": 9,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "16": {
+   "entity_id": 3,
+   "prop_definition_id": 19,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "17": {
+   "entity_id": 4,
+   "prop_definition_id": 9,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "18": {
+   "entity_id": 4,
+   "prop_definition_id": 19,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "19": {
+   "entity_id": 5,
+   "prop_definition_id": 21,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "2": {
+   "entity_id": 1,
+   "prop_definition_id": 2,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "20": {
+   "entity_id": 5,
+   "prop_definition_id": 9,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "21": {
+   "entity_id": 5,
+   "prop_definition_id": 11,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "22": {
+   "entity_id": 5,
+   "prop_definition_id": 19,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "23": {
+   "entity_id": 6,
+   "prop_definition_id": 15,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "24": {
+   "entity_id": 6,
+   "prop_definition_id": 18,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "25": {
+   "entity_id": 7,
+   "prop_definition_id": 20,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "3": {
+   "entity_id": 1,
+   "prop_definition_id": 6,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "4": {
+   "entity_id": 1,
+   "prop_definition_id": 9,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "5": {
+   "entity_id": 1,
+   "prop_definition_id": 11,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "6": {
+   "entity_id": 1,
+   "prop_definition_id": 19,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "7": {
+   "entity_id": 1,
+   "prop_definition_id": 18,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "8": {
+   "entity_id": 2,
+   "prop_definition_id": 4,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "9": {
+   "entity_id": 2,
+   "prop_definition_id": 5,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  }
+ },
+ "prop_definitions": {
+  "1": {
+   "data_type": "alfanumerico",
+   "short_name": "dnb_approval_number"
+  },
+  "10": {
+   "data_type": "fecha",
+   "short_name": "next_recharge_date"
+  },
+  "11": {
+   "data_type": "fecha",
+   "short_name": "last_hydrostatic_test_date"
+  },
+  "12": {
+   "data_type": "fecha",
+   "short_name": "next_hydrostatic_test_date"
+  },
+  "13": {
+   "data_type": "fecha",
+   "short_name": "last_inspection_date"
+  },
+  "14": {
+   "data_type": "alfanumerico",
+   "short_name": "hydrostatic_test_result"
+  },
+  "15": {
+   "data_type": "numerico",
+   "short_name": "install_height_cm"
+  },
+  "16": {
+   "data_type": "numerico",
+   "short_name": "max_travel_distance_m"
+  },
+  "17": {
+   "data_type": "alfanumerico",
+   "short_name": "risk_classification"
+  },
+  "18": {
+   "data_type": "alfanumerico",
+   "short_name": "install_floor"
+  },
+  "19": {
+   "data_type": "alfanumerico",
+   "short_name": "company_control_number"
+  },
+  "2": {
+   "data_type": "numerico",
+   "short_name": "working_pressure_bar"
+  },
+  "20": {
+   "data_type": "alfanumerico",
+   "short_name": "dnb_site_permit_number"
+  },
+  "21": {
+   "data_type": "numerico",
+   "short_name": "wheel_diameter_mm"
+  },
+  "22": {
+   "data_type": "alfanumerico",
+   "short_name": "foam_concentrate_type"
+  },
+  "23": {
+   "data_type": "fecha",
+   "short_name": "concentrate_expiry_date"
+  },
+  "3": {
+   "data_type": "numerico",
+   "short_name": "test_pressure_bar"
+  },
+  "4": {
+   "data_type": "numerico",
+   "short_name": "tare_weight_kg"
+  },
+  "5": {
+   "data_type": "numerico",
+   "short_name": "gross_weight_kg"
+  },
+  "6": {
+   "data_type": "numerico",
+   "short_name": "load_capacity_kg"
+  },
+  "7": {
+   "data_type": "alfanumerico",
+   "short_name": "extinguishing_agent"
+  },
+  "8": {
+   "data_type": "alfanumerico",
+   "short_name": "propellant_gas"
+  },
+  "9": {
+   "data_type": "fecha",
+   "short_name": "last_recharge_date"
+  }
+ },
+ "regions": {
+  "1": {
+   "description": "Metropolitana"
+  },
+  "2": {
+   "description": "Canelones"
+  },
+  "3": {
+   "description": "Maldonado"
+  }
+ },
+ "rules": {
+  "1": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "1",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detecta extintores de polvo cuya última recarga supera los 2 años (UNIT 598/607)",
+   "duration": 730,
+   "enabled": true,
+   "name": "Recarga vencida — polvo ABC (>2 años)",
+   "priority": 80,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "2": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "2",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detecta extintores CO2 cuya última recarga supera los 2 años (UNIT 586)",
+   "duration": 730,
+   "enabled": true,
+   "name": "Recarga vencida — CO2 (>2 años)",
+   "priority": 80,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "3": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "3",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detecta extintores de espuma y Clase K cuya recarga supera 1 año",
+   "duration": 365,
+   "enabled": true,
+   "name": "Recarga vencida — espuma/Clase K (>1 año)",
+   "priority": 85,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "4": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "1",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detecta extintores de polvo cuyo último ensayo hidrostático supera 4 años",
+   "duration": 1460,
+   "enabled": true,
+   "name": "Ensayo hidrostático vencido — polvo (>4 años)",
+   "priority": 75,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "5": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "2",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detecta extintores CO2 cuyo último ensayo hidrostático supera 5 años (UNIT 586)",
+   "duration": 1825,
+   "enabled": true,
+   "name": "Ensayo hidrostático vencido — CO2 (>5 años)",
+   "priority": 75,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "6": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "1",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detecta extintores sin inspección visual en más de 100 días",
+   "duration": 100,
+   "enabled": true,
+   "name": "Inspección trimestral vencida (>100 días)",
+   "priority": 60,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "7": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "1",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Alerta preventiva para extintores a menos de 2 años de su límite de 20 años",
+   "duration": 0,
+   "enabled": true,
+   "name": "Vida útil próxima a expirar (<2 años)",
+   "priority": 50,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  }
+ },
+ "sensor_bindings": {
+  "1": {
+   "asset_id": 1,
+   "binding_metadata": {
+    "role": "identification"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 1
+  },
+  "2": {
+   "asset_id": 2,
+   "binding_metadata": {
+    "role": "identification"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 2
+  },
+  "3": {
+   "asset_id": 3,
+   "binding_metadata": {
+    "role": "pressure_monitor"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 3
+  },
+  "4": {
+   "asset_id": 7,
+   "binding_metadata": {
+    "role": "pressure_monitor"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 4
+  },
+  "5": {
+   "asset_id": 55,
+   "binding_metadata": {
+    "role": "tamper_seal"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 5
+  },
+  "6": {
+   "asset_id": 60,
+   "binding_metadata": {
+    "role": "fire_panel_gateway"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 6
+  }
+ },
+ "sensors": {
+  "1": {
+   "driver": "manual_scan",
+   "external_id": "QR-PORT-001",
+   "metadata": {
+    "format": "code128"
+   },
+   "name": "QR Extintor PORT-001",
+   "type": "qr_tag"
+  },
+  "2": {
+   "driver": "manual_scan",
+   "external_id": "QR-PORT-002",
+   "metadata": {
+    "format": "code128"
+   },
+   "name": "QR Extintor PORT-002",
+   "type": "qr_tag"
+  },
+  "3": {
+   "driver": "ble_beacon",
+   "external_id": "BLE-PORT-003",
+   "metadata": {
+    "interval_s": 3600,
+    "mac": "AA:BB:CC:00:03:01"
+   },
+   "name": "Monitor presión PORT-003",
+   "type": "ble_pressure"
+  },
+  "4": {
+   "driver": "ble_beacon",
+   "external_id": "BLE-PORT-007",
+   "metadata": {
+    "interval_s": 3600,
+    "mac": "AA:BB:CC:00:07:01"
+   },
+   "name": "Monitor presión PORT-007",
+   "type": "ble_pressure"
+  },
+  "5": {
+   "driver": "nfc_tamper",
+   "external_id": "NFC-PLAS-R01",
+   "metadata": {
+    "uid": "04:A1:B2:C3:D4:E5:01"
+   },
+   "name": "Sello NFC PLAS-R01",
+   "type": "nfc_seal"
+  },
+  "6": {
+   "driver": "modbus_tcp",
+   "external_id": "GW-PLAS-PD01",
+   "metadata": {
+    "ip": "10.0.30.10",
+    "port": 502
+   },
+   "name": "Gateway panel PLAS-PD01",
+   "type": "fire_panel_gw"
+  }
+ },
+ "tenant_settings": {
+  "1": {
+   "key": "general",
+   "locale": "es",
+   "tenant_name": "Extinfire SRL",
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "2": {
+   "email_alerts": true,
+   "key": "notifications",
+   "slack_enabled": false,
+   "updated_at": "2027-02-14T13:17:00Z",
+   "webhooks_enabled": true
+  },
+  "3": {
+   "key": "features",
+   "map_enabled": false,
+   "updated_at": "2027-02-14T13:17:00Z"
+  }
+ },
+ "users": {
+  "1": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "hl@example.com",
+   "name": "HL",
+   "role": "admin",
+   "tenant_id": 1
+  },
+  "10": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "alan.machado@estudiantes.utec.edu.uy",
+   "name": "Alan Machado",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "11": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "matthew.freire@estudiantes.utec.edu.uy",
+   "name": "Matthew Freire",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "12": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "luciano.gamba@estudiantes.utec.edu.uy",
+   "name": "Luciano Gamba",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "13": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "gaston.perez@estudiantes.utec.edu.uy",
+   "name": "Gaston Perez",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "14": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "agustin.machado@estudiantes.utec.edu.uy",
+   "name": "Agustin Machado",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "15": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "fabricio.rivero.r@estudiantes.utec.edu.uy",
+   "name": "Fabricio Rivero",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "16": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "facundo.guerra.n@estudiantes.utec.edu.uy",
+   "name": "Facundo Guerra",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "2": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "dev@ual.li",
+   "name": "Dev",
+   "role": "developer",
+   "tenant_id": 1
+  },
+  "3": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "manager@example.com",
+   "name": "Manager",
+   "role": "manager",
+   "tenant_id": 1
+  },
+  "4": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "viewer@example.com",
+   "name": "Viewer",
+   "role": "viewer",
+   "tenant_id": 1
+  },
+  "5": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "facundo.salaberry.h@estudiantes.utec.edu.uy",
+   "name": "Facundo Salaberry",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "6": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "alexis.menchaca@estudiantes.utec.edu.uy",
+   "name": "Alexis Menchaca",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "7": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "ignacio.ortega@estudiantes.utec.edu.uy",
+   "name": "Ignacio Ortega",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "8": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "kevin.jaffe@estudiantes.utec.edu.uy",
+   "name": "Kevin Jaffe",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "9": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "lucas.brito@estudiantes.utec.edu.uy",
+   "name": "Lucas Brito",
+   "role": "operator",
+   "tenant_id": 1
+  }
+ }
+}

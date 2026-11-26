@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "title": "Preferences",
+  "properties": {
+    "locale": {
+      "type": "string",
+      "title": "Language",
+      "x-seam-input": "select",
+      "enum": ["en", "es", "pt", "ja"]
+    },
+    "timezone": {
+      "type": "string",
+      "title": "Timezone",
+      "x-seam-input": "select",
+      "enum": [
+        "UTC",
+        "America/New_York",
+        "America/Chicago",
+        "America/Denver",
+        "America/Los_Angeles",
+        "America/Montevideo",
+        "America/Sao_Paulo",
+        "America/Buenos_Aires",
+        "America/Santiago",
+        "America/Bogota",
+        "America/Mexico_City",
+        "Europe/London",
+        "Europe/Paris",
+        "Europe/Berlin",
+        "Europe/Madrid",
+        "Asia/Tokyo",
+        "Asia/Shanghai",
+        "Asia/Singapore",
+        "Australia/Sydney"
+      ]
+    },
+    "dark_mode": {
+      "type": "string",
+      "title": "Theme",
+      "x-seam-input": "select",
+      "enum": ["system", "light", "dark"]
+    },
+    "email_alerts": {
+      "type": "boolean",
+      "title": "Email notifications",
+      "x-seam-input": "toggle"
+    },
+    "compact_view": {
+      "type": "boolean",
+      "title": "Compact view",
+      "x-seam-input": "toggle"
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,1900 @@
+# Seam AMS demonstration data: FrigoCold S.A.: cadena de frío comercial e industrial (Uruguay)
+# A .seed file, format version 2 (docs/SEED_FORMAT.md). Load it with:
+#   python3 seeds/seed.py load 02-frigocold --url http://localhost:9090
+# Dates written as {"$date": "+90d"} and times as {"$now": "-2h"} are relative to the day of the load.
+{"seed": 2,
+  "name": "02-frigocold",
+  "description": "FrigoCold S.A.: cadena de frío comercial e industrial (Uruguay)",
+  "tags": ["cold-chain", "uy", "es"],
+  "version": "1",
+  "exclusive": true,
+  "entities": [
+    "regions",
+    "currencies",
+    "cost_centers",
+    "brands",
+    "models",
+    "custodians",
+    "alert_types",
+    "prop_definitions",
+    "locations",
+    "fsm_machines",
+    "asset_types",
+    "assets",
+    "prop_associations",
+    "sensors",
+    "users",
+    "tenant_settings",
+    "rules",
+    "sensor_bindings",
+    "alerts",
+    "events"
+  ],
+  "notes": "Login:\n  hl@example.com  / holaquetal\n  dev@ual.li      / holaquetal  (rol developer)\n  manager@example.com / holaquetal  (manager)\n  viewer@example.com  / holaquetal  (viewer)\n  (equipo de desarrollo: 12 usuarios, rol operator)  / holaquetal",
+  "x": {
+    "seam": {
+      "tenant_name": "FrigoCold Uruguay S.A.",
+      "logins": [
+        {"email": "hl@example.com", "password": "holaquetal", "role": "admin"},
+        {"email": "dev@ual.li", "password": "holaquetal", "role": "developer"},
+        {"email": "manager@example.com", "password": "holaquetal", "role": "manager"},
+        {"email": "viewer@example.com", "password": "holaquetal", "role": "viewer"}
+      ]
+    }
+  }
+  }
+
+# regions: 5
+{"kind": "entity", "entity": "regions", "id": 1, "data": {"description": "Metropolitana"}}
+{"kind": "entity", "entity": "regions", "id": 2, "data": {"description": "Litoral Oeste"}}
+{"kind": "entity", "entity": "regions", "id": 3, "data": {"description": "Norte"}}
+{"kind": "entity", "entity": "regions", "id": 4, "data": {"description": "Sur"}}
+{"kind": "entity", "entity": "regions", "id": 5, "data": {"description": "Este"}}
+
+# currencies: 2
+{"kind": "entity", "entity": "currencies", "id": 1, "data": {"iso_code": "UYU", "symbol": "$"}}
+{"kind": "entity", "entity": "currencies", "id": 2, "data": {"iso_code": "USD", "symbol": "U$S"}}
+
+# cost_centers: 5
+{"kind": "entity", "entity": "cost_centers", "id": 1, "data": {
+  "accounting_code": "INST-001",
+  "name": "Instalaciones y Proyectos"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 2, "data": {
+  "accounting_code": "MANT-001",
+  "name": "Mantenimiento Preventivo"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 3, "data": {
+  "accounting_code": "CORR-001",
+  "name": "Mantenimiento Correctivo"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 4, "data": {
+  "accounting_code": "MON-001",
+  "name": "Monitoreo Remoto"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 5, "data": {
+  "accounting_code": "ADM-001",
+  "name": "Administración"
+  }}
+
+# brands: 10
+{"kind": "entity", "entity": "brands", "id": 1, "data": {
+  "code": "CAR",
+  "name": "Carrier Commercial Refrigeration"
+  }}
+{"kind": "entity", "entity": "brands", "id": 2, "data": {"code": "HUS", "name": "Hussmann"}}
+{"kind": "entity", "entity": "brands", "id": 3, "data": {"code": "ARN", "name": "Arneg"}}
+{"kind": "entity", "entity": "brands", "id": 4, "data": {"code": "BOH", "name": "Bohn / Heatcraft"}}
+{"kind": "entity", "entity": "brands", "id": 5, "data": {"code": "BIT", "name": "Bitzer"}}
+{"kind": "entity", "entity": "brands", "id": 6, "data": {"code": "TEC", "name": "Tecumseh"}}
+{"kind": "entity", "entity": "brands", "id": 7, "data": {"code": "DAN", "name": "Danfoss"}}
+{"kind": "entity", "entity": "brands", "id": 8, "data": {"code": "EMB", "name": "Embraco"}}
+{"kind": "entity", "entity": "brands", "id": 9, "data": {"code": "TRN", "name": "Trane"}}
+{"kind": "entity", "entity": "brands", "id": 10, "data": {"code": "LAR", "name": "Larquier"}}
+
+# models: 18
+{"kind": "entity", "entity": "models", "id": 1, "data": {"brand_id": 1, "name": "38AKS012"}}
+{"kind": "entity", "entity": "models", "id": 2, "data": {"brand_id": 1, "name": "AquaForce 30XW"}}
+{"kind": "entity", "entity": "models", "id": 3, "data": {"brand_id": 1, "name": "Transicold Vector 1800MT"}}
+{"kind": "entity", "entity": "models", "id": 4, "data": {"brand_id": 2, "name": "P5XGE-4"}}
+{"kind": "entity", "entity": "models", "id": 5, "data": {"brand_id": 2, "name": "Impact G2"}}
+{"kind": "entity", "entity": "models", "id": 6, "data": {"brand_id": 2, "name": "RLN-DF"}}
+{"kind": "entity", "entity": "models", "id": 7, "data": {"brand_id": 3, "name": "Sydney 3"}}
+{"kind": "entity", "entity": "models", "id": 8, "data": {"brand_id": 3, "name": "Oslo 3"}}
+{"kind": "entity", "entity": "models", "id": 9, "data": {"brand_id": 3, "name": "Alaska"}}
+{"kind": "entity", "entity": "models", "id": 10, "data": {"brand_id": 4, "name": "LET-D"}}
+{"kind": "entity", "entity": "models", "id": 11, "data": {"brand_id": 4, "name": "HCCE-D"}}
+{"kind": "entity", "entity": "models", "id": 12, "data": {"brand_id": 5, "name": "CSVH9553-180Y"}}
+{"kind": "entity", "entity": "models", "id": 13, "data": {"brand_id": 5, "name": "ECOLINE 6FE-50Y"}}
+{"kind": "entity", "entity": "models", "id": 14, "data": {"brand_id": 6, "name": "TFH4524Z"}}
+{"kind": "entity", "entity": "models", "id": 15, "data": {"brand_id": 6, "name": "FH4531Z"}}
+{"kind": "entity", "entity": "models", "id": 16, "data": {"brand_id": 9, "name": "Precedent WCC060"}}
+{"kind": "entity", "entity": "models", "id": 17, "data": {"brand_id": 10, "name": "Cámara Modular 40mm"}}
+{"kind": "entity", "entity": "models", "id": 18, "data": {"brand_id": 10, "name": "Cámara Modular 80mm"}}
+
+# custodians: 6
+{"kind": "entity", "entity": "custodians", "id": 1, "data": {
+  "active": true,
+  "address": "Camino Maldonado 2345, Montevideo",
+  "alias": "FrigoCold",
+  "email": "activos@frigocold.com.uy",
+  "legal_name": "FrigoCold Uruguay S.A.",
+  "phone": "+598 2 711 0000",
+  "subject_type": "RUT",
+  "tax_id": "21890123-4"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 2, "data": {
+  "active": true,
+  "address": "Bvar. Artigas 2900, Montevideo",
+  "alias": "El Dorado",
+  "email": "facilities@eldorado.com.uy",
+  "legal_name": "Supermercados El Dorado S.A.",
+  "phone": "+598 2 400 5678",
+  "subject_type": "RUT",
+  "tax_id": "21234567-8"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 3, "data": {
+  "active": true,
+  "address": "Av. 18 de Julio 987, Montevideo",
+  "alias": "Cruz Verde",
+  "email": "logistica@cruzverde.com.uy",
+  "legal_name": "Farmacias Cruz Verde S.A.",
+  "phone": "+598 2 622 1111",
+  "subject_type": "RUT",
+  "tax_id": "21345678-1"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 4, "data": {
+  "active": true,
+  "address": "Ruta 5 km 389, Rivera",
+  "alias": "FrigNorte",
+  "email": "planta@frignorte.com.uy",
+  "legal_name": "Frigorífico del Norte S.A.",
+  "phone": "+598 462 34567",
+  "subject_type": "RUT",
+  "tax_id": "21456789-2"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 5, "data": {
+  "active": true,
+  "address": "Calle 31 esq. 16, Punta del Este",
+  "alias": "Hotel Cottage",
+  "email": "mantenimiento@hotelcottage.com.uy",
+  "legal_name": "Hotel Cottage Punta del Este S.A.",
+  "phone": "+598 42 491234",
+  "subject_type": "RUT",
+  "tax_id": "21567890-3"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 6, "data": {
+  "active": true,
+  "address": "",
+  "alias": "D. Rodríguez",
+  "email": "drodriguez@frigocold.com.uy",
+  "legal_name": "Rodríguez Pereyra, Diego",
+  "phone": "+598 98 765 432",
+  "subject_type": "CI",
+  "tax_id": "5.678.901-3"
+  }}
+
+# alert_types: 13
+{"kind": "entity", "entity": "alert_types", "id": 1, "data": {
+  "criticality": "Alta",
+  "description": "Temperatura fuera de rango de conservación",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 2, "data": {
+  "criticality": "Alta",
+  "description": "Temperatura fuera de rango de congelación",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 3, "data": {
+  "criticality": "Media",
+  "description": "Temperatura en ascenso — alarma previa",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 4, "data": {
+  "criticality": "Media",
+  "description": "Puerta abierta por más de 3 minutos",
+  "type": "Operativa"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 5, "data": {
+  "criticality": "Alta",
+  "description": "Puerta abierta fuera de horario operativo",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 6, "data": {
+  "criticality": "Alta",
+  "description": "Fallo de compresor — presión anormal",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 7, "data": {
+  "criticality": "Media",
+  "description": "Compresor excede horas de mantenimiento",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 8, "data": {
+  "criticality": "Media",
+  "description": "Presión de succión fuera de rango",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 9, "data": {
+  "criticality": "Alta",
+  "description": "Presión de descarga fuera de rango",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 10, "data": {
+  "criticality": "Media",
+  "description": "Ciclo de desescarche fallido",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 11, "data": {
+  "criticality": "Alta",
+  "description": "Pérdida de alimentación eléctrica",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 12, "data": {
+  "criticality": "Media",
+  "description": "Mantenimiento preventivo semestral vencido",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 13, "data": {
+  "criticality": "Baja",
+  "description": "Garantía por vencer en 60 días",
+  "type": "Operativa"
+  }}
+
+# prop_definitions: 19
+{"kind": "entity", "entity": "prop_definitions", "id": 1, "data": {
+  "data_type": "numerico",
+  "short_name": "volume_m3"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 2, "data": {
+  "data_type": "numerico",
+  "short_name": "length_mm"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 3, "data": {
+  "data_type": "numerico",
+  "short_name": "width_mm"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 4, "data": {
+  "data_type": "numerico",
+  "short_name": "height_mm"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 5, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "refrigerant_type"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 6, "data": {
+  "data_type": "numerico",
+  "short_name": "refrigerant_charge_kg"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 7, "data": {
+  "data_type": "numerico",
+  "short_name": "temp_setpoint_c"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 8, "data": {
+  "data_type": "numerico",
+  "short_name": "high_temp_alarm_c"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 9, "data": {
+  "data_type": "numerico",
+  "short_name": "low_temp_alarm_c"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 10, "data": {
+  "data_type": "numerico",
+  "default_value": "0",
+  "short_name": "compressor_hours"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 11, "data": {
+  "data_type": "numerico",
+  "short_name": "suction_pressure_bar"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 12, "data": {
+  "data_type": "numerico",
+  "short_name": "discharge_pressure_bar"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 13, "data": {
+  "data_type": "numerico",
+  "short_name": "rated_power_w"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 14, "data": {
+  "data_type": "numerico",
+  "short_name": "voltage_v"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 15, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "msp_permit_number"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 16, "data": {
+  "data_type": "fecha",
+  "short_name": "last_calibration_date"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 17, "data": {
+  "data_type": "fecha",
+  "short_name": "next_calibration_date"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 18, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "vehicle_license_plate"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 19, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "load_type"
+  }}
+
+# locations: 10
+{"kind": "entity", "entity": "locations", "id": 1, "data": {
+  "description": "Taller FrigoCold — Camino Maldonado",
+  "region_id": 1,
+  "short_name": "TALLER-FC"
+  }}
+{"kind": "entity", "entity": "locations", "id": 2, "data": {
+  "description": "Depósito repuestos FrigoCold",
+  "region_id": 1,
+  "short_name": "DEP-FC"
+  }}
+{"kind": "entity", "entity": "locations", "id": 3, "data": {
+  "description": "El Dorado Punta Carretas Shopping",
+  "region_id": 1,
+  "short_name": "ELD-PUNTA"
+  }}
+{"kind": "entity", "entity": "locations", "id": 4, "data": {
+  "description": "El Dorado Tres Cruces",
+  "region_id": 1,
+  "short_name": "ELD-TRES"
+  }}
+{"kind": "entity", "entity": "locations", "id": 5, "data": {
+  "description": "El Dorado Rivera",
+  "region_id": 3,
+  "short_name": "ELD-RIVERA"
+  }}
+{"kind": "entity", "entity": "locations", "id": 6, "data": {
+  "description": "Cruz Verde — Sede Central 18 de Julio",
+  "region_id": 1,
+  "short_name": "CV-CENTRAL"
+  }}
+{"kind": "entity", "entity": "locations", "id": 7, "data": {
+  "description": "Cruz Verde — Maldonado",
+  "region_id": 4,
+  "short_name": "CV-MALON"
+  }}
+{"kind": "entity", "entity": "locations", "id": 8, "data": {
+  "description": "Frigorífico del Norte — Planta Rivera",
+  "region_id": 3,
+  "short_name": "FRIGN-PLTA"
+  }}
+{"kind": "entity", "entity": "locations", "id": 9, "data": {
+  "description": "Hotel Cottage — Cocina y Depósito",
+  "region_id": 5,
+  "short_name": "HOT-COTT"
+  }}
+{"kind": "entity", "entity": "locations", "id": 10, "data": {
+  "description": "Base de transporte refrigerado",
+  "region_id": 1,
+  "short_name": "TRANS-BASE"
+  }}
+
+# fsm_machines: 2
+{"kind": "entity", "entity": "fsm_machines", "id": 1, "data": {
+  "description": "Estados operativos de cámaras de conservación y congelación",
+  "name": "Estado Cámara Frigorífica",
+  "states": [
+    {
+      "color": "#10b981",
+      "is_initial": true,
+      "label": "Normal",
+      "name": "normal",
+      "transitions": [
+        {
+          "condition": {"field": "temp_interior_c", "threshold": 6, "type": "value_gt"},
+          "priority": 90,
+          "to": "alarma_temperatura"
+        },
+        {
+          "condition": {"trigger": "custom_driver", "type": "trigger_type"},
+          "priority": 70,
+          "to": "mantenimiento"
+        },
+        {"condition": {"trigger": "api_call", "type": "trigger_type"}, "priority": 30, "to": "inactiva"}
+      ]
+    },
+    {
+      "color": "#ef4444",
+      "label": "Alarma temperatura",
+      "name": "alarma_temperatura",
+      "transitions": [
+        {
+          "condition": {"field": "temp_interior_c", "threshold": 5, "type": "value_lt"},
+          "priority": 90,
+          "to": "normal"
+        },
+        {
+          "condition": {"trigger": "custom_driver", "type": "trigger_type"},
+          "priority": 70,
+          "to": "mantenimiento"
+        }
+      ]
+    },
+    {
+      "color": "#f59e0b",
+      "label": "Mantenimiento",
+      "name": "mantenimiento",
+      "transitions": [{"condition": {"trigger": "custom_driver", "type": "trigger_type"}, "priority": 50, "to": "normal"}]
+    },
+    {"color": "#6b7280", "is_final": true, "label": "Inactiva / baja", "name": "inactiva", "transitions": []}
+  ]
+  }}
+{"kind": "entity", "entity": "fsm_machines", "id": 2, "data": {
+  "description": "Estados de unidades de transporte con cadena de frío",
+  "name": "Estado Transporte Refrigerado",
+  "states": [
+    {
+      "color": "#6b7280",
+      "is_initial": true,
+      "label": "En depósito",
+      "name": "en_deposito",
+      "transitions": [
+        {
+          "condition": {"trigger": "gateway_poll", "type": "trigger_type"},
+          "priority": 50,
+          "to": "en_trayecto"
+        }
+      ]
+    },
+    {
+      "color": "#3b82f6",
+      "label": "En trayecto",
+      "name": "en_trayecto",
+      "transitions": [
+        {"condition": {"trigger": "api_call", "type": "trigger_type"}, "priority": 50, "to": "en_deposito"},
+        {"condition": {"trigger": "qr_scan", "type": "trigger_type"}, "priority": 70, "to": "en_entrega"},
+        {
+          "condition": {"field": "temp_caja_c", "threshold": 10, "type": "value_gt"},
+          "priority": 90,
+          "to": "alarma_temp_transito"
+        }
+      ]
+    },
+    {
+      "color": "#10b981",
+      "label": "En punto de entrega",
+      "name": "en_entrega",
+      "transitions": [
+        {
+          "condition": {"trigger": "gateway_poll", "type": "trigger_type"},
+          "priority": 50,
+          "to": "en_trayecto"
+        },
+        {"condition": {"trigger": "api_call", "type": "trigger_type"}, "priority": 70, "to": "en_deposito"}
+      ]
+    },
+    {
+      "color": "#ef4444",
+      "label": "Alarma temp. en tránsito",
+      "name": "alarma_temp_transito",
+      "transitions": [
+        {
+          "condition": {"field": "temp_caja_c", "threshold": 8, "type": "value_lt"},
+          "priority": 90,
+          "to": "en_trayecto"
+        }
+      ]
+    },
+    {"color": "#1f2937", "is_final": true, "label": "Dado de baja", "name": "dado_de_baja", "transitions": []}
+  ]
+  }}
+
+# asset_types: 7
+{"kind": "entity", "entity": "asset_types", "id": 1, "data": {
+  "color": "#06b6d4",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 1,
+  "description": "Cámaras frigoríficas para conservación 0–8 °C",
+  "fsm_id": 1,
+  "identity_template": {
+    "capacidad_m3": {"label": "Capacidad (m³)", "required": true, "type": "number"},
+    "permit_number": {"label": "Nro. habilitación", "required": false, "type": "text"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"},
+    "year_built": {"label": "Año de fabricación", "required": true, "type": "number"}
+  },
+  "name": "Cámara de Conservación",
+  "slug": "camara-conservacion",
+  "state_template": {
+    "compressor_on": {"label": "Compresor activo", "required": false, "type": "boolean"},
+    "door_status": {"label": "Estado puerta", "required": false, "type": "text"},
+    "humidity_pct": {"label": "Humedad relativa (%)", "required": false, "type": "number"},
+    "interior_temp_c": {"label": "Temperatura interior (°C)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 2, "data": {
+  "color": "#3b82f6",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 2,
+  "description": "Cámaras de congelación -18 °C a -25 °C",
+  "fsm_id": 1,
+  "identity_template": {
+    "capacidad_m3": {"label": "Capacidad (m³)", "required": true, "type": "number"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"},
+    "year_built": {"label": "Año de fabricación", "required": true, "type": "number"}
+  },
+  "name": "Cámara de Congelación",
+  "slug": "camara-congelacion",
+  "state_template": {
+    "compressor_on": {"label": "Compresor activo", "required": false, "type": "boolean"},
+    "defrost_on": {"label": "Desescarche activo", "required": false, "type": "boolean"},
+    "door_status": {"label": "Estado puerta", "required": false, "type": "text"},
+    "interior_temp_c": {"label": "Temperatura interior (°C)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 3, "data": {
+  "color": "#8b5cf6",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 1,
+  "description": "Vitrinas verticales con puertas para góndola",
+  "identity_template": {
+    "modules": {"label": "Número de módulos", "required": true, "type": "number"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"},
+    "total_length_mm": {"label": "Largo total (mm)", "required": false, "type": "number"}
+  },
+  "name": "Vitrina Refrigerada Vertical",
+  "slug": "vitrina-vertical",
+  "state_template": {
+    "door_status": {"label": "Estado puertas", "required": false, "type": "text"},
+    "interior_temp_c": {"label": "Temperatura interior (°C)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 4, "data": {
+  "color": "#a855f7",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 1,
+  "description": "Vitrinas abiertas horizontales tipo isla o mural",
+  "identity_template": {
+    "length_mm": {"label": "Largo (mm)", "required": true, "type": "number"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"}
+  },
+  "name": "Vitrina Refrigerada Horizontal",
+  "slug": "vitrina-horizontal",
+  "state_template": {"interior_temp_c": {"label": "Temperatura interior (°C)", "required": false, "type": "number"}}
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 5, "data": {
+  "color": "#f59e0b",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 6,
+  "description": "Centrales de compresores para circuitos de refrigeración",
+  "identity_template": {
+    "circuit_count": {"label": "Número de circuitos", "required": true, "type": "number"},
+    "power_hp": {"label": "Potencia total (HP)", "required": true, "type": "number"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"}
+  },
+  "name": "Rack de Compresores",
+  "slug": "rack-compresores",
+  "state_template": {
+    "compressor_hours": {"label": "Horas compresor", "required": false, "type": "number"},
+    "discharge_pressure_bar": {"label": "Presión descarga (bar)", "required": false, "type": "number"},
+    "discharge_temp_c": {"label": "Temp. descarga (°C)", "required": false, "type": "number"},
+    "suction_pressure_bar": {"label": "Presión succión (bar)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 6, "data": {
+  "color": "#10b981",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 1,
+  "description": "Equipos de conservación de medicamentos y vacunas 2–8 °C con trazabilidad MSP",
+  "fsm_id": 1,
+  "identity_template": {
+    "capacity_liters": {"label": "Capacidad (litros)", "required": true, "type": "number"},
+    "permit_number": {"label": "Habilitación MSP", "required": true, "type": "text"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"}
+  },
+  "name": "Equipo de Frío Farmacéutico",
+  "slug": "frio-farmaceutico",
+  "state_template": {
+    "interior_temp_c": {"label": "Temperatura interior (°C)", "required": false, "type": "number"},
+    "last_calibration_date": {"label": "Última calibración", "required": false, "type": "text"},
+    "temp_max_24h_c": {"label": "Temp. máx. últimas 24h", "required": false, "type": "number"},
+    "temp_min_24h_c": {"label": "Temp. mín. últimas 24h", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 7, "data": {
+  "color": "#ef4444",
+  "connectivity_tiers": ["qr", "gps"],
+  "default_alerta_id": 1,
+  "description": "Unidades de transporte con equipo frigorífico — temperatura de tránsito controlada",
+  "fsm_id": 2,
+  "identity_template": {
+    "equipment_serial_number": {"label": "Serie equipo frío", "required": true, "type": "text"},
+    "license_plate": {"label": "Patente", "required": true, "type": "text"},
+    "load_type": {"label": "Tipo de carga", "required": false, "type": "text"},
+    "refrigerant": {"label": "Gas refrigerante", "required": true, "type": "text"},
+    "vin": {"label": "VIN / Chasis", "required": true, "type": "text"}
+  },
+  "name": "Transporte Refrigerado",
+  "slug": "transporte-refrigerado",
+  "state_template": {
+    "cabinet_temp_c": {"label": "Temperatura caja (°C)", "required": false, "type": "number"},
+    "gps_location": {"label": "Posición GPS", "required": false, "type": "text"},
+    "setpoint_c": {"label": "Setpoint activo (°C)", "required": false, "type": "number"}
+  }
+  }}
+
+# assets: 18
+{"kind": "entity", "entity": "assets", "id": 1, "data": {
+  "arrival_date": "2019-07-01",
+  "brand_id": 10,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "loan_expiry": {"$date": "+365d"},
+  "location_id": 3,
+  "model_id": 18,
+  "name": "Cámara Conservación El Dorado Punta Carretas — CC-001",
+  "purchase_date": "2019-06-10",
+  "purchase_price": "48000",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "LAR2019CC0012",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "CC-001",
+  "temp_max": "8",
+  "temp_min": "0",
+  "tenure_type": "Comodato",
+  "type_id": 1,
+  "warranty_end": "2024-06-10"
+  }}
+{"kind": "entity", "entity": "assets", "id": 2, "data": {
+  "arrival_date": "2019-07-01",
+  "brand_id": 10,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "loan_expiry": {"$date": "+365d"},
+  "location_id": 3,
+  "model_id": 18,
+  "name": "Cámara Conservación El Dorado Punta Carretas — CC-002",
+  "purchase_date": "2019-06-10",
+  "purchase_price": "48000",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "LAR2019CC0013",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "CC-002",
+  "temp_max": "8",
+  "temp_min": "0",
+  "tenure_type": "Comodato",
+  "type_id": 1
+  }}
+{"kind": "entity", "entity": "assets", "id": 3, "data": {
+  "arrival_date": "2021-03-20",
+  "brand_id": 10,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 4,
+  "location_id": 8,
+  "model_id": 18,
+  "name": "Cámara Conservación Frigorífico Norte — CC-003",
+  "purchase_date": "2021-02-15",
+  "purchase_price": "62000",
+  "refrigerant": "R448A",
+  "region_id": 3,
+  "serial_1": "LAR2021CC0031",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "CC-003",
+  "temp_max": "4",
+  "temp_min": "0",
+  "tenure_type": "Propiedad",
+  "type_id": 1
+  }}
+{"kind": "entity", "entity": "assets", "id": 4, "data": {
+  "arrival_date": "2019-07-01",
+  "brand_id": 10,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "loan_expiry": {"$date": "+365d"},
+  "location_id": 3,
+  "model_id": 18,
+  "name": "Cámara Congelación El Dorado Punta Carretas — CF-001",
+  "purchase_date": "2019-06-10",
+  "purchase_price": "55000",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "LAR2019CF0011",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "CF-001",
+  "temp_max": "-18",
+  "temp_min": "-25",
+  "tenure_type": "Comodato",
+  "type_id": 2
+  }}
+{"kind": "entity", "entity": "assets", "id": 5, "data": {
+  "arrival_date": "2020-10-01",
+  "brand_id": 10,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 4,
+  "location_id": 8,
+  "model_id": 18,
+  "name": "Cámara Congelación Frigorífico Norte — CF-002",
+  "purchase_date": "2020-09-01",
+  "purchase_price": "68000",
+  "refrigerant": "R404A",
+  "region_id": 3,
+  "serial_1": "LAR2020CF0022",
+  "status": "maintenance",
+  "tag_tecnico": "CF-002",
+  "temp_max": "-18",
+  "temp_min": "-25",
+  "tenure_type": "Propiedad",
+  "type_id": 2
+  }}
+{"kind": "entity", "entity": "assets", "id": 6, "data": {
+  "arrival_date": "2020-10-01",
+  "brand_id": 10,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 4,
+  "location_id": 8,
+  "model_id": 18,
+  "name": "Cámara Congelación Frigorífico Norte — CF-003",
+  "purchase_date": "2020-09-01",
+  "purchase_price": "68000",
+  "refrigerant": "R404A",
+  "region_id": 3,
+  "serial_1": "LAR2020CF0023",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "CF-003",
+  "temp_max": "-18",
+  "temp_min": "-25",
+  "tenure_type": "Propiedad",
+  "type_id": 2
+  }}
+{"kind": "entity", "entity": "assets", "id": 7, "data": {
+  "arrival_date": "2022-04-15",
+  "brand_id": 2,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 2,
+  "location_id": 3,
+  "model_id": 4,
+  "name": "Vitrina Vertical Hussmann P5X — VV-001",
+  "purchase_date": "2022-03-01",
+  "purchase_price": "32000",
+  "refrigerant": "R448A",
+  "region_id": 1,
+  "serial_1": "HUS2022VV00142",
+  "status": "active",
+  "tag_tecnico": "VV-001",
+  "temp_max": "6",
+  "temp_min": "2",
+  "tenure_type": "Propiedad",
+  "type_id": 3,
+  "warranty_end": "2025-03-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 8, "data": {
+  "arrival_date": "2022-04-15",
+  "brand_id": 2,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 2,
+  "location_id": 3,
+  "model_id": 4,
+  "name": "Vitrina Vertical Hussmann P5X — VV-002",
+  "purchase_date": "2022-03-01",
+  "purchase_price": "32000",
+  "refrigerant": "R448A",
+  "region_id": 1,
+  "serial_1": "HUS2022VV00143",
+  "status": "active",
+  "tag_tecnico": "VV-002",
+  "temp_max": "6",
+  "temp_min": "2",
+  "tenure_type": "Propiedad",
+  "type_id": 3
+  }}
+{"kind": "entity", "entity": "assets", "id": 9, "data": {
+  "arrival_date": "2021-09-01",
+  "brand_id": 3,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 2,
+  "location_id": 4,
+  "model_id": 7,
+  "name": "Vitrina Vertical Arneg Sydney — VV-003",
+  "purchase_date": "2021-08-01",
+  "purchase_price": "28000",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "ARN2021VV00231",
+  "status": "active",
+  "tag_tecnico": "VV-003",
+  "temp_max": "8",
+  "temp_min": "2",
+  "tenure_type": "Propiedad",
+  "type_id": 3
+  }}
+{"kind": "entity", "entity": "assets", "id": 10, "data": {
+  "arrival_date": "2020-12-01",
+  "brand_id": 2,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 2,
+  "location_id": 3,
+  "model_id": 6,
+  "name": "Vitrina Horizontal Hussmann RLN — VH-001",
+  "purchase_date": "2020-11-01",
+  "purchase_price": "18500",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "HUS2020VH00321",
+  "status": "active",
+  "tag_tecnico": "VH-001",
+  "temp_max": "-18",
+  "temp_min": "-22",
+  "tenure_type": "Propiedad",
+  "type_id": 4
+  }}
+{"kind": "entity", "entity": "assets", "id": 11, "data": {
+  "arrival_date": "2018-06-01",
+  "brand_id": 3,
+  "connectivity_tier": "qr_only",
+  "cost_center_id": 3,
+  "criticality": "Baja",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 1,
+  "model_id": 8,
+  "name": "Vitrina Horizontal Arneg Oslo — VH-002",
+  "purchase_date": "2018-05-01",
+  "purchase_price": "15000",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "ARN2018VH00098",
+  "status": "inactive",
+  "tag_tecnico": "VH-002",
+  "tenure_type": "Propiedad",
+  "type_id": 4
+  }}
+{"kind": "entity", "entity": "assets", "id": 12, "data": {
+  "arrival_date": "2019-07-01",
+  "brand_id": 5,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "loan_expiry": {"$date": "+548d"},
+  "location_id": 3,
+  "model_id": 12,
+  "name": "Central Compresores Bitzer Punta Carretas — RC-001",
+  "purchase_date": "2019-06-01",
+  "purchase_price": "75000",
+  "refrigerant": "R404A",
+  "region_id": 1,
+  "serial_1": "BIT2019RC00451",
+  "service_configs": [{"alert_id": 7, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "RC-001",
+  "tenure_type": "Comodato",
+  "type_id": 5,
+  "voltage_consumption": "380V / 3F",
+  "warranty_end": "2024-06-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 13, "data": {
+  "arrival_date": "2021-03-01",
+  "brand_id": 5,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "loan_expiry": {"$date": "+730d"},
+  "location_id": 8,
+  "model_id": 13,
+  "name": "Central Compresores Bitzer Norte — RC-002",
+  "purchase_date": "2021-01-15",
+  "purchase_price": "92000",
+  "refrigerant": "R448A",
+  "region_id": 3,
+  "serial_1": "BIT2021RC00512",
+  "service_configs": [{"alert_id": 7, "measure": "time_hours", "threshold": 2000}],
+  "status": "active",
+  "tag_tecnico": "RC-002",
+  "tenure_type": "Comodato",
+  "type_id": 5,
+  "voltage_consumption": "380V / 3F"
+  }}
+{"kind": "entity", "entity": "assets", "id": 14, "data": {
+  "arrival_date": "2022-09-15",
+  "brand_id": 3,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 4,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 3,
+  "location_id": 6,
+  "model_id": 9,
+  "name": "Heladera Farmacéutica Cruz Verde Central — FF-001",
+  "purchase_date": "2022-09-01",
+  "purchase_price": "12500",
+  "refrigerant": "R600a",
+  "region_id": 1,
+  "serial_1": "ARN2022FF00112",
+  "status": "active",
+  "tag_tecnico": "FF-001",
+  "temp_max": "8",
+  "temp_min": "2",
+  "tenure_type": "Propiedad",
+  "type_id": 6,
+  "warranty_end": "2025-09-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 15, "data": {
+  "arrival_date": "2022-10-01",
+  "brand_id": 3,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 4,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 3,
+  "location_id": 7,
+  "model_id": 9,
+  "name": "Heladera Farmacéutica Cruz Verde Maldonado — FF-002",
+  "purchase_date": "2022-09-01",
+  "purchase_price": "12500",
+  "refrigerant": "R600a",
+  "region_id": 4,
+  "serial_1": "ARN2022FF00113",
+  "status": "active",
+  "tag_tecnico": "FF-002",
+  "temp_max": "8",
+  "temp_min": "2",
+  "tenure_type": "Propiedad",
+  "type_id": 6
+  }}
+{"kind": "entity", "entity": "assets", "id": 16, "data": {
+  "arrival_date": "2021-12-01",
+  "brand_id": 2,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 4,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 5,
+  "location_id": 9,
+  "model_id": 5,
+  "name": "Cámara Vacunas Hotel Cottage — FF-003",
+  "purchase_date": "2021-11-01",
+  "purchase_price": "9800",
+  "refrigerant": "R134a",
+  "region_id": 5,
+  "serial_1": "HUS2021FF00087",
+  "status": "active",
+  "tag_tecnico": "FF-003",
+  "temp_max": "8",
+  "temp_min": "2",
+  "tenure_type": "Propiedad",
+  "type_id": 6
+  }}
+{"kind": "entity", "entity": "assets", "id": 17, "data": {
+  "arrival_date": "2021-04-15",
+  "brand_id": 1,
+  "codigo_barras_rfid": "RFID-TR-001",
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 10,
+  "model_id": 3,
+  "name": "Camión Refrigerado Carrier — TR-001",
+  "purchase_date": "2021-04-01",
+  "purchase_price": "95000",
+  "refrigerant": "R452A",
+  "region_id": 1,
+  "serial_1": "CARVMT18000001",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 1000}],
+  "status": "active",
+  "tag_tecnico": "TR-001",
+  "temp_max": "12",
+  "temp_min": "-25",
+  "tenure_type": "Propiedad",
+  "type_id": 7,
+  "warranty_end": "2024-04-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 18, "data": {
+  "arrival_date": "2022-02-20",
+  "brand_id": 1,
+  "codigo_barras_rfid": "RFID-TR-002",
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 10,
+  "model_id": 3,
+  "name": "Camión Refrigerado Carrier — TR-002",
+  "purchase_date": "2022-02-01",
+  "purchase_price": "98000",
+  "refrigerant": "R452A",
+  "region_id": 1,
+  "serial_1": "CARVMT18000002",
+  "service_configs": [{"alert_id": 12, "measure": "time_hours", "threshold": 1000}],
+  "status": "active",
+  "tag_tecnico": "TR-002",
+  "temp_max": "12",
+  "temp_min": "-25",
+  "tenure_type": "Propiedad",
+  "type_id": 7
+  }}
+
+# prop_associations: 37
+{"kind": "entity", "entity": "prop_associations", "id": 1, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 1,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 2, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 3, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 6,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 4, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 7,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 5, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 8,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 6, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 10,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 7, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 1,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 8, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 9, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 6,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 10, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 7,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 11, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 8,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 12, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 10,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 13, "data": {
+  "entity_id": 3,
+  "prop_definition_id": 2,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 14, "data": {
+  "entity_id": 3,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 15, "data": {
+  "entity_id": 3,
+  "prop_definition_id": 7,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 16, "data": {
+  "entity_id": 4,
+  "prop_definition_id": 2,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 17, "data": {
+  "entity_id": 4,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 18, "data": {
+  "entity_id": 4,
+  "prop_definition_id": 7,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 19, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 20, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 6,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 21, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 11,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 22, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 12,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 23, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 10,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 24, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 13,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 25, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 1,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 26, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 27, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 7,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 28, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 8,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 29, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 9,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 30, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 15,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 31, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 16,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 32, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 17,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 33, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 18,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 34, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 5,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 35, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 6,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 36, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 19,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 37, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 7,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+
+# sensors: 20
+{"kind": "entity", "entity": "sensors", "id": 1, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-CC001-INT",
+  "metadata": {"register": 100, "unit_id": 1},
+  "name": "Temp interior CC-001",
+  "type": "temperature_rtd"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 2, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-CC002-INT",
+  "metadata": {"register": 100, "unit_id": 2},
+  "name": "Temp interior CC-002",
+  "type": "temperature_rtd"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 3, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-CC003-INT",
+  "metadata": {"register": 100, "unit_id": 3},
+  "name": "Temp interior CC-003",
+  "type": "temperature_rtd"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 4, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-CF001-INT",
+  "metadata": {"register": 100, "unit_id": 4},
+  "name": "Temp interior CF-001",
+  "type": "temperature_rtd"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 5, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-CF002-INT",
+  "metadata": {"register": 100, "unit_id": 5},
+  "name": "Temp interior CF-002",
+  "type": "temperature_rtd"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 6, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-CF003-INT",
+  "metadata": {"register": 100, "unit_id": 6},
+  "name": "Temp interior CF-003",
+  "type": "temperature_rtd"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 7, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "TEMP-VV001",
+  "metadata": {"topic": "frigocold/vv001/temp"},
+  "name": "Temp vitrina VV-001",
+  "type": "temperature_ntc"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 8, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "TEMP-VV002",
+  "metadata": {"topic": "frigocold/vv002/temp"},
+  "name": "Temp vitrina VV-002",
+  "type": "temperature_ntc"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 9, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "TEMP-VV003",
+  "metadata": {"topic": "frigocold/vv003/temp"},
+  "name": "Temp vitrina VV-003",
+  "type": "temperature_ntc"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 10, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-FF001-A",
+  "metadata": {"cert": "CAL-2024-001", "unit_id": 10},
+  "name": "Sonda calibrada FF-001 (A)",
+  "type": "temperature_pt100"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 11, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-FF001-B",
+  "metadata": {"cert": "CAL-2024-001", "unit_id": 11},
+  "name": "Sonda calibrada FF-001 (B)",
+  "type": "temperature_pt100"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 12, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-FF002-A",
+  "metadata": {"cert": "CAL-2024-002", "unit_id": 12},
+  "name": "Sonda calibrada FF-002",
+  "type": "temperature_pt100"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 13, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-FF003-A",
+  "metadata": {"cert": "CAL-2024-003", "unit_id": 13},
+  "name": "Sonda calibrada FF-003",
+  "type": "temperature_pt100"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 14, "data": {
+  "driver": "zigbee",
+  "external_id": "DOOR-CC001",
+  "metadata": {"ieee": "00:15:8d:00:04:12:34:56"},
+  "name": "Puerta CC-001",
+  "type": "door_contact"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 15, "data": {
+  "driver": "zigbee",
+  "external_id": "DOOR-CF001",
+  "metadata": {"ieee": "00:15:8d:00:04:12:34:57"},
+  "name": "Puerta CF-001",
+  "type": "door_contact"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 16, "data": {
+  "driver": "modbus_tcp",
+  "external_id": "PRES-RC001-SUC",
+  "metadata": {"ip": "10.0.20.10", "port": 502, "reg": 200},
+  "name": "Presión succión RC-001",
+  "type": "pressure_transducer"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 17, "data": {
+  "driver": "modbus_tcp",
+  "external_id": "PRES-RC001-DIS",
+  "metadata": {"ip": "10.0.20.10", "port": 502, "reg": 201},
+  "name": "Presión descarga RC-001",
+  "type": "pressure_transducer"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 18, "data": {
+  "driver": "modbus_tcp",
+  "external_id": "PRES-RC002-SUC",
+  "metadata": {"ip": "10.0.20.11", "port": 502, "reg": 200},
+  "name": "Presión succión RC-002",
+  "type": "pressure_transducer"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 19, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "GPS-TEMP-TR001",
+  "metadata": {"imei": "356938035643900", "topic": "frigocold/tr001"},
+  "name": "GPS+Temp TR-001",
+  "type": "gps_temp_combined"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 20, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "GPS-TEMP-TR002",
+  "metadata": {"imei": "356938035643901", "topic": "frigocold/tr002"},
+  "name": "GPS+Temp TR-002",
+  "type": "gps_temp_combined"
+  }}
+
+# users: 16
+{"kind": "entity", "entity": "users", "id": 1, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "hl@example.com",
+  "name": "HL",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "admin",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 2, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "dev@ual.li",
+  "name": "Dev",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "developer",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 3, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "manager@example.com",
+  "name": "Manager",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "manager",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 4, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "viewer@example.com",
+  "name": "Viewer",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "viewer",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 5, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "facundo.salaberry.h@estudiantes.utec.edu.uy",
+  "name": "Facundo Salaberry",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 6, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "alexis.menchaca@estudiantes.utec.edu.uy",
+  "name": "Alexis Menchaca",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 7, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "ignacio.ortega@estudiantes.utec.edu.uy",
+  "name": "Ignacio Ortega",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 8, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "kevin.jaffe@estudiantes.utec.edu.uy",
+  "name": "Kevin Jaffe",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 9, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "lucas.brito@estudiantes.utec.edu.uy",
+  "name": "Lucas Brito",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 10, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "alan.machado@estudiantes.utec.edu.uy",
+  "name": "Alan Machado",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 11, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "matthew.freire@estudiantes.utec.edu.uy",
+  "name": "Matthew Freire",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 12, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "luciano.gamba@estudiantes.utec.edu.uy",
+  "name": "Luciano Gamba",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 13, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "gaston.perez@estudiantes.utec.edu.uy",
+  "name": "Gaston Perez",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 14, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "agustin.machado@estudiantes.utec.edu.uy",
+  "name": "Agustin Machado",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 15, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "fabricio.rivero.r@estudiantes.utec.edu.uy",
+  "name": "Fabricio Rivero",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 16, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "facundo.guerra.n@estudiantes.utec.edu.uy",
+  "name": "Facundo Guerra",
+  "password_hash": "$2b$10$EFkoPaVt1muBrJCt0eBXiOT2g1gJ7RxZGm6HFWxZLjOespLrxpzf6",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+
+# tenant_settings: 2
+{"kind": "entity", "entity": "tenant_settings", "id": 1, "data": {
+  "key": "general",
+  "locale": "es",
+  "tenant_name": "FrigoCold Uruguay S.A.",
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "tenant_settings", "id": 2, "data": {
+  "email_alerts": true,
+  "key": "notifications",
+  "slack_enabled": false,
+  "updated_at": {"$now": ""},
+  "webhooks_enabled": true
+  }}
+
+# rules: 6
+{"kind": "entity", "entity": "rules", "id": 1, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "1",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Notifica si la temperatura supera 8 °C en cámara de conservación por más de 5 min",
+  "duration": 5,
+  "enabled": true,
+  "name": "Temperatura conservación fuera de rango",
+  "priority": 90,
+  "threshold": 8,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 2, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "2",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Notifica si la temperatura supera -16 °C en cámara de congelación por más de 5 min",
+  "duration": 5,
+  "enabled": true,
+  "name": "Temperatura congelación fuera de rango",
+  "priority": 90,
+  "threshold": -16,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 3, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "6",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Notifica si temperatura sale de rango 2–8 °C en equipo farmacéutico",
+  "duration": 2,
+  "enabled": true,
+  "name": "Temperatura frío farmacéutico — MSP",
+  "priority": 95,
+  "threshold": 8,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 4, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "7",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Alerta si temperatura de caja supera 10 °C durante más de 10 min",
+  "duration": 10,
+  "enabled": true,
+  "name": "Temperatura transporte refrigerado",
+  "priority": 85,
+  "threshold": 10,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 5, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "5",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Mantenimiento cuando el rack de compresores supera 2000 horas",
+  "duration": 0,
+  "enabled": true,
+  "name": "Horas compresor — mantenimiento semestral",
+  "priority": 60,
+  "threshold": 2000,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 6, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "6",
+  "condition_type": "duration_exceeded",
+  "created_at": {"$now": ""},
+  "description": "Notifica 30 días antes del vencimiento de calibración MSP",
+  "duration": 8040,
+  "enabled": true,
+  "name": "Calibración sondas farmacéuticas — vencimiento",
+  "priority": 70,
+  "threshold": 0,
+  "trigger_type": "schedule"
+  }}
+
+# sensor_bindings: 20
+{"kind": "entity", "entity": "sensor_bindings", "id": 1, "data": {
+  "asset_id": 1,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "RTD-PT100"},
+  "created_at": {"$now": ""},
+  "sensor_id": 1
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 2, "data": {
+  "asset_id": 2,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "RTD-PT100"},
+  "created_at": {"$now": ""},
+  "sensor_id": 2
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 3, "data": {
+  "asset_id": 3,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "RTD-PT100"},
+  "created_at": {"$now": ""},
+  "sensor_id": 3
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 4, "data": {
+  "asset_id": 4,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "RTD-PT100"},
+  "created_at": {"$now": ""},
+  "sensor_id": 4
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 5, "data": {
+  "asset_id": 5,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "RTD-PT100"},
+  "created_at": {"$now": ""},
+  "sensor_id": 5
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 6, "data": {
+  "asset_id": 6,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "RTD-PT100"},
+  "created_at": {"$now": ""},
+  "sensor_id": 6
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 7, "data": {
+  "asset_id": 7,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "NTC"},
+  "created_at": {"$now": ""},
+  "sensor_id": 7
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 8, "data": {
+  "asset_id": 8,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "NTC"},
+  "created_at": {"$now": ""},
+  "sensor_id": 8
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 9, "data": {
+  "asset_id": 9,
+  "binding_metadata": {"role": "primary_temp", "sensor_type": "NTC"},
+  "created_at": {"$now": ""},
+  "sensor_id": 9
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 10, "data": {
+  "asset_id": 14,
+  "binding_metadata": {"calibrated": true, "cert": "CAL-2024-001", "role": "primary_temp"},
+  "created_at": {"$now": ""},
+  "sensor_id": 10
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 11, "data": {
+  "asset_id": 14,
+  "binding_metadata": {"calibrated": true, "cert": "CAL-2024-001", "role": "backup_temp"},
+  "created_at": {"$now": ""},
+  "sensor_id": 11
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 12, "data": {
+  "asset_id": 15,
+  "binding_metadata": {"calibrated": true, "cert": "CAL-2024-002", "role": "primary_temp"},
+  "created_at": {"$now": ""},
+  "sensor_id": 12
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 13, "data": {
+  "asset_id": 16,
+  "binding_metadata": {"calibrated": true, "cert": "CAL-2024-003", "role": "primary_temp"},
+  "created_at": {"$now": ""},
+  "sensor_id": 13
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 14, "data": {
+  "asset_id": 1,
+  "binding_metadata": {"role": "door_contact"},
+  "created_at": {"$now": ""},
+  "sensor_id": 14
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 15, "data": {
+  "asset_id": 4,
+  "binding_metadata": {"role": "door_contact"},
+  "created_at": {"$now": ""},
+  "sensor_id": 15
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 16, "data": {
+  "asset_id": 12,
+  "binding_metadata": {"circuit": "main", "role": "suction_pressure"},
+  "created_at": {"$now": ""},
+  "sensor_id": 16
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 17, "data": {
+  "asset_id": 12,
+  "binding_metadata": {"circuit": "main", "role": "discharge_pressure"},
+  "created_at": {"$now": ""},
+  "sensor_id": 17
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 18, "data": {
+  "asset_id": 13,
+  "binding_metadata": {"circuit": "main", "role": "suction_pressure"},
+  "created_at": {"$now": ""},
+  "sensor_id": 18
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 19, "data": {
+  "asset_id": 17,
+  "binding_metadata": {"combined": true, "role": "gps_and_temp"},
+  "created_at": {"$now": ""},
+  "sensor_id": 19
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 20, "data": {
+  "asset_id": 18,
+  "binding_metadata": {"combined": true, "role": "gps_and_temp"},
+  "created_at": {"$now": ""},
+  "sensor_id": 20
+  }}
+
+# alerts: 3
+{"kind": "entity", "entity": "alerts", "id": 1, "data": {
+  "alerta_id": 2,
+  "asset_id": 5,
+  "asset_name": "Cámara Congelación Frigorífico Norte — CF-002",
+  "created_at": {"$date": "-1dT22:45:00Z"},
+  "message": "Temperatura interior -14 °C — fuera del rango de congelación (-18 °C a -25 °C). Compresor en diagnóstico.",
+  "severity": "high",
+  "source": "seed",
+  "status": "open",
+  "title": "Temperatura interior -14 °C — fuera del rango d..."
+  }}
+{"kind": "entity", "entity": "alerts", "id": 2, "data": {
+  "acknowledged_at": {"$date": "-3dT13:00:00Z"},
+  "acknowledged_by": "drodriguez@frigocold.com.uy",
+  "alerta_id": 8,
+  "asset_id": 12,
+  "asset_name": "Central Compresores Bitzer Punta Carretas — RC-001",
+  "created_at": {"$date": "-3dT11:20:00Z"},
+  "message": "Presión de succión 3.2 bar — por debajo del rango normal (3.8–4.5 bar). Revisado y normalizado.",
+  "severity": "medium",
+  "source": "seed",
+  "status": "acknowledged",
+  "title": "Presión de succión 3.2 bar — por debajo del ran..."
+  }}
+{"kind": "entity", "entity": "alerts", "id": 3, "data": {
+  "alerta_id": 13,
+  "asset_id": 14,
+  "asset_name": "Heladera Farmacéutica Cruz Verde Central — FF-001",
+  "created_at": {"$date": "T08:00:00Z"},
+  "message": {"$text": "Calibración de sondas vence el ${date:+30d}. Programar con laboratorio habilitado MSP."},
+  "severity": "low",
+  "status": "open"
+  }}
+
+# events: 8
+{"kind": "entity", "entity": "events", "id": 1, "data": {
+  "sensor_id": 1,
+  "timestamp": {"$date": "T06:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "°C",
+  "value": {"humidity_pct": 85, "temp_c": 2.1}
+  }}
+{"kind": "entity", "entity": "events", "id": 2, "data": {
+  "sensor_id": 4,
+  "timestamp": {"$date": "T06:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "°C",
+  "value": {"defrost_on": false, "temp_c": -21.3}
+  }}
+{"kind": "entity", "entity": "events", "id": 3, "data": {
+  "sensor_id": 5,
+  "timestamp": {"$date": "-1dT22:40:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "°C",
+  "value": {"alarm_high": true, "temp_c": -14.2}
+  }}
+{"kind": "entity", "entity": "events", "id": 4, "data": {
+  "sensor_id": 7,
+  "timestamp": {"$date": "T07:30:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "°C",
+  "value": {"temp_c": 3.8}
+  }}
+{"kind": "entity", "entity": "events", "id": 5, "data": {
+  "sensor_id": 10,
+  "timestamp": {"$date": "T06:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "°C",
+  "value": {"sensor": "A", "temp_c": 4.8}
+  }}
+{"kind": "entity", "entity": "events", "id": 6, "data": {
+  "sensor_id": 11,
+  "timestamp": {"$date": "T06:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "°C",
+  "value": {"sensor": "B", "temp_c": 4.9}
+  }}
+{"kind": "entity", "entity": "events", "id": 7, "data": {
+  "sensor_id": 16,
+  "timestamp": {"$date": "T06:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "bar",
+  "value": {"circuit": "main", "pressure_bar": 4.1}
+  }}
+{"kind": "entity", "entity": "events", "id": 8, "data": {
+  "location": {"lat": -34.8795, "lon": -55.9782},
+  "sensor_id": 19,
+  "timestamp": {"$date": "T07:30:00Z"},
+  "trigger_type": "gateway_poll",
+  "unit": "°C",
+  "value": {"cabinet_temp_c": -19.5, "lat": -34.8795, "lon": -55.9782, "speed_kmh": 78}
+  }}

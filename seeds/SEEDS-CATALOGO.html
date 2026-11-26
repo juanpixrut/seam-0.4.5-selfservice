@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seam AMS — Catálogo de Datos de Demostración</title>
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 18mm 22mm 18mm;
+    @bottom-center {
+      content: "Seam AMS — Catálogo de Datos de Demostración — " counter(page) " / " counter(pages);
+      font-size: 8pt;
+      color: #888;
+      font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+  }
+  html { background: #f3f3f3; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 10.5pt; line-height: 1.55; color: #1a1a1a;
+    max-width: 52rem; margin: 2rem auto; padding: 2.5rem 3rem; background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  }
+  h1 { font-size: 20pt; color: #111; border-bottom: 2px solid #333; padding-bottom: 6pt; margin-top: 0; }
+  h2 { font-size: 15pt; color: #222; border-bottom: 1px solid #ccc; padding-bottom: 4pt; margin-top: 28pt; }
+  h3 { font-size: 12pt; color: #333; margin-top: 16pt; }
+  h2, h3, h4 { page-break-after: avoid; break-after: avoid; }
+  p { margin: 6pt 0; orphans: 3; widows: 3; }
+  p.meta { line-height: 1.7; }
+  a { color: #1a4f8b; text-decoration: none; }
+  nav.toc { background: #fafafa; border: 1px solid #ddd; border-radius: 4pt; padding: 8pt 14pt; margin: 14pt 0; }
+  nav.toc p { margin: 0 0 4pt 0; font-weight: 600; }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; columns: 2; }
+  nav.toc li { margin: 2pt 0; }
+  table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 9.5pt; }
+  tr { page-break-inside: avoid; break-inside: avoid; }
+  th { background: #f0f0f0; border: 1px solid #ccc; padding: 5pt 8pt; text-align: left; font-weight: 600; }
+  td { border: 1px solid #ddd; padding: 4pt 8pt; vertical-align: top; }
+  tr:nth-child(even) td { background: #fafafa; }
+  code { font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace; font-size: 9pt; background: #f4f4f4;
+         padding: 1pt 4pt; border-radius: 2pt; }
+  pre { background: #f4f4f4; border: 1px solid #ddd; border-radius: 4pt; padding: 10pt 12pt; font-size: 8.5pt;
+        line-height: 1.4; white-space: pre-wrap; page-break-inside: avoid; break-inside: avoid; }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  hr { border: none; border-top: 1px solid #ddd; margin: 20pt 0; }
+  ul, ol { margin: 6pt 0; padding-left: 20pt; }
+  li { margin: 3pt 0; }
+  @media print {
+    html { background: none; }
+    body { max-width: none; margin: 0; padding: 0; box-shadow: none; }
+    h2 { page-break-before: always; break-before: page; }
+    h2.first { page-break-before: avoid; break-before: avoid; }
+    hr { display: none; }
+    a { color: inherit; }
+  }
+</style>
+</head>
+<body>
+<h1 id="seam-ams-catálogo-de-datos-de-demostración">Seam AMS — Catálogo de Datos de Demostración</h1>
+<p class="meta"><strong>Actualizado:</strong> noviembre de 2026<br>
+<strong>Documento interno — Seam S.A.</strong></p>
+<hr>
+<nav class="toc"><p>Contenido</p><ol>
+<li><a href="#1-introducción">1. Introducción</a></li>
+<li><a href="#2-seed-01-constructec-s-a">2. Seed 01 — Constructec S.A.</a></li>
+<li><a href="#3-seed-02-frigocold-s-a">3. Seed 02 — FrigoCold S.A.</a></li>
+<li><a href="#4-seed-03-extinfire-srl">4. Seed 03 — Extinfire SRL</a></li>
+<li><a href="#5-seed-04-vendiberia-s-l">5. Seed 04 — VendiBeria S.L.</a></li>
+<li><a href="#6-seed-07-beira-magalhães-hotéis-e-resorts-ltda">6. Seed 07 — Beira Magalhães Hotéis e Resorts Ltda.</a></li>
+<li><a href="#7-comparación-entre-seeds">7. Comparación entre Seeds</a></li>
+<li><a href="#8-notas-técnicas">8. Notas Técnicas</a></li>
+<li><a href="#9-ejecución">9. Ejecución</a></li>
+<li><a href="#10-complementos">10. Complementos</a></li>
+<li><a href="#11-generar-este-documento">11. Generar este documento</a></li>
+</ol></nav>
+<h2 id="1-introducción" class="first">1. Introducción</h2>
+<p>Seam AMS incluye siete conjuntos de datos de demostración (<em>seeds</em>) que permiten poblar una instancia vacía de xolu con datos realistas. Los cuatro primeros representan cada uno una empresa ficticia en un sector industrial diferente, con activos, sensores, reglas, alertas y eventos coherentes; los seeds 05 y 06 son el seed 01 con todo su contenido en inglés y en japonés (sección 2), y el seed 07 es un grupo hotelero con su contenido en portugués (sección 6).</p>
+<p>Los seeds cumplen tres funciones:</p>
+<ul>
+<li><strong>Demostración comercial:</strong> permiten mostrar la plataforma funcionando con datos realistas sin necesidad de un cliente real.</li>
+<li><strong>Validación del modelo de datos:</strong> ejercitan los distintos tipos de activo, propiedades dinámicas, FSMs, reglas y eventos en combinaciones que revelan problemas de diseño.</li>
+<li><strong>Prueba de verticales:</strong> cada seed prueba un sector industrial distinto, validando que la arquitectura genérica de Seam AMS se adapta a dominios con requisitos muy diferentes.</li>
+</ul>
+<p>Cada seed es un archivo <code>.seed</code>: texto con un registro JSON por entidad, en el formato que describe <code>docs/SEED_FORMAT.md</code>. Todos tienen las mismas 20 entidades y se cargan con el mismo comando:</p>
+<pre><code>python3 seeds/seed-XX-nombre.py [--url http://localhost:9090] [--dry-run]</code></pre>
+<p>Cada seed carga una sola empresa, en el tenant 1, sobre una instancia vacía: no se combinan entre sí. Las cifras de este catálogo son las de lo que cada seed crea, contadas sobre su modo de prueba (<code>--dry-run</code>). Además de los siete seeds hay tres complementos opcionales (sección 10): los seeds de órdenes de trabajo, los esquemas de entidades del seed 01 y el documento de dominio del seed 04.</p>
+<p>Las empresas ficticias fueron verificadas contra registros comerciales reales para evitar coincidencias con nombres de empresas existentes en los mercados objetivo.</p>
+<hr>
+<h2 id="2-seed-01-constructec-s-a">2. Seed 01 — Constructec S.A.</h2>
+<p class="meta"><strong>Archivo:</strong> <code>seeds/seed-01-constructec.seed</code> (se carga con <code>seeds/seed-01-constructec.py</code>)<br>
+<strong>Vertical:</strong> Gestión de maquinaria e instalaciones de construcción<br>
+<strong>Mercado:</strong> Uruguay — regiones Metropolitana, Norte, Sur, Este y Centro<br>
+<strong>Empresa:</strong> Constructec S.A., empresa uruguaya de gestión de instalaciones y equipos de construcción.</p>
+<h3 id="perfil-de-la-empresa">Perfil de la empresa</h3>
+<p>Constructec opera maquinaria de construcción y agrícola, vehículos de flota y grupos electrógenos distribuidos en obras, talleres y depósitos, y además el equipamiento de sus propias instalaciones: climatización, servidores y UPS de su centro de datos. La empresa necesita saber dónde está cada equipo, quién lo tiene asignado, cuántas horas o kilómetros acumula y cuándo corresponde el próximo servicio de mantenimiento.</p>
+<h3 id="características-del-seed">Características del seed</h3>
+<table>
+<thead><tr><th>Dimensión</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Activos</td><td>16</td></tr>
+<tr><td>Tipos de activo</td><td>7 (maquinaria pesada, vehículo liviano, grupo electrógeno, climatización, servidor, UPS, maquinaria agrícola)</td></tr>
+<tr><td>Marcas</td><td>8 (Caterpillar, Toyota, Carrier, Dell, APC, Cisco, John Deere, Lenovo)</td></tr>
+<tr><td>Modelos</td><td>15</td></tr>
+<tr><td>Ubicaciones</td><td>7 (sede, centro de datos, taller, planta, depósito, campo, obra)</td></tr>
+<tr><td>Custodios</td><td>5</td></tr>
+<tr><td>Sensores</td><td>10 (4 GPS/telemática, 2 temperatura y humedad, 2 monitores de energía, 2 controladores de generador)</td></tr>
+<tr><td>Reglas</td><td>5 (kilómetros de vehículo, horas de maquinaria, fuera de zona geográfica, sin reporte GPS, generador sin arranque de prueba)</td></tr>
+<tr><td>FSM</td><td>2 (ciclo de vida de vehículo, ciclo de vida de maquinaria pesada)</td></tr>
+<tr><td>Moneda</td><td>UYU, USD, EUR</td></tr>
+</tbody></table>
+<h3 id="qué-valida-este-seed">Qué valida este seed</h3>
+<ul>
+<li>Activos de alto valor unitario (USD 50K–500K)</li>
+<li>Seguimiento GPS en tiempo real</li>
+<li>Contadores de horas de motor y de kilómetros como driver de mantenimiento</li>
+<li>Activos de instalación fija (servidores, UPS, climatización) junto a la flota</li>
+<li>Asignación de custodios (operadores de obra)</li>
+<li>Múltiples regiones geográficas dentro de un país</li>
+</ul>
+<h3 id="variantes-en-otros-idiomas-seeds-05-y-06">Variantes en otros idiomas: seeds 05 y 06</h3>
+<p><strong>Archivos:</strong> <code>seeds/seed-05-fairborne.seed</code>, <code>seeds/seed-06-asahikenki.seed</code></p>
+<p>Son el mismo conjunto de datos que el seed 01 (16 activos, 10 sensores, 5 reglas, 2 FSMs), con todo el texto visible traducido:</p>
+<table>
+<thead><tr><th>Seed</th><th>Empresa</th><th>Idioma del contenido</th><th>Para qué sirve</th></tr></thead>
+<tbody>
+<tr><td>05 — Fairborne</td><td>Fairborne Equipment LLC, noroeste del Pacífico</td><td>Inglés</td><td>Demostraciones en inglés</td></tr>
+<tr><td>06 — Asahi Kenki</td><td>Asahi Kenki K.K., región de Kanto</td><td>Japonés</td><td>Probar la interfaz con una escritura no latina</td></tr>
+</tbody></table>
+<p>Los campos restringidos a una lista de valores conservan los tokens que xolu exige hoy (<code>criticidad</code>, <code>calidad_tenencia</code>, <code>subject_type</code> y otros): no son texto libre y traducirlos rompería la validación.</p>
+<hr>
+<h2 id="3-seed-02-frigocold-s-a">3. Seed 02 — FrigoCold S.A.</h2>
+<p class="meta"><strong>Archivo:</strong> <code>seeds/seed-02-frigocold.seed</code> (se carga con <code>seeds/seed-02-frigocold.py</code>)<br>
+<strong>Vertical:</strong> Cadena de frío — refrigeración comercial e industrial<br>
+<strong>Mercado:</strong> Uruguay — distribución y logística refrigerada<br>
+<strong>Empresa:</strong> FrigoCold S.A., empresa uruguaya de instalación y monitoreo de equipos de cadena de frío.</p>
+<h3 id="perfil-de-la-empresa-2">Perfil de la empresa</h3>
+<p>FrigoCold instala y monitorea cámaras frigoríficas de conservación y congelación, unidades de transporte refrigerado, y equipos de frío farmacéutico en clientes del sector alimentario, farmacéutico y logístico. La empresa es responsable de que la cadena de frío no se rompa.</p>
+<h3 id="características-del-seed-2">Características del seed</h3>
+<table>
+<thead><tr><th>Dimensión</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Activos</td><td>18</td></tr>
+<tr><td>Tipos de activo</td><td>7 (cámara de conservación, cámara de congelación, vitrina vertical, vitrina horizontal, rack de compresores, frío farmacéutico, transporte refrigerado)</td></tr>
+<tr><td>Marcas</td><td>10 (Carrier, Hussmann, Arneg, Bohn/Heatcraft, Bitzer, Tecumseh, Danfoss, Embraco, Trane, Larquier)</td></tr>
+<tr><td>Modelos</td><td>18</td></tr>
+<tr><td>Ubicaciones</td><td>10 (taller y depósito propios, 7 sitios de clientes, base de transporte)</td></tr>
+<tr><td>Custodios</td><td>6 (FrigoCold + 5)</td></tr>
+<tr><td>Sensores</td><td>20 (13 sondas de temperatura, 2 contactos de puerta, 3 transductores de presión, 2 GPS con temperatura)</td></tr>
+<tr><td>Reglas</td><td>6 (temperatura de conservación, de congelación, de frío farmacéutico y de transporte; horas de compresor; calibración de sondas)</td></tr>
+<tr><td>FSM</td><td>2 (estado de cámara frigorífica, estado de transporte refrigerado)</td></tr>
+<tr><td>Moneda</td><td>UYU, USD</td></tr>
+<tr><td>Regulación</td><td>MSP (frío farmacéutico)</td></tr>
+</tbody></table>
+<h3 id="qué-valida-este-seed-2">Qué valida este seed</h3>
+<ul>
+<li>Monitoreo continuo de temperatura (eventos cada 5–15 min)</li>
+<li>Alertas de umbral con criticidad alta (excursión de temperatura = pérdida de producto)</li>
+<li>Dos FSMs diferentes para tipos de activo distintos (estático vs. móvil)</li>
+<li>Normativa sanitaria (MSP, frío farmacéutico) como driver de alertas</li>
+<li>Activos instalados en ubicaciones de terceros (clientes)</li>
+</ul>
+<hr>
+<h2 id="4-seed-03-extinfire-srl">4. Seed 03 — Extinfire SRL</h2>
+<p class="meta"><strong>Archivo:</strong> <code>seeds/seed-03-extinfire.seed</code> (se carga con <code>seeds/seed-03-extinfire.py</code>)<br>
+<strong>Vertical:</strong> Mantenimiento de extintores y sistemas contra incendio<br>
+<strong>Mercado:</strong> Uruguay — departamentos de Montevideo, Canelones y Maldonado<br>
+<strong>Empresa:</strong> Extinfire SRL, empresa montevideana de mantenimiento de extintores registrada ante la Dirección Nacional de Bomberos (DNB).</p>
+<h3 id="perfil-de-la-empresa-3">Perfil de la empresa</h3>
+<p>Extinfire presta servicio de mantenimiento, recarga y ensayo hidrostático de extintores a clientes comerciales, industriales, educativos, hoteleros y residenciales. La empresa no es dueña de los extintores — los propietarios de los inmuebles son los responsables legales. Extinfire gestiona el ciclo de vida de cada extintor bajo contrato de servicio.</p>
+<h3 id="marco-regulatorio">Marco regulatorio</h3>
+<p>El seed modela con fidelidad el marco normativo uruguayo:</p>
+<ul>
+<li><strong>Decreto 372/023</strong> y <strong>Decreto 333/2000</strong>: prevención y defensa contra incendio</li>
+<li><strong>UNIT 598:2017</strong>: extintores de polvo, vida útil máxima de 20 años</li>
+<li><strong>UNIT 586</strong>: extintores de CO2</li>
+<li><strong>UNIT 607</strong>: inspección y mantenimiento</li>
+<li><strong>UNIT 1221:2015</strong>: extintores Clase K (cocinas)</li>
+<li><strong>IT-04 DNB</strong>: instrucción técnica de instalación</li>
+</ul>
+<h3 id="ciclos-de-mantenimiento-modelados">Ciclos de mantenimiento modelados</h3>
+<table>
+<thead><tr><th>Intervención</th><th>Polvo ABC</th><th>CO2</th><th>Espuma / Clase K</th></tr></thead>
+<tbody>
+<tr><td>Inspección visual</td><td>Trimestral</td><td>Trimestral</td><td>Trimestral</td></tr>
+<tr><td>Inspección anual</td><td>1 año</td><td>1 año</td><td>1 año</td></tr>
+<tr><td>Recarga</td><td>2 años</td><td>2 años</td><td>1 año</td></tr>
+<tr><td>Ensayo hidrostático</td><td>4 años</td><td>5 años</td><td>2 años</td></tr>
+<tr><td>Vida útil máxima</td><td>20 años</td><td>—</td><td>—</td></tr>
+</tbody></table>
+<h3 id="características-del-seed-3">Características del seed</h3>
+<table>
+<thead><tr><th>Dimensión</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Activos</td><td>113</td></tr>
+<tr><td>Tipos de activo</td><td>7 (polvo ABC, CO2, espuma AFFF, Clase K, rodante, BIE, panel detección)</td></tr>
+<tr><td>Marcas</td><td>7 (Fadesa, Drago, Melisam, Amerex, Kidde, Yamato, Grauser)</td></tr>
+<tr><td>Modelos</td><td>17 utilizados de 21 definidos</td></tr>
+<tr><td>Ubicaciones</td><td>11 (8 clientes + taller + depósito + taller Extinfire)</td></tr>
+<tr><td>Custodios</td><td>8 (Extinfire + 7 clientes)</td></tr>
+<tr><td>Sensores</td><td>6 (2 QR, 2 BLE presión, 1 NFC tamper, 1 gateway Modbus)</td></tr>
+<tr><td>Reglas</td><td>7 (recarga, hidrostático, inspección, vida útil)</td></tr>
+<tr><td>FSM</td><td>2 (ciclo de vida extintor + habilitación DNB del sitio)</td></tr>
+<tr><td>Moneda</td><td>UYU, USD</td></tr>
+<tr><td>Años de fabricación</td><td>17 distintos (2005–2025)</td></tr>
+</tbody></table>
+<h3 id="casos-borde-ejercitados">Casos borde ejercitados</h3>
+<table>
+<thead><tr><th>Caso</th><th>Cantidad</th><th>Modelado como</th></tr></thead>
+<tbody>
+<tr><td>Próximo a fin de vida útil (20 años)</td><td>6</td><td><code>fecha_expiracion</code> activa</td></tr>
+<tr><td>Retirado / destruido (Desguace)</td><td>3</td><td><code>status: inactive</code>, <code>motivo_baja: Desguace</code></td></tr>
+<tr><td>Extraviado / robado</td><td>1</td><td><code>status: lost</code></td></tr>
+<tr><td>Reprobado en hidrostático</td><td>1</td><td><code>status: inactive</code>, en taller</td></tr>
+<tr><td>Precio en USD (importación)</td><td>1</td><td><code>moneda_id: USD</code></td></tr>
+<tr><td>Sello de seguridad roto</td><td>1</td><td>Nombre indica condición</td></tr>
+<tr><td>En taller para recarga</td><td>3</td><td><code>status: maintenance</code>, ubicación taller</td></tr>
+<tr><td>En taller para hidrostático</td><td>2</td><td><code>status: maintenance</code>, ubicación taller</td></tr>
+<tr><td>Con garantía vigente</td><td>3</td><td><code>fin_garantia</code> definido</td></tr>
+</tbody></table>
+<h3 id="modelo-de-custodia">Modelo de custodia</h3>
+<p>La custodia sigue un modelo invertido respecto a los demás seeds:</p>
+<ul>
+<li>Los <strong>clientes</strong> son dueños de los extintores (<code>calidad_tenencia: Propiedad</code>)</li>
+<li>Extinfire tiene custodia <strong>temporal</strong> cuando los extintores están en el taller (la ubicación cambia a <code>TALLER-EF</code>, el custodio sigue siendo el cliente)</li>
+<li>Solo los extintores <strong>destruidos o reprobados</strong> transfieren custodia a Extinfire (responsabilidad de destrucción y reporte a DNB)</li>
+</ul>
+<hr>
+<h2 id="5-seed-04-vendiberia-s-l">5. Seed 04 — VendiBeria S.L.</h2>
+<p class="meta"><strong>Archivo:</strong> <code>seeds/seed-04-vendiberia.seed</code> (se carga con <code>seeds/seed-04-vendiberia.py</code>)<br>
+<strong>Documento complementario:</strong> <code>seeds/SEED-04-COMPANION.md</code><br>
+<strong>Vertical:</strong> Operación de máquinas expendedoras (vending)<br>
+<strong>Mercado:</strong> España — Comunidad de Madrid y Castilla-La Mancha<br>
+<strong>Empresa:</strong> VendiBeria S.L., operador de vending con sede en Madrid, miembro de ANEDA, certificación AQS.</p>
+<h3 id="perfil-de-la-empresa-4">Perfil de la empresa</h3>
+<p>VendiBeria opera ~95 activos rastreados (máquinas + terminales de pago) distribuidos en oficinas corporativas, hospitales, universidades, estaciones de transporte, parques industriales, centros comerciales y un instituto de educación secundaria. Dos rutas de servicio diarias (Madrid Centro y Madrid Sur-Toledo), tres reponedores, un técnico SAT dedicado.</p>
+<h3 id="por-qué-este-vertical-es-estructuralmente-diferente">Por qué este vertical es estructuralmente diferente</h3>
+<p>La máquina expendedora es el primer tipo de activo en los seeds que <strong>genera ingresos evento-a-evento</strong>. Cada dispensación es simultáneamente un evento de inventario, una transacción financiera, y (para máquinas de comida) una acción relevante para la seguridad alimentaria. Esto hace que la cadena de eventos sea mucho más rica que en los otros tres seeds.</p>
+<p>Además, el <strong>terminal de pago</strong> se modela como activo separable: tiene número de serie propio, ciclo de mantenimiento independiente, y puede migrar entre máquinas. Ningún otro seed tiene un activo que existe como entidad independiente pero se instala físicamente dentro de otro activo.</p>
+<h3 id="marcas-y-modelos">Marcas y modelos</h3>
+<p>Todas las marcas y modelos son reales y verificados en el mercado español:</p>
+<table>
+<thead><tr><th>Marca</th><th>Origen</th><th>Especialidad</th></tr></thead>
+<tbody>
+<tr><td>Azkoyen</td><td>Peralta, Navarra, España</td><td>Café, tabaco — líder español</td></tr>
+<tr><td>Jofemar</td><td>Peralta, Navarra, España</td><td>Snacks, bebidas, café</td></tr>
+<tr><td>Necta (Evoca)</td><td>Valbrembo, Italia</td><td>Café, snacks — mayor facturación en España</td></tr>
+<tr><td>Bianchi</td><td>Bérgamo, Italia</td><td>Café — serie LEI 700</td></tr>
+<tr><td>SandenVendo</td><td>EE.UU./Japón</td><td>Snacks, bebidas frías — G-Snack, G-Drink</td></tr>
+<tr><td>Saeco (Evoca)</td><td>Gaggio Montano, Italia</td><td>Café compacto — Phedra EVO</td></tr>
+<tr><td>Nayax</td><td>Israel</td><td>Terminales cashless — VPOS Touch/Fusion</td></tr>
+<tr><td>Caslab</td><td>España</td><td>Telemetría — dispositivo MÁSTER</td></tr>
+</tbody></table>
+<h3 id="características-del-seed-4">Características del seed</h3>
+<table>
+<thead><tr><th>Dimensión</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Activos</td><td>94</td></tr>
+<tr><td>Tipos de activo</td><td>7 (café, snacks, bebidas frías, combo, comida fresca, terminal de pago, micromarket)</td></tr>
+<tr><td>Marcas</td><td>8 (6 fabricantes de máquinas + Nayax + Caslab)</td></tr>
+<tr><td>Modelos</td><td>16 utilizados de 17 definidos</td></tr>
+<tr><td>Ubicaciones</td><td>11 (10 clientes + almacén VendiBeria)</td></tr>
+<tr><td>Custodios</td><td>11 (VendiBeria + 10 clientes)</td></tr>
+<tr><td>Sensores</td><td>8 (2 QR, 4 Caslab telemetría, 2 sondas temperatura)</td></tr>
+<tr><td>Reglas</td><td>6 (temperatura, visitas, limpieza, terminal)</td></tr>
+<tr><td>FSM</td><td>2 (estado operativo + ciclo de vida)</td></tr>
+<tr><td>Moneda</td><td>EUR</td></tr>
+<tr><td>Años de fabricación</td><td>12 distintos (2014–2025)</td></tr>
+<tr><td>Conectividad</td><td>~30% gateway (Caslab), ~70% QR-only</td></tr>
+</tbody></table>
+<h3 id="distribución-de-activos-por-tipo">Distribución de activos por tipo</h3>
+<table>
+<thead><tr><th>Tipo</th><th>Cantidad</th><th>Proporción</th><th>Notas</th></tr></thead>
+<tbody>
+<tr><td>Máquina de Café</td><td>32</td><td>34%</td><td>Domina, refleja mercado español (~74% de ventas)</td></tr>
+<tr><td>Máquina de Snacks</td><td>17</td><td>18%</td><td>Segundo más común</td></tr>
+<tr><td>Máquina de Bebidas Frías</td><td>16</td><td>17%</td><td>Refrigerada, pico estacional verano</td></tr>
+<tr><td>Terminal de Pago Cashless</td><td>12</td><td>13%</td><td>Activo separable, migrable entre máquinas</td></tr>
+<tr><td>Máquina Combo</td><td>9</td><td>10%</td><td>Ubicaciones pequeñas</td></tr>
+<tr><td>Máquina de Comida Fresca</td><td>5</td><td>5%</td><td>Segmento en crecimiento, máxima exigencia APPCC</td></tr>
+<tr><td>Micromarket</td><td>3</td><td>3%</td><td>Formato premium, nuevo</td></tr>
+</tbody></table>
+<h3 id="distribución-por-sitio-cliente">Distribución por sitio cliente</h3>
+<table>
+<thead><tr><th>Sitio</th><th>Activos</th><th>Carácter</th></tr></thead>
+<tbody>
+<tr><td>Telefónica — Distrito C</td><td>21</td><td>Campus corporativo, mayor cliente, micromarket</td></tr>
+<tr><td>Hospital de Toledo</td><td>10</td><td>APPCC estricto, 24/7, comida fresca</td></tr>
+<tr><td>UC3M Getafe</td><td>10</td><td>Universidad, estacional, tráfico estudiantil</td></tr>
+<tr><td>Deloitte — Castellana</td><td>9</td><td>Corporativo premium, micromarket, opciones saludables</td></tr>
+<tr><td>Xanadú — Arroyomolinos</td><td>9</td><td>Centro comercial, picos fin de semana</td></tr>
+<tr><td>Hospital Puerta de Hierro</td><td>9</td><td>APPCC estricto, 24/7, comida fresca</td></tr>
+<tr><td>Atocha — Renfe</td><td>8</td><td>Hub de transporte, altísimo tráfico, riesgo vandalismo</td></tr>
+<tr><td>Illescas — Pol. Industrial</td><td>6</td><td>Fábrica, consumo por turnos</td></tr>
+<tr><td>Almacén VendiBeria</td><td>6</td><td>Reparación (3), retirada (1), demo (1), robada (1)</td></tr>
+<tr><td>Acciona — Alcobendas</td><td>5</td><td>Sede corporativa, tráfico medio</td></tr>
+<tr><td>IES Cervantes — Alcalá</td><td>3</td><td>Instituto público, flota antigua, solo monedas</td></tr>
+</tbody></table>
+<h3 id="casos-borde-ejercitados-2">Casos borde ejercitados</h3>
+<table>
+<thead><tr><th>Caso</th><th>Modelado como</th></tr></thead>
+<tbody>
+<tr><td>Máquina antigua sin telemetría (2015–2017)</td><td>QR-only, criticidad Baja, sin terminal</td></tr>
+<tr><td>Máquina nueva con Caslab MÁSTER</td><td>Gateway, sensor vinculado</td></tr>
+<tr><td>Máquinas en taller (3 averías distintas)</td><td><code>status: maintenance</code>, diferentes diagnósticos</td></tr>
+<tr><td>Máquina robada</td><td><code>status: lost</code>, <code>motivo_baja: Robo</code></td></tr>
+<tr><td>Máquina retirada (depreciada)</td><td><code>status: inactive</code>, <code>motivo_baja: Desguace</code></td></tr>
+<tr><td>Máquina en leasing del fabricante</td><td><code>calidad_tenencia: Alquiler</code></td></tr>
+<tr><td>Comida fresca con producto próximo a caducar</td><td>Alerta runtime activa</td></tr>
+<tr><td>Terminal de pago como activo separable</td><td>Tipo independiente con serie y firmware propios</td></tr>
+<tr><td>Micromarket (formato nuevo)</td><td>Tipo con cámaras y checkout</td></tr>
+<tr><td>Múltiples garantías vigentes</td><td>12 activos con <code>fin_garantia</code></td></tr>
+<tr><td>Hospital con requisitos APPCC estrictos</td><td>Umbral temperatura 6 °C (vs 8 °C bebidas)</td></tr>
+</tbody></table>
+<h3 id="regulación">Regulación</h3>
+<table>
+<thead><tr><th>Norma</th><th>Aplicación</th></tr></thead>
+<tbody>
+<tr><td>APPCC / HACCP</td><td>Monitoreo de temperatura obligatorio en máquinas refrigeradas</td></tr>
+<tr><td>Ley 6/2025 (Galicia)</td><td>Restricción de venta de bebidas energéticas a menores</td></tr>
+<tr><td>Real Decreto (borrador)</td><td>Regulación de alimentación saludable en hospitales</td></tr>
+<tr><td>PSD2 / PCI DSS</td><td>Pagos cashless (gestionado por proveedor del terminal)</td></tr>
+<tr><td>Certificación AQS (ANEDA)</td><td>Calidad del servicio de vending</td></tr>
+</tbody></table>
+<hr>
+<h2 id="6-seed-07-beira-magalhães-hotéis-e-resorts-ltda">6. Seed 07 — Beira Magalhães Hotéis e Resorts Ltda.</h2>
+<p class="meta"><strong>Archivo:</strong> <code>seeds/seed-07-beiramagalhaes.seed</code> (se carga con <code>seeds/seed-07-beiramagalhaes.py</code>)<br>
+<strong>Vertical:</strong> Hotelería — mantenimiento de hoteles, resorts y posadas<br>
+<strong>Mercado:</strong> Brasil — estado de Bahía<br>
+<strong>Idioma del contenido:</strong> Portugués<br>
+<strong>Empresa:</strong> Beira Magalhães Hotéis e Resorts Ltda., grupo hotelero con sede en Salvador.</p>
+<h3 id="perfil-de-la-empresa-5">Perfil de la empresa</h3>
+<p>Beira Magalhães opera un hotel urbano en Salvador, dos resorts de playa (Praia do Forte y Arraial d'Ajuda) y dos posadas (Morro de São Paulo y Lençóis), con una lavandería central que atiende a todos. Su equipo de ingeniería mantiene lo que un huésped no ve y nota enseguida cuando falla: la climatización, el agua caliente, los ascensores, la cocina, la lavandería, los generadores y las vans de traslado.</p>
+<h3 id="características-del-seed-5">Características del seed</h3>
+<table>
+<thead><tr><th>Dimensión</th><th>Valor</th></tr></thead>
+<tbody>
+<tr><td>Activos</td><td>16</td></tr>
+<tr><td>Tipos de activo</td><td>7 (climatización, cocina industrial, ascensor, lavandería, grupo generador, caldera y calentamiento, vehículo de apoyo)</td></tr>
+<tr><td>Marcas</td><td>9 (Carrier, Daikin, Rational, Hobart, Atlas Schindler, Electrolux Professional, Cummins, Mercedes-Benz, Bosch)</td></tr>
+<tr><td>Modelos</td><td>15</td></tr>
+<tr><td>Ubicaciones</td><td>7 (hotel, central de utilidades, lavandería central, dos resorts, dos posadas)</td></tr>
+<tr><td>Custodios</td><td>5 (Beira Magalhães + 4: climatización, ascensores, arrendadora de vehículos y una persona física)</td></tr>
+<tr><td>Sensores</td><td>10 (3 GPS, 2 controladores de chiller, 2 de generador, 2 sondas de temperatura, 1 monitor de ascensor)</td></tr>
+<tr><td>Reglas</td><td>5 (revisión de vans, horas de climatización, geocerca, GPS sin reporte, prueba mensual de generador)</td></tr>
+<tr><td>FSM</td><td>2 (ciclo de vida de vehículos, ciclo de vida de equipos del edificio)</td></tr>
+<tr><td>Moneda</td><td>BRL, USD, EUR</td></tr>
+<tr><td>Usuarios</td><td>17 (dos cuentas admin propias; las demás, las de todos los seeds)</td></tr>
+</tbody></table>
+<h3 id="qué-valida-este-seed-3">Qué valida este seed</h3>
+<ul>
+<li>La interfaz completa en portugués, con datos escritos en ese idioma y no traducidos de otro seed</li>
+<li>Un sector de servicios: los activos son instalaciones de un edificio, no equipos de obra ni de un cliente</li>
+<li>Un caso agrupado con sentido operativo en su seed de incidencias: la caldera se detiene y la cocina y la lavandería reportan la falta de agua caliente</li>
+<li>Un equipo en comodato con vencimiento y otro con la garantía por vencer</li>
+<li>Contratistas de mantenimiento como custodios (climatización y ascensores)</li>
+</ul>
+<p>Es el único seed escrito directamente como archivo <code>.seed</code>; los seis anteriores se convirtieron de scripts de Python.</p>
+<hr>
+<h2 id="7-comparación-entre-seeds">7. Comparación entre Seeds</h2>
+<h3 id="escala-y-complejidad">Escala y complejidad</h3>
+<table>
+<thead><tr><th>Seed</th><th>Activos</th><th>Tipos</th><th>Marcas</th><th>Modelos</th><th>Ubicaciones</th><th>Custodios</th><th>Sensores</th><th>Reglas</th><th>FSMs</th><th>Eventos</th></tr></thead>
+<tbody>
+<tr><td>01 — Constructec</td><td>16</td><td>7</td><td>8</td><td>15</td><td>7</td><td>5</td><td>10</td><td>5</td><td>2</td><td>6</td></tr>
+<tr><td>02 — FrigoCold</td><td>18</td><td>7</td><td>10</td><td>18</td><td>10</td><td>6</td><td>20</td><td>6</td><td>2</td><td>8</td></tr>
+<tr><td>03 — Extinfire</td><td>113</td><td>7</td><td>7</td><td>21</td><td>11</td><td>8</td><td>6</td><td>7</td><td>2</td><td>8</td></tr>
+<tr><td>04 — VendiBeria</td><td>94</td><td>7</td><td>8</td><td>17</td><td>11</td><td>11</td><td>8</td><td>6</td><td>2</td><td>9</td></tr>
+<tr><td>07 — Beira Magalhães</td><td>16</td><td>7</td><td>9</td><td>15</td><td>7</td><td>5</td><td>10</td><td>5</td><td>2</td><td>6</td></tr>
+</tbody></table>
+<p>Los seeds 05 y 06 tienen las cifras del seed 01. Todos crean 16 usuarios (17 los seeds 05, 06 y 07, que tienen dos cuentas admin propias).</p>
+<h3 id="características-diferenciadoras">Características diferenciadoras</h3>
+<table>
+<thead><tr><th>Característica</th><th>01</th><th>02</th><th>03</th><th>04</th><th>07</th></tr></thead>
+<tbody>
+<tr><td>Activo genera ingresos</td><td>No</td><td>No</td><td>No</td><td>Si</td><td>No</td></tr>
+<tr><td>Monitoreo temperatura</td><td>Parcial</td><td>Si</td><td>No</td><td>Si</td><td>Parcial</td></tr>
+<tr><td>Regulación estricta</td><td>No</td><td>Si</td><td>Si</td><td>Parcial</td><td>Parcial</td></tr>
+<tr><td>GPS / ubicación móvil</td><td>Si</td><td>Parcial</td><td>No</td><td>No</td><td>Parcial</td></tr>
+<tr><td>Activos separables</td><td>No</td><td>No</td><td>No</td><td>Si</td><td>No</td></tr>
+<tr><td>Modelo custodia invertido</td><td>No</td><td>No</td><td>Si</td><td>No</td><td>No</td></tr>
+<tr><td>Eventos comerciales (ventas, EUR)</td><td>No</td><td>No</td><td>No</td><td>Si</td><td>No</td></tr>
+<tr><td>Ciclo vida regulado (20 años)</td><td>No</td><td>No</td><td>Si</td><td>No</td><td>No</td></tr>
+<tr><td>Mapa habilitado</td><td>Si</td><td>Si</td><td>No</td><td>Si</td><td>Si</td></tr>
+</tbody></table>
+<h3 id="mercados-y-monedas">Mercados y monedas</h3>
+<table>
+<thead><tr><th>Seed</th><th>País</th><th>Regiones</th><th>Monedas</th></tr></thead>
+<tbody>
+<tr><td>01 — Constructec</td><td>Uruguay</td><td>Metropolitana, Norte, Sur, Este, Centro</td><td>UYU, USD, EUR</td></tr>
+<tr><td>02 — FrigoCold</td><td>Uruguay</td><td>Metropolitana, Litoral Oeste, Norte, Sur, Este</td><td>UYU, USD</td></tr>
+<tr><td>03 — Extinfire</td><td>Uruguay</td><td>Metropolitana, Canelones, Maldonado</td><td>UYU, USD</td></tr>
+<tr><td>04 — VendiBeria</td><td>España</td><td>Madrid Centro, Madrid Sur, Castilla-La Mancha</td><td>EUR</td></tr>
+<tr><td>05 — Fairborne</td><td>Estados Unidos (noroeste del Pacífico)</td><td>Las del seed 01, en inglés</td><td>Las del seed 01</td></tr>
+<tr><td>06 — Asahi Kenki</td><td>Japón (región de Kanto)</td><td>Las del seed 01, en japonés</td><td>Las del seed 01</td></tr>
+<tr><td>07 — Beira Magalhães</td><td>Brasil (Bahía)</td><td>Salvador e Região Metropolitana, Litoral Norte, Costa do Dendê, Chapada Diamantina, Costa do Descobrimento</td><td>BRL, USD, EUR</td></tr>
+</tbody></table>
+<hr>
+<h2 id="8-notas-técnicas">8. Notas Técnicas</h2>
+<h3 id="orden-de-las-entidades">Orden de las entidades</h3>
+<p>Cada archivo lista sus 20 tipos de entidad en el orden en que dependen unos de otros, que es también el orden en que se leen mejor:</p>
+<ol>
+<li>Regiones (<code>regions</code>)</li>
+<li>Monedas (<code>currencies</code>)</li>
+<li>Centros de costo (<code>cost_centers</code>)</li>
+<li>Marcas (<code>brands</code>)</li>
+<li>Modelos (<code>models</code>; dependen de las marcas)</li>
+<li>Custodios (<code>custodians</code>)</li>
+<li>Tipos de alerta (<code>alert_types</code>)</li>
+<li>Definiciones de propiedades (<code>prop_definitions</code>)</li>
+<li>Ubicaciones (<code>locations</code>; dependen de las regiones)</li>
+<li>Máquinas de estados (<code>fsm_machines</code>)</li>
+<li>Tipos de activo (<code>asset_types</code>, con su máquina de estados)</li>
+<li>Activos (<code>assets</code>, con su configuración de servicio)</li>
+<li>Asociaciones de propiedades (<code>prop_associations</code>)</li>
+<li>Sensores (<code>sensors</code>)</li>
+<li>Usuarios (<code>users</code>)</li>
+<li>Configuración del tenant (<code>tenant_settings</code>)</li>
+<li>Reglas (<code>rules</code>)</li>
+<li>Vinculación de sensores a activos (<code>sensor_bindings</code>)</li>
+<li>Alertas en tiempo real (<code>alerts</code>)</li>
+<li>Eventos (<code>events</code>)</li>
+</ol>
+<p>Cada registro lleva su identificador, de modo que las referencias entre entidades (<code>type_id</code>, <code>brand_id</code>, <code>alert_id</code> y las demás) son los mismos números en cualquier instancia.</p>
+<h3 id="fechas-relativas">Fechas relativas</h3>
+<p>Las fechas que dependen del día de la carga no están fijas en los archivos: se escriben como desplazamientos, por ejemplo <code>{"$date": "+180d"}</code> para un vencimiento a seis meses o <code>{"$now": "-2h"}</code> para una alerta de hace dos horas, y se resuelven al cargar. Una demostración cargada hoy o dentro de un año muestra las mismas garantías vigentes y los mismos servicios próximos. <code>--as-of 2026-11-17</code> fija el día de referencia.</p>
+<h3 id="validación">Validación</h3>
+<p>Cada seed ha sido verificado contra los schemas de validación definidos en <code>internal/validation/schemas.go</code>. Las verificaciones incluyen:</p>
+<ul>
+<li>Valores de enumeración (status, criticidad, tipo_sujeto, calidad_tenencia, motivo_baja, trigger_type, condition_type, action_type, obligatoriedad, entidad_destino, role)</li>
+<li>Longitudes de cadena (nombre_corto, descripcion, tag_tecnico, serie_1, email, telefono, direccion)</li>
+<li>Formatos de fecha (YYYY-MM-DD, máximo 10 caracteres)</li>
+<li>Patrones de slug (<code>^[a-z0-9][a-z0-9-]*[a-z0-9]$</code>)</li>
+<li>Colores hexadecimales (<code>^#[0-9A-Fa-f]{6}$</code>)</li>
+<li>Tipos de campo en templates (text, number, boolean, date, datetime, select, ref)</li>
+<li>Unicidad de tag_tecnico y números de serie dentro de cada seed</li>
+<li>Integridad referencial: todas las referencias a activos, sensores, marcas y modelos resuelven a entidades definidas</li>
+</ul>
+<h3 id="usuarios-de-acceso">Usuarios de acceso</h3>
+<p>Todos los seeds crean una cuenta por rol, todas en el tenant 1 (cada seed carga una sola empresa en una instancia vacía):</p>
+<table>
+<thead><tr><th>Email</th><th>Contraseña</th><th>Rol</th></tr></thead>
+<tbody>
+<tr><td>hl@example.com</td><td>holaquetal</td><td>admin</td></tr>
+<tr><td>dev@ual.li</td><td>holaquetal</td><td>developer</td></tr>
+<tr><td>manager@example.com</td><td>holaquetal</td><td>manager</td></tr>
+<tr><td>viewer@example.com</td><td>holaquetal</td><td>viewer</td></tr>
+<tr><td>(equipo de desarrollo: 12 usuarios)</td><td>holaquetal</td><td>operator</td></tr>
+</tbody></table>
+<p>La cuenta <code>developer</code> solo ve su módulo si la instancia arranca con <code>SEAM_ENABLE_DEVELOPER</code>. Las cuentas <code>manager</code> y <code>viewer</code> sirven para ver la aplicación con ese rol sin usar la opción «ver como» del módulo Developer. En los seeds 05, 06 y 07 las cuentas admin son otras, con su propia contraseña; las demás son las de la tabla:</p>
+<table>
+<thead><tr><th>Seed</th><th>Cuentas admin</th><th>Contraseña</th></tr></thead>
+<tbody>
+<tr><td>05 — Fairborne</td><td>admin@fairborne-equipment.example, ops@fairborne-equipment.example</td><td>letsgetstarted</td></tr>
+<tr><td>06 — Asahi Kenki</td><td>admin@asahi-kenki.example, ops@asahi-kenki.example</td><td>hajimemashou</td></tr>
+<tr><td>07 — Beira Magalhães</td><td>admin@beiramagalhaes.example, ops@beiramagalhaes.example</td><td>letsgetstarted</td></tr>
+</tbody></table>
+<p>Cada seed imprime sus cuentas al terminar.</p>
+<hr>
+<h2 id="9-ejecución">9. Ejecución</h2>
+<h3 id="prerrequisitos">Prerrequisitos</h3>
+<ul>
+<li>Python 3.8 o superior. No hace falta instalar ningún módulo.</li>
+<li>Instancia de xolu corriendo, accesible y vacía</li>
+</ul>
+<h3 id="ejecución">Ejecución</h3>
+<p>Con el lanzador no hace falta cargar nada a mano. La primera vez que se usa un directorio de datos, <code>make launch</code> pregunta con qué empezar, y un seed viene con sus complementos (sección 10):</p>
+<pre><code>make launch SEED=03-extinfire     # ese seed, con órdenes de trabajo, incidencias y contabilidad
+make dev                          # todos los módulos encendidos, sobre el seed 01
+make demo SEED=03-extinfire PLATFORM=linux    # un paquete de demo con esos mismos datos</code></pre>
+<p>Para cargarlos sobre un xolu que ya está corriendo, se carga un solo seed por instancia:</p>
+<pre><code># Seed 01 — Constructec (maquinaria e instalaciones, Uruguay)
+python3 seeds/seed-01-constructec.py --url http://localhost:9090
+
+# Seed 02 — FrigoCold (cadena de frío, Uruguay)
+python3 seeds/seed-02-frigocold.py --url http://localhost:9090
+
+# Seed 03 — Extinfire (extintores, Uruguay)
+python3 seeds/seed-03-extinfire.py --url http://localhost:9090
+
+# Seed 04 — VendiBeria (vending, España)
+python3 seeds/seed-04-vendiberia.py --url http://localhost:9090
+
+# Seed 05 — Fairborne (el seed 01 en inglés)
+python3 seeds/seed-05-fairborne.py --url http://localhost:9090
+
+# Seed 06 — Asahi Kenki (el seed 01 en japonés)
+python3 seeds/seed-06-asahikenki.py --url http://localhost:9090
+
+# Seed 07 — Beira Magalhães (hotelería, Brasil, en portugués)
+python3 seeds/seed-07-beiramagalhaes.py --url http://localhost:9090</code></pre>
+<h3 id="qué-pasa-si-la-instancia-no-está-vacía">Qué pasa si la instancia no está vacía</h3>
+<table>
+<thead><tr><th>Situación</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td>La instancia tiene otro seed, o datos que ninguna carga registró</td><td>La carga se rechaza y no se escribe nada. <code>--allow-existing</code> la permite.</td></tr>
+<tr><td>La instancia ya tiene este mismo seed</td><td>Los registros que existen se dejan como están y se cargan los que falten. Así se retoma una carga interrumpida.</td></tr>
+<tr><td>Lo mismo, con <code>--replace</code></td><td>Todos los registros del seed se escriben de nuevo, y se pierde lo que se haya editado en ellos.</td></tr>
+</tbody></table>
+<p>Los registros que un usuario agregó nunca se tocan.</p>
+<h3 id="comparar-una-instancia-con-su-seed">Comparar una instancia con su seed</h3>
+<pre><code>python3 seeds/seed-01-constructec.py --url http://localhost:9090 --check</code></pre>
+<p>No escribe nada: informa qué registros faltan, cuáles difieren y cuáles sobran, y termina con código 1 si hay diferencias.</p>
+<h3 id="modo-prueba-sin-enviar-datos">Modo prueba (sin enviar datos)</h3>
+<pre><code>python3 seeds/seed-04-vendiberia.py --dry-run</code></pre>
+<p>Imprime las peticiones HTTP que realizaría sin enviarlas. Útil para verificar la estructura de datos antes de poblar una instancia.</p>
+<h3 id="el-comando-general">El comando general</h3>
+<p>Los siete comandos anteriores son atajos de <code>seeds/seed.py</code>, que además lista los seeds, muestra qué contiene cada uno y vuelca una instancia a un archivo <code>.seed</code>:</p>
+<pre><code>python3 seeds/seed.py list
+python3 seeds/seed.py info 03-extinfire
+python3 seeds/seed.py load 03-extinfire --url http://localhost:9090
+python3 seeds/seed.py dump --url http://localhost:9090 -o copia.seed</code></pre>
+<hr>
+<h2 id="10-complementos">10. Complementos</h2>
+<p>Los complementos son seeds que agregan datos a lo que la instancia ya tiene. Están en un directorio por módulo y son archivos <code>.seed</code> como los siete principales, con una diferencia: ningún registro lleva id. Cada uno se busca por un campo propio (un código, un email, una etiqueta); si existe se deja como está, y si no, se crea. Por eso se pueden cargar más de una vez, y sobre datos que cambiaron.</p>
+<table>
+<thead><tr><th>Complemento</th><th>Nombre para <code>seed.py load</code></th><th>Se carga sobre</th></tr></thead>
+<tbody>
+<tr><td>Órdenes de trabajo</td><td><code>wo-actions</code>, <code>wo-templates</code></td><td>Cualquier seed, o una instancia vacía</td></tr>
+<tr><td>Incidencias</td><td><code>issues-01-constructec</code> … <code>issues-07-beiramagalhaes</code></td><td>El seed del mismo número</td></tr>
+<tr><td>Contabilidad</td><td><code>accounting</code></td><td>Cualquier seed, o una instancia vacía</td></tr>
+</tbody></table>
+<p>Los tres módulos vienen apagados en Seam, y cada complemento dice en su encabezado para cuál es (<code>x.seam.module</code>). <code>make launch SEED=...</code>, <code>make dev</code> y <code>make demo</code> encienden los módulos de los datos que cargan. Si cargas un complemento a mano con <code>seed.py load</code>, enciende tú su módulo:</p>
+<table>
+<thead><tr><th>Complemento</th><th>Módulo</th><th>Variable de Seam</th></tr></thead>
+<tbody>
+<tr><td>Órdenes de trabajo</td><td><code>work_orders</code></td><td><code>SEAM_ENABLE_WORK_ORDERS=1</code></td></tr>
+<tr><td>Incidencias</td><td><code>issues</code></td><td><code>SEAM_ENABLE_ISSUES=1</code></td></tr>
+<tr><td>Contabilidad</td><td><code>accounting</code></td><td><code>SEAM_ENABLE_ACCOUNTING=1</code></td></tr>
+</tbody></table>
+<h3 id="seeds-de-órdenes-de-trabajo">Seeds de órdenes de trabajo</h3>
+<p><strong>Archivos:</strong> <code>seeds/workorders/seed-wo-actions.seed</code>, <code>seeds/workorders/seed-wo-templates.seed</code> (y los comandos <code>seed-wo-actions.py</code> y <code>seed-wo-templates.py</code>, que los cargan)</p>
+<p>Para el módulo de órdenes de trabajo. No necesitan los datos de ningún seed.</p>
+<table>
+<thead><tr><th>Seed</th><th>Qué crea</th></tr></thead>
+<tbody>
+<tr><td><code>wo-actions</code></td><td>Cuatro acciones (<code>wo_actions</code>) para probar el mapeo de parámetros de las plantillas</td></tr>
+<tr><td><code>wo-templates</code></td><td>Tres plantillas de orden de trabajo y lo que necesitan: un tipo de activo, activos, una unidad, un tipo de consumible y consumibles. Crea las acciones que falten</td></tr>
+</tbody></table>
+<p>Los registros que ya existen se reutilizan y las plantillas no se modifican en su lugar (<code>--replace</code>, o <code>--update-existing</code>, las vuelve a escribir). No crean almacenes, saldos de inventario, movimientos, usuarios ni órdenes. Las reglas y acciones son ejemplos de configuración: el módulo no ejecuta su lógica de negocio.</p>
+<pre><code>python3 seeds/workorders/seed-wo-templates.py --url http://localhost:9090</code></pre>
+<h3 id="seeds-de-incidencias">Seeds de incidencias</h3>
+<p><strong>Archivos:</strong> <code>seeds/issues/seed-issues-NN-nombre.seed</code>, uno por cada seed principal, en su idioma.</p>
+<p>Cada uno exige que su seed esté cargado y busca en él los usuarios, tipos de activo y activos que usa; si falta alguno, la carga se detiene sin escribir. xolu tiene que correr con <code>XOLU_API_V2_ENABLED=true</code>: el ciclo de vida de una incidencia es una máquina de estados.</p>
+<table>
+<thead><tr><th>Qué agrega</th><th>Cantidad</th><th>Detalle</th></tr></thead>
+<tbody>
+<tr><td>Incidencias</td><td>12</td><td>Dos reportadas, una en triaje, cinco en progreso, una en espera, una resuelta, una cerrada y una rechazada con su motivo; por la app y por código QR; con SLA vigente y vencido</td></tr>
+<tr><td>Caso</td><td>1</td><td>La incidencia ISS-10 agrupa a ISS-11 e ISS-12, que siguen su estado</td></tr>
+<tr><td>Plantillas</td><td>2</td><td>Campos adicionales por tipo de activo; una tiene tiempos de SLA propios y la otra dos versiones</td></tr>
+<tr><td>Asignaciones</td><td>2</td><td>Cada plantilla, a un tipo de activo</td></tr>
+<tr><td>Códigos QR</td><td>4</td><td>Tres activos; uno tiene un código revocado y otro vigente</td></tr>
+</tbody></table>
+<p>Cada incidencia tiene su máquina de estados, y los pasos que la llevaron a su estado se hacen durante la carga: el historial muestra a las personas correctas con la hora de la carga. Las fechas de la incidencia (creación, vencimientos, primera respuesta) son relativas al momento de la carga.</p>
+<pre><code>python3 seeds/seed.py load 01-constructec --url http://localhost:9090
+python3 seeds/seed.py load issues-01-constructec --url http://localhost:9090</code></pre>
+<h3 id="seed-de-contabilidad">Seed de contabilidad</h3>
+<p><strong>Archivo:</strong> <code>seeds/accounting/seed-accounting.seed</code></p>
+<p>Para el módulo de Contabilidad y Administración (<code>docs/ACCOUNTING_ADMIN_MODULE.md</code>), que hay que encender en Seam (<code>SEAM_ENABLE_ACCOUNTING=1</code>). Son los libros de la empresa que vende Seam, no los de un cliente, así que no depende de ningún seed: sus tenants son las empresas de los seeds 01 a 06 (la del seed 07 no figura en esos libros).</p>
+<table>
+<thead><tr><th>Qué agrega</th><th>Cantidad</th><th>Detalle</th></tr></thead>
+<tbody>
+<tr><td>Usuarios</td><td>6</td><td>Un administrativo, un contador, tres ejecutivos de cuentas y la cuenta de desarrollador</td></tr>
+<tr><td>Ejecutivos de cuentas</td><td>6</td><td>Los dos virtuales, dos autorizados (uno cobra por transferencia y otro por PayPal), uno registrado que espera autorización y el de la cuenta de desarrollador</td></tr>
+<tr><td>Tenants</td><td>8</td><td>Las empresas de los seeds 01 a 06, una filial en Paraguay y el tenant de prueba del desarrollador (Sandbox Demo Co.)</td></tr>
+<tr><td>Ítems facturables</td><td>43</td><td>Julio a noviembre de 2026; noviembre tiene pendientes y cobranzas en curso</td></tr>
+<tr><td>Asientos</td><td>81</td><td>Cobranzas, comisiones, pagos de liquidaciones y asientos manuales, uno de ellos revertido</td></tr>
+<tr><td>Líneas de comisión</td><td>34</td><td>10 % para los ejecutivos reales (más un bono por alta), 5 % para Seam AE</td></tr>
+<tr><td>Liquidaciones</td><td>5</td><td>Cuatro pagadas y una con la factura cargada, a la espera del pago</td></tr>
+<tr><td>Cierres mensuales</td><td>4</td><td>Julio a octubre</td></tr>
+<tr><td>Reglas de fórmula</td><td>5</td><td>Tres de comisión y dos de ajuste de precio (una apagada)</td></tr>
+</tbody></table>
+<table>
+<thead><tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr></thead>
+<tbody>
+<tr><td><code>accounting.staff@example.com</code></td><td><code>holaquetal</code></td><td><code>admin_staff</code></td></tr>
+<tr><td><code>accountant@example.com</code></td><td><code>holaquetal</code></td><td><code>accountant</code></td></tr>
+<tr><td><code>marta.rivas@example.com</code></td><td><code>holaquetal</code></td><td><code>account_executive</code></td></tr>
+<tr><td><code>diego.suarez@example.com</code></td><td><code>holaquetal</code></td><td><code>account_executive</code></td></tr>
+<tr><td><code>paula.mendez@example.com</code></td><td><code>holaquetal</code></td><td><code>account_executive</code> (espera autorización)</td></tr>
+<tr><td><code>dev@ual.li</code></td><td><code>holaquetal</code></td><td><code>developer</code></td></tr>
+</tbody></table>
+<p><code>dev@ual.li</code> es la misma cuenta de desarrollador de los siete seeds: si uno de ellos está cargado, este la encuentra por su email y la deja como está. Con el módulo Developer encendido (<code>SEAM_ENABLE_DEVELOPER=1</code>) puede ver la aplicación como cada uno de los roles de arriba («Ver como un rol», en <code>/developer</code>). Para que al verla como ejecutivo de cuentas el portal tenga contenido, la cuenta es además un ejecutivo autorizado con un cliente propio, Sandbox Demo Co.: cuatro cobranzas con su comisión, una liquidación pagada y tres líneas sin liquidar. Sus cobranzas van aparte de las demás, así que los libros de las otras empresas son los mismos con o sin él. <code>make dev-accounting</code> arranca Contabilidad sola con ese módulo encendido.</p>
+<p>El archivo no se escribe a mano. Lo genera <code>cmd/accounting-seedgen</code> (<code>make seed-accounting</code>), que ejecuta las reglas del propio módulo sobre cinco meses: cada cobranza genera su asiento y su comisión, cada liquidación reclama sus líneas, cada cierre guarda los saldos del mes. Las fechas de los libros son fijas. De cada factura y comprobante está el registro y no el archivo, que Seam guarda en disco: al abrirlo responde «no encontrado».</p>
+<pre><code>python3 seeds/seed.py load accounting --url http://localhost:9090</code></pre>
+<h3 id="esquemas-de-entidades-del-seed-01">Esquemas de entidades del seed 01</h3>
+<p><strong>Archivo:</strong> <code>seeds/seed-01-constructec.schemas.seed</code></p>
+<p>El seed 01 acepta <code>--schemas</code>: junto con los datos registra en xolu un esquema por entidad, con lo que xolu valida cada registro contra él. Es opcional; sin la opción, xolu crea las entidades al recibir su primer registro, como en los demás seeds.</p>
+<pre><code>python3 seeds/seed-01-constructec.py --url http://localhost:9090 --schemas</code></pre>
+<h3 id="documento-de-dominio-del-seed-04">Documento de dominio del seed 04</h3>
+<p><strong>Archivo:</strong> <code>seeds/SEED-04-COMPANION.md</code></p>
+<p>Describe en inglés el vertical de máquinas expendedoras con más detalle que la sección 5: el modelo de canales, la operación de rutas y la regulación.</p>
+<hr>
+<h2 id="11-generar-este-documento">11. Generar este documento</h2>
+<p>La fuente es <code>seeds/SEEDS-CATALOGO.md</code>. De ella se generan una página HTML autocontenida y un PDF:</p>
+<pre><code>python3 seeds/md2pdf.py</code></pre>
+<p>El script usa solo la biblioteca estándar de Python. Escribe siempre <code>SEEDS-CATALOGO.html</code>, que se puede abrir e imprimir desde cualquier navegador, y escribe <code>SEEDS-CATALOGO.pdf</code> cuando encuentra Chrome, Chromium o Edge instalados, en Linux o en macOS. Con <code>--html</code> genera solo la página.</p>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "title": "Edit Warehouse",
+    "x-seam-form": {
+        "module": "warehouse",
+        "name": "warehouse"
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "x-seam-input": "text",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "description": {
+            "type": "string",
+            "x-seam-input": "textarea"
+        },
+        "location": {
+            "type": "string",
+            "x-seam-input": "gps"
+        },
+        "responsible_user_id": {
+            "type": "integer",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users"
+        }
+    },
+    "required": [
+        "name",
+        "location",
+        "responsible_user_id"
+    ]
+}

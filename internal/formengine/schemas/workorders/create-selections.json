@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "x-seam-form": {
+    "module": "workorders",
+    "name": "workorder"
+  },
+  "properties": {
+    "asset_ids": {
+      "type": "array",
+      "title": "Associated assets",
+      "x-seam-input": "repeatable",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "integer",
+            "title": "Asset",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:assets"
+          }
+        }
+      }
+    },
+    "extra_consumable_ids": {
+      "type": "array",
+      "title": "Extra consumables",
+      "x-seam-input": "repeatable",
+      "items": {
+        "type": "object",
+        "properties": {
+          "consumable_id": {
+            "type": "integer",
+            "title": "Consumable",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:consumable"
+          }
+        }
+      }
+    }
+  }
+}

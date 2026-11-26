@@ -1,0 +1,145 @@
+# Seam AMS: the four work-order actions used to try the parameter mapping of templates.
+# An addition: it loads over any seed, or into an empty instance. Each action is found by its code and
+# left alone if it exists. Load it with: python3 seeds/workorders/seed-wo-actions.py --url http://localhost:9090
+# Seam must run with the Work Orders module on (SEAM_ENABLE_WORK_ORDERS=1), as with any module that is off by default.
+{"seed": 2,
+  "name": "wo-actions",
+  "description": "Work orders: four actions for trying the parameter mapping of templates",
+  "tags": ["work-orders"],
+  "version": "1",
+  "addition": true,
+  "entities": ["wo_actions"],
+  "notes": "Seam must run with the module on (SEAM_ENABLE_WORK_ORDERS=1).",
+  "x": {"seam": {"module": "work_orders"}}
+  }
+
+{"kind": "entity", "entity": "wo_actions", "match": ["code"], "as": "wo_actions_update_asset_location", "data": {
+  "name": "Actualizar ubicación de activos",
+  "code": "update_asset_location",
+  "description": "Acción de catálogo para actualizar la ubicación GPS de una lista de activos. Define sus parámetros; no implementa su ejecución.",
+  "enabled": true,
+  "parameters": [
+    {
+      "key": "assets",
+      "name": "Activos",
+      "type": "asset",
+      "entity": "assets",
+      "multiple": true,
+      "required": true
+    },
+    {
+      "key": "location",
+      "name": "Ubicación de destino",
+      "type": "gps",
+      "entity": "",
+      "multiple": false,
+      "required": true
+    }
+  ]
+  }}
+{"kind": "entity", "entity": "wo_actions", "match": ["code"], "as": "wo_actions_register_inspection", "data": {
+  "name": "Registrar inspección",
+  "code": "register_inspection",
+  "description": "Acción de prueba para mapear parámetros individuales de tipo activo, booleano, número, fecha y texto. Permite comprobar valores false y 0, parámetros obligatorios y observaciones opcionales.",
+  "enabled": true,
+  "parameters": [
+    {
+      "key": "asset",
+      "name": "Activo inspeccionado",
+      "type": "asset",
+      "entity": "assets",
+      "multiple": false,
+      "required": true
+    },
+    {
+      "key": "approved",
+      "name": "Inspección aprobada",
+      "type": "boolean",
+      "entity": "",
+      "multiple": false,
+      "required": true
+    },
+    {
+      "key": "reading",
+      "name": "Lectura registrada",
+      "type": "number",
+      "entity": "",
+      "multiple": false,
+      "required": true
+    },
+    {
+      "key": "inspection_date",
+      "name": "Fecha de inspección",
+      "type": "date",
+      "entity": "",
+      "multiple": false,
+      "required": true
+    },
+    {
+      "key": "notes",
+      "name": "Observaciones",
+      "type": "text",
+      "entity": "",
+      "multiple": false,
+      "required": false
+    }
+  ]
+  }}
+{"kind": "entity", "entity": "wo_actions", "match": ["code"], "as": "wo_actions_register_measurement_series", "data": {
+  "name": "Registrar serie de mediciones",
+  "code": "register_measurement_series",
+  "description": "Acción de prueba para mapear listas de números, booleanos, fechas y textos. Permite comprobar listas fijas, listas de un elemento y la conversión de un campo individual a un parámetro múltiple.",
+  "enabled": true,
+  "parameters": [
+    {
+      "key": "readings",
+      "name": "Lecturas",
+      "type": "number",
+      "entity": "",
+      "multiple": true,
+      "required": true
+    },
+    {
+      "key": "results",
+      "name": "Resultados",
+      "type": "boolean",
+      "entity": "",
+      "multiple": true,
+      "required": true
+    },
+    {"key": "dates", "name": "Fechas", "type": "date", "entity": "", "multiple": true, "required": false},
+    {"key": "labels", "name": "Etiquetas", "type": "text", "entity": "", "multiple": true, "required": false}
+  ]
+  }}
+{"kind": "entity", "entity": "wo_actions", "match": ["code"], "as": "wo_actions_register_route_points", "data": {
+  "name": "Registrar puntos de recorrido",
+  "code": "register_route_points",
+  "description": "Acción de prueba para mapear puntos GPS y activos múltiples, con una descripción obligatoria. Permite comprobar widgets GPS y pickers dentro de repetibles, y valores individuales como listas.",
+  "enabled": true,
+  "parameters": [
+    {
+      "key": "points",
+      "name": "Puntos del recorrido",
+      "type": "gps",
+      "entity": "",
+      "multiple": true,
+      "required": true
+    },
+    {
+      "key": "assets",
+      "name": "Activos involucrados",
+      "type": "asset",
+      "entity": "assets",
+      "multiple": true,
+      "required": false
+    },
+    {
+      "key": "description",
+      "name": "Descripción",
+      "type": "text",
+      "entity": "",
+      "multiple": false,
+      "required": true
+    }
+  ]
+  }}

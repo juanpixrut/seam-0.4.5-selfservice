@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "title": "Template Picker",
+  "x-seam-form": {
+    "module": "workorders",
+    "name": "template-picker",
+    "width": "md"
+  },
+  "properties": {
+    "template_id": {
+      "type": "integer",
+      "title": "Template",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:work_order_templates"
+    }
+  },
+  "required": [
+    "template_id"
+  ]
+}

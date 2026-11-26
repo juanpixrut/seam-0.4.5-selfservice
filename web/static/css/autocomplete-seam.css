@@ -1,0 +1,153 @@
+/* =============================================================================
+   autoComplete.js — Seam theming override
+   =============================================================================
+
+   Overrides the vendored default theme (web/static/vendor/autocomplete@10.2.10.css)
+   to match Seam AMS's own light/dark palette, fonts, and component conventions.
+   Load this AFTER the vendored CSS wherever autoComplete.js is used — later
+   rules win at equal specificity, and this file deliberately matches the
+   vendored file's own selectors so no !important is needed anywhere.
+
+   Verified, not assumed: the vendored default hardcodes its highlight colour
+   directly on `mark` (#ff7a7a, a coral-red) via `.autoComplete_wrapper > ul >
+   li mark` — confirmed from the real shipped CSS, and confirmed as a known
+   upstream limitation (GitHub issue #264: utility classes can't override it,
+   since the rule's specificity beats a bare class). This file uses the exact
+   same selector chain to win cleanly instead of fighting it with !important.
+
+   Theme reactivity: no JavaScript wrapper needed. Seam's dark mode (minty's
+   DarkModeTailwind) works by toggling class="dark" on <html> and nothing
+   else -- no custom event fires, and none is needed here either, since every
+   rule below either uses var(--color-primary) (already theme-aware, defined
+   in app.css's own :root/.dark blocks) or an explicit `.dark <selector>`
+   override, exactly like every other themed element in the app. CSS
+   cascades from the class toggle instantly; there is nothing for a widget-
+   level JS wrapper to do that plain CSS doesn't already do here.
+
+   Font: matches app.css's own stack verbatim, not reinvented.
+
+   Icon: the vendored default reserves left-padding for a background-image
+   search icon (images/search.svg, not vendored here deliberately -- adding
+   an icon wasn't asked for, only re-theming was; removing it avoids
+   vendoring an image dependency for a feature nobody requested).
+   ============================================================================= */
+
+.autoComplete_wrapper {
+  display: block;
+  width: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ---- Input ---- */
+
+.autoComplete_wrapper > input {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  box-sizing: border-box;
+  font-size: 0.875rem; /* text-sm, matching every other Seam form input */
+  color: #111827; /* gray-900: explicit, not inherited -- an ancestor with no colour made it black in dark mode */
+  outline: none;
+  border-radius: 0.5rem; /* rounded-lg */
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  background-image: none;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dark .autoComplete_wrapper > input {
+  border: 1px solid #4b5563; /* dark:border-gray-600 */
+  background-color: #374151; /* dark:bg-gray-700 */
+  color: #f3f4f6; /* dark:text-gray-100 */
+}
+
+.autoComplete_wrapper > input::placeholder {
+  color: #9ca3af; /* gray-400, matching Seam's other placeholder text */
+}
+
+.autoComplete_wrapper > input:hover,
+.autoComplete_wrapper > input:focus {
+  color: #111827;
+}
+
+.dark .autoComplete_wrapper > input:hover,
+.dark .autoComplete_wrapper > input:focus {
+  color: #f3f4f6;
+}
+
+.autoComplete_wrapper > input:focus {
+  border-color: var(--color-primary);
+  outline: 2px solid var(--color-primary); /* matches app.css's own :focus-visible convention */
+  outline-offset: 1px;
+}
+
+.autoComplete_wrapper > input::selection,
+.autoComplete_wrapper > input:focus::selection {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+/* ---- Results dropdown ---- */
+/* Matches the real dropdown-menu convention used elsewhere in Seam
+   (internal/ui/layout.go's own user-menu popover), not guessed:
+   bg-white dark:bg-gray-800, border-gray-200 dark:border-gray-700, shadow-lg. */
+
+.autoComplete_wrapper > ul {
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb; /* border-gray-200 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* shadow-lg */
+}
+
+.dark .autoComplete_wrapper > ul {
+  background-color: #1f2937; /* dark:bg-gray-800 */
+  border: 1px solid #374151; /* dark:border-gray-700 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+.autoComplete_wrapper > ul > li {
+  font-size: 0.875rem;
+  color: #111827; /* gray-900 */
+  background-color: transparent;
+}
+
+.dark .autoComplete_wrapper > ul > li {
+  color: #f3f4f6; /* dark:text-gray-100 */
+}
+
+.autoComplete_wrapper > ul > li:hover,
+.autoComplete_wrapper > ul > li[aria-selected="true"] {
+  cursor: pointer;
+  background-color: rgba(79, 70, 229, 0.1); /* --color-primary at low opacity, light mode */
+}
+
+.dark .autoComplete_wrapper > ul > li:hover,
+.dark .autoComplete_wrapper > ul > li[aria-selected="true"] {
+  background-color: rgba(129, 140, 248, 0.15); /* --color-primary-dark's lighter dark-mode value, at low opacity */
+}
+
+/* ---- The actual fix: matched-text highlight ----
+   Same selector chain as the vendored default (.autoComplete_wrapper > ul >
+   li mark), so this wins the cascade cleanly by load order alone -- the
+   #ff7a7a red is gone, replaced with var(--color-primary), which already
+   resolves to the correct shade for whichever theme is active with no
+   separate .dark rule needed for the colour itself. */
+
+.autoComplete_wrapper > ul > li mark {
+  background-color: transparent;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ---- Highlight mode "background" (x-seam-highlight) ----
+   The default mode keeps the primary-colour bold match above. With
+   data-hl="background" on the search box the match is a translucent marker
+   instead: a yellow that reads on a white and on a dark surface, with the text
+   keeping its normal colour (so contrast never depends on the marker). */
+.autoComplete_wrapper > input[data-hl="background"] ~ ul > li mark {
+  background-color: var(--fe-hl-bg, rgba(250, 204, 21, 0.45));
+  color: inherit;
+  font-weight: inherit;
+  border-radius: 2px;
+}

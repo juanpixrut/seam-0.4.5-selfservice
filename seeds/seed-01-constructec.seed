@@ -1,0 +1,1447 @@
+# Seam AMS demonstration data: Constructec S.A.: maquinaria e instalaciones de construcción (Uruguay)
+# A .seed file, format version 2 (docs/SEED_FORMAT.md). Load it with:
+#   python3 seeds/seed.py load 01-constructec --url http://localhost:9090
+# Dates written as {"$date": "+90d"} and times as {"$now": "-2h"} are relative to the day of the load.
+{"seed": 2,
+  "name": "01-constructec",
+  "description": "Constructec S.A.: maquinaria e instalaciones de construcción (Uruguay)",
+  "tags": ["construction", "uy", "es"],
+  "version": "1",
+  "exclusive": true,
+  "entities": [
+    "regions",
+    "currencies",
+    "cost_centers",
+    "brands",
+    "models",
+    "custodians",
+    "alert_types",
+    "prop_definitions",
+    "locations",
+    "fsm_machines",
+    "asset_types",
+    "assets",
+    "prop_associations",
+    "sensors",
+    "users",
+    "tenant_settings",
+    "rules",
+    "sensor_bindings",
+    "alerts",
+    "events"
+  ],
+  "notes": "Login:\n  hl@example.com  / holaquetal\n  dev@ual.li      / holaquetal  (rol developer)\n  manager@example.com / holaquetal  (manager)\n  viewer@example.com  / holaquetal  (viewer)\n  (equipo de desarrollo: 12 usuarios, rol operator)  / holaquetal",
+  "x": {
+    "seam": {
+      "tenant_name": "Constructec S.A.",
+      "logins": [
+        {"email": "hl@example.com", "password": "holaquetal", "role": "admin"},
+        {"email": "dev@ual.li", "password": "holaquetal", "role": "developer"},
+        {"email": "manager@example.com", "password": "holaquetal", "role": "manager"},
+        {"email": "viewer@example.com", "password": "holaquetal", "role": "viewer"}
+      ]
+    }
+  }
+  }
+
+# regions: 5
+{"kind": "entity", "entity": "regions", "id": 1, "data": {"description": "Metropolitana"}}
+{"kind": "entity", "entity": "regions", "id": 2, "data": {"description": "Norte"}}
+{"kind": "entity", "entity": "regions", "id": 3, "data": {"description": "Sur"}}
+{"kind": "entity", "entity": "regions", "id": 4, "data": {"description": "Este"}}
+{"kind": "entity", "entity": "regions", "id": 5, "data": {"description": "Centro"}}
+
+# currencies: 3
+{"kind": "entity", "entity": "currencies", "id": 1, "data": {"iso_code": "UYU", "symbol": "$"}}
+{"kind": "entity", "entity": "currencies", "id": 2, "data": {"iso_code": "USD", "symbol": "U$S"}}
+{"kind": "entity", "entity": "currencies", "id": 3, "data": {"iso_code": "EUR", "symbol": "€"}}
+
+# cost_centers: 5
+{"kind": "entity", "entity": "cost_centers", "id": 1, "data": {
+  "accounting_code": "OP-001",
+  "name": "Operaciones"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 2, "data": {
+  "accounting_code": "MANT-001",
+  "name": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 3, "data": {
+  "accounting_code": "TI-001",
+  "name": "Tecnología Informática"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 4, "data": {
+  "accounting_code": "ADM-001",
+  "name": "Administración"
+  }}
+{"kind": "entity", "entity": "cost_centers", "id": 5, "data": {
+  "accounting_code": "LOG-001",
+  "name": "Logística"
+  }}
+
+# brands: 8
+{"kind": "entity", "entity": "brands", "id": 1, "data": {"code": "CAT", "name": "Caterpillar"}}
+{"kind": "entity", "entity": "brands", "id": 2, "data": {"code": "TOY", "name": "Toyota"}}
+{"kind": "entity", "entity": "brands", "id": 3, "data": {"code": "CAR", "name": "Carrier"}}
+{"kind": "entity", "entity": "brands", "id": 4, "data": {"code": "DEL", "name": "Dell"}}
+{"kind": "entity", "entity": "brands", "id": 5, "data": {"code": "APC", "name": "APC by Schneider Electric"}}
+{"kind": "entity", "entity": "brands", "id": 6, "data": {"code": "CIS", "name": "Cisco"}}
+{"kind": "entity", "entity": "brands", "id": 7, "data": {"code": "JOH", "name": "John Deere"}}
+{"kind": "entity", "entity": "brands", "id": 8, "data": {"code": "LEN", "name": "Lenovo"}}
+
+# models: 15
+{"kind": "entity", "entity": "models", "id": 1, "data": {"brand_id": 1, "name": "320 GC"}}
+{"kind": "entity", "entity": "models", "id": 2, "data": {"brand_id": 1, "name": "D6N"}}
+{"kind": "entity", "entity": "models", "id": 3, "data": {"brand_id": 1, "name": "C18 ACERT"}}
+{"kind": "entity", "entity": "models", "id": 4, "data": {"brand_id": 2, "name": "Hilux SR 4x4"}}
+{"kind": "entity", "entity": "models", "id": 5, "data": {"brand_id": 2, "name": "Land Cruiser 200"}}
+{"kind": "entity", "entity": "models", "id": 6, "data": {"brand_id": 2, "name": "Forklift 8FGU25"}}
+{"kind": "entity", "entity": "models", "id": 7, "data": {"brand_id": 3, "name": "30XA Aquaforce"}}
+{"kind": "entity", "entity": "models", "id": 8, "data": {"brand_id": 3, "name": "AquaForce 61WG"}}
+{"kind": "entity", "entity": "models", "id": 9, "data": {"brand_id": 4, "name": "PowerEdge R750"}}
+{"kind": "entity", "entity": "models", "id": 10, "data": {"brand_id": 4, "name": "PowerEdge R450"}}
+{"kind": "entity", "entity": "models", "id": 11, "data": {"brand_id": 5, "name": "Smart-UPS SRT 10kVA"}}
+{"kind": "entity", "entity": "models", "id": 12, "data": {"brand_id": 5, "name": "Symmetra LX 16kVA"}}
+{"kind": "entity", "entity": "models", "id": 13, "data": {"brand_id": 6, "name": "Catalyst 9300"}}
+{"kind": "entity", "entity": "models", "id": 14, "data": {"brand_id": 7, "name": "6130M"}}
+{"kind": "entity", "entity": "models", "id": 15, "data": {"brand_id": 8, "name": "ThinkSystem SR650"}}
+
+# custodians: 5
+{"kind": "entity", "entity": "custodians", "id": 1, "data": {
+  "active": true,
+  "address": "Av. Italia 6201, Montevideo",
+  "alias": "Constructec",
+  "email": "activos@constructec.com.uy",
+  "legal_name": "Constructec S.A.",
+  "phone": "+598 2 600 1234",
+  "subject_type": "RUT",
+  "tax_id": "21567890-1"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 2, "data": {
+  "active": true,
+  "address": "Ruta 5 km 12, Montevideo",
+  "alias": "Construvial",
+  "email": "activos@construvial.com.uy",
+  "legal_name": "Construvial S.A.",
+  "phone": "+598 2 508 4567",
+  "subject_type": "RUT",
+  "tax_id": "21987654-3"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 3, "data": {
+  "active": true,
+  "address": "Bulevar Artigas 1234 apto 3, Montevideo",
+  "alias": "R. Fernández",
+  "email": "rfernandez@constructec.com.uy",
+  "legal_name": "Fernández García, Roberto",
+  "phone": "+598 99 123 456",
+  "subject_type": "CI",
+  "tax_id": "3.456.789-2"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 4, "data": {
+  "active": true,
+  "address": "",
+  "alias": "A. Suárez",
+  "email": "asuarez@constructec.com.uy",
+  "legal_name": "Suárez Méndez, Ana",
+  "phone": "+598 99 234 567",
+  "subject_type": "CI",
+  "tax_id": "4.567.890-1"
+  }}
+{"kind": "entity", "entity": "custodians", "id": 5, "data": {
+  "active": true,
+  "address": "Ruta 5 km 320, Tacuarembó",
+  "alias": "LogNorte",
+  "email": "flota@lognorte.com.uy",
+  "legal_name": "Logística del Norte S.R.L.",
+  "phone": "+598 473 12345",
+  "subject_type": "RUT",
+  "tax_id": "21345678-9"
+  }}
+
+# alert_types: 10
+{"kind": "entity", "entity": "alert_types", "id": 1, "data": {
+  "criticality": "Media",
+  "description": "Mantenimiento preventivo 250 horas",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 2, "data": {
+  "criticality": "Media",
+  "description": "Cambio de aceite y filtros",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 3, "data": {
+  "criticality": "Baja",
+  "description": "Revisión de correas y mangueras",
+  "type": "Mantenimiento"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 4, "data": {
+  "criticality": "Alta",
+  "description": "Temperatura de operación excedida",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 5, "data": {
+  "criticality": "Alta",
+  "description": "Batería bajo nivel crítico",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 6, "data": {
+  "criticality": "Alta",
+  "description": "Equipo fuera de geofence asignado",
+  "type": "Seguridad"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 7, "data": {
+  "criticality": "Baja",
+  "description": "Garantía por vencer en 30 días",
+  "type": "Operativa"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 8, "data": {
+  "criticality": "Media",
+  "description": "Vencimiento comodato próximo",
+  "type": "Operativa"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 9, "data": {
+  "criticality": "Media",
+  "description": "Horas de uso superadas",
+  "type": "Operativa"
+  }}
+{"kind": "entity", "entity": "alert_types", "id": 10, "data": {
+  "criticality": "Alta",
+  "description": "Inspección técnica vehicular vencida",
+  "type": "Mantenimiento"
+  }}
+
+# prop_definitions: 13
+{"kind": "entity", "entity": "prop_definitions", "id": 1, "data": {
+  "data_type": "numerico",
+  "default_value": "0",
+  "short_name": "mileage_km"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 2, "data": {
+  "data_type": "numerico",
+  "default_value": "0",
+  "short_name": "engine_hours"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 3, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "license_plate"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 4, "data": {
+  "data_type": "fecha",
+  "short_name": "vtv_expiry_date"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 5, "data": {
+  "data_type": "seleccion_unica",
+  "short_name": "fuel_type"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 6, "data": {
+  "data_type": "numerico",
+  "short_name": "power_kva"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 7, "data": {
+  "data_type": "numerico",
+  "short_name": "output_voltage"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 8, "data": {
+  "data_type": "numerico",
+  "short_name": "ram_gb"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 9, "data": {
+  "data_type": "numerico",
+  "short_name": "cpu_cores"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 10, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "ip_address"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 11, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "rack_slot"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 12, "data": {
+  "data_type": "numerico",
+  "short_name": "capacity_tons"
+  }}
+{"kind": "entity", "entity": "prop_definitions", "id": 13, "data": {
+  "data_type": "alfanumerico",
+  "short_name": "refrigerant_type"
+  }}
+
+# locations: 7
+{"kind": "entity", "entity": "locations", "id": 1, "data": {
+  "description": "Sede central, Montevideo",
+  "region_id": 1,
+  "short_name": "HQ-MVD"
+  }}
+{"kind": "entity", "entity": "locations", "id": 2, "data": {
+  "description": "Data Center principal, Montevideo",
+  "region_id": 1,
+  "short_name": "DC-MVD"
+  }}
+{"kind": "entity", "entity": "locations", "id": 3, "data": {
+  "description": "Taller mecánico Norte",
+  "region_id": 2,
+  "short_name": "TALLER-N"
+  }}
+{"kind": "entity", "entity": "locations", "id": 4, "data": {
+  "description": "Planta de operaciones Sur",
+  "region_id": 3,
+  "short_name": "PLANTA-S"
+  }}
+{"kind": "entity", "entity": "locations", "id": 5, "data": {
+  "description": "Depósito logístico Este",
+  "region_id": 4,
+  "short_name": "DEPOT-E"
+  }}
+{"kind": "entity", "entity": "locations", "id": 6, "data": {
+  "description": "Campo de operaciones Centro",
+  "region_id": 5,
+  "short_name": "CAMPO-C"
+  }}
+{"kind": "entity", "entity": "locations", "id": 7, "data": {
+  "description": "Obra Ruta 5 km 45",
+  "region_id": 2,
+  "short_name": "OBRA-001"
+  }}
+
+# fsm_machines: 2
+{"kind": "entity", "entity": "fsm_machines", "id": 1, "data": {
+  "description": "Estados operativos de vehículos livianos de flota",
+  "name": "Ciclo de Vida — Vehículo",
+  "states": [
+    {
+      "color": "#10b981",
+      "is_initial": true,
+      "label": "Disponible",
+      "name": "disponible",
+      "transitions": [
+        {"condition": {"trigger": "qr_scan", "type": "trigger_type"}, "priority": 50, "to": "en_uso"},
+        {
+          "condition": {"trigger": "custom_driver", "type": "trigger_type"},
+          "priority": 80,
+          "to": "en_servicio"
+        }
+      ]
+    },
+    {
+      "color": "#3b82f6",
+      "label": "En uso",
+      "name": "en_uso",
+      "transitions": [
+        {"condition": {"trigger": "qr_scan", "type": "trigger_type"}, "priority": 50, "to": "disponible"},
+        {
+          "condition": {"trigger": "custom_driver", "type": "trigger_type"},
+          "priority": 80,
+          "to": "en_servicio"
+        }
+      ]
+    },
+    {
+      "color": "#f59e0b",
+      "label": "En servicio",
+      "name": "en_servicio",
+      "transitions": [
+        {
+          "condition": {"trigger": "custom_driver", "type": "trigger_type"},
+          "priority": 50,
+          "to": "disponible"
+        },
+        {"condition": {"trigger": "api_call", "type": "trigger_type"}, "priority": 30, "to": "dado_de_baja"}
+      ]
+    },
+    {"color": "#6b7280", "is_final": true, "label": "Dado de baja", "name": "dado_de_baja", "transitions": []}
+  ]
+  }}
+{"kind": "entity", "entity": "fsm_machines", "id": 2, "data": {
+  "description": "Estados operativos de maquinaria pesada y agrícola",
+  "name": "Ciclo de Vida — Maquinaria Pesada",
+  "states": [
+    {
+      "color": "#10b981",
+      "is_initial": true,
+      "label": "Operativo",
+      "name": "operativo",
+      "transitions": [
+        {
+          "condition": {"duration": "250h", "type": "duration_exceeded"},
+          "priority": 60,
+          "to": "mantenimiento_prog"
+        },
+        {
+          "condition": {"trigger": "custom_driver", "type": "trigger_type"},
+          "priority": 80,
+          "to": "en_reparacion"
+        }
+      ]
+    },
+    {
+      "color": "#f59e0b",
+      "label": "Mantenimiento programado",
+      "name": "mantenimiento_prog",
+      "transitions": [{"condition": {"trigger": "custom_driver", "type": "trigger_type"}, "priority": 50, "to": "operativo"}]
+    },
+    {
+      "color": "#ef4444",
+      "label": "En reparación",
+      "name": "en_reparacion",
+      "transitions": [
+        {"condition": {"trigger": "custom_driver", "type": "trigger_type"}, "priority": 50, "to": "operativo"},
+        {
+          "condition": {"trigger": "api_call", "type": "trigger_type"},
+          "priority": 30,
+          "to": "fuera_de_servicio"
+        }
+      ]
+    },
+    {
+      "color": "#6b7280",
+      "is_final": true,
+      "label": "Fuera de servicio",
+      "name": "fuera_de_servicio",
+      "transitions": []
+    }
+  ]
+  }}
+
+# asset_types: 7
+{"kind": "entity", "entity": "asset_types", "id": 1, "data": {
+  "color": "#f59e0b",
+  "connectivity_tiers": ["qr", "gps"],
+  "default_alerta_id": 1,
+  "description": "Excavadoras, bulldozers y equipos de movimiento de tierra",
+  "fsm_id": 2,
+  "identity_template": {
+    "engine_model": {"label": "Modelo de motor", "required": false, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"},
+    "year_built": {"label": "Año de fabricación", "required": true, "type": "number"}
+  },
+  "name": "Maquinaria Pesada",
+  "slug": "maquinaria-pesada",
+  "state_template": {
+    "engine_hours": {"label": "Horas de motor", "required": false, "type": "number"},
+    "fuel_type": {"label": "Combustible (%)", "required": false, "type": "number"},
+    "gps_location": {"label": "Ubicación GPS", "required": false, "type": "text"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 2, "data": {
+  "color": "#3b82f6",
+  "connectivity_tiers": ["qr", "gps"],
+  "default_alerta_id": 1,
+  "description": "Camionetas y utilitarios de flota",
+  "fsm_id": 1,
+  "identity_template": {
+    "color": {"label": "Color", "required": false, "type": "text"},
+    "license_plate": {"label": "Patente", "required": true, "type": "text"},
+    "vin": {"label": "VIN", "required": true, "type": "text"},
+    "year_built": {"label": "Año de fabricación", "required": true, "type": "number"}
+  },
+  "name": "Vehículo Liviano",
+  "slug": "vehiculo-liviano",
+  "state_template": {
+    "fuel_type": {"label": "Combustible (%)", "required": false, "type": "number"},
+    "mileage_km": {"label": "Kilometraje (km)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 3, "data": {
+  "color": "#eab308",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 1,
+  "description": "Generadores de energía eléctrica",
+  "identity_template": {
+    "phase": {"label": "Fase", "required": false, "type": "text"},
+    "power_kva": {"label": "Potencia (kVA)", "required": true, "type": "number"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"}
+  },
+  "name": "Grupo Electrógeno",
+  "slug": "grupo-electrogeno",
+  "state_template": {
+    "engine_hours": {"label": "Horas de motor", "required": false, "type": "number"},
+    "frequency_hz": {"label": "Frecuencia (Hz)", "required": false, "type": "number"},
+    "voltage_v": {"label": "Voltaje (V)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 4, "data": {
+  "color": "#06b6d4",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 4,
+  "description": "Chillers, fan-coils y equipos HVAC",
+  "identity_template": {
+    "capacity_tons": {"label": "Capacidad (ton FR)", "required": true, "type": "number"},
+    "refrigerant": {"label": "Refrigerante", "required": false, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"}
+  },
+  "name": "Climatización",
+  "slug": "climatizacion",
+  "state_template": {
+    "inlet_temp": {"label": "Temp. entrada (°C)", "required": false, "type": "number"},
+    "outlet_temp": {"label": "Temp. salida (°C)", "required": false, "type": "number"},
+    "pressure_bar": {"label": "Presión (bar)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 5, "data": {
+  "color": "#8b5cf6",
+  "connectivity_tiers": ["qr", "gateway"],
+  "description": "Servidores físicos en rack",
+  "identity_template": {
+    "rack_slot": {"label": "Posición en rack", "required": false, "type": "text"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"},
+    "service_tag": {"label": "Service Tag", "required": true, "type": "text"}
+  },
+  "name": "Servidor",
+  "slug": "servidor",
+  "state_template": {
+    "cpu_usage_pct": {"label": "Uso CPU (%)", "required": false, "type": "number"},
+    "ip_address": {"label": "Dirección IP", "required": false, "type": "text"},
+    "ram_usage_pct": {"label": "Uso RAM (%)", "required": false, "type": "number"},
+    "temp_c": {"label": "Temperatura (°C)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 6, "data": {
+  "color": "#10b981",
+  "connectivity_tiers": ["qr", "gateway"],
+  "default_alerta_id": 5,
+  "description": "Sistemas de alimentación ininterrumpida",
+  "identity_template": {
+    "power_kva": {"label": "Potencia (kVA)", "required": true, "type": "number"},
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"}
+  },
+  "name": "UPS",
+  "slug": "ups",
+  "state_template": {
+    "autonomy_min": {"label": "Autonomía (min)", "required": false, "type": "number"},
+    "battery_pct": {"label": "Batería (%)", "required": false, "type": "number"},
+    "charge_pct": {"label": "Carga (%)", "required": false, "type": "number"}
+  }
+  }}
+{"kind": "entity", "entity": "asset_types", "id": 7, "data": {
+  "color": "#84cc16",
+  "connectivity_tiers": ["qr", "gps"],
+  "default_alerta_id": 1,
+  "description": "Tractores y equipos agrícolas",
+  "fsm_id": 2,
+  "identity_template": {
+    "serial_number": {"label": "Número de serie", "required": true, "type": "text"},
+    "year_built": {"label": "Año de fabricación", "required": true, "type": "number"}
+  },
+  "name": "Maquinaria Agrícola",
+  "slug": "maquinaria-agricola",
+  "state_template": {
+    "engine_hours": {"label": "Horas de motor", "required": false, "type": "number"},
+    "fuel_type": {"label": "Combustible (%)", "required": false, "type": "number"}
+  }
+  }}
+
+# assets: 16
+{"kind": "entity", "entity": "assets", "id": 1, "data": {
+  "arrival_date": "2021-03-20",
+  "brand_id": 1,
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 2,
+  "loan_expiry": {"$date": "+180d"},
+  "location_id": 7,
+  "model_id": 1,
+  "name": "Excavadora CAT 320 GC — EXC-001",
+  "purchase_date": "2021-03-15",
+  "purchase_price": "185000",
+  "region_id": 2,
+  "serial_1": "CAT0320GCABCD0001",
+  "service_configs": [{"alert_id": 1, "measure": "time_hours", "threshold": 250}],
+  "status": "active",
+  "tag_tecnico": "EXC-001",
+  "tenure_type": "Comodato",
+  "type_id": 1,
+  "warranty_end": "2026-03-15"
+  }}
+{"kind": "entity", "entity": "assets", "id": 2, "data": {
+  "arrival_date": "2020-06-10",
+  "brand_id": 1,
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 2,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 3,
+  "model_id": 1,
+  "name": "Excavadora CAT 320 GC — EXC-002",
+  "purchase_date": "2020-06-01",
+  "purchase_price": "175000",
+  "region_id": 2,
+  "serial_1": "CAT0320GCABCD0002",
+  "status": "maintenance",
+  "tag_tecnico": "EXC-002",
+  "tenure_type": "Propiedad",
+  "type_id": 1
+  }}
+{"kind": "entity", "entity": "assets", "id": 3, "data": {
+  "arrival_date": "2022-01-20",
+  "brand_id": 1,
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 6,
+  "model_id": 2,
+  "name": "Bulldozer CAT D6N — BULL-001",
+  "purchase_date": "2022-01-10",
+  "purchase_price": "240000",
+  "region_id": 5,
+  "serial_1": "CAT00D6NXYZ00001",
+  "service_configs": [{"alert_id": 1, "measure": "time_hours", "threshold": 250}],
+  "status": "active",
+  "tag_tecnico": "BULL-001",
+  "tenure_type": "Propiedad",
+  "type_id": 1,
+  "warranty_end": "2027-01-10"
+  }}
+{"kind": "entity", "entity": "assets", "id": 4, "data": {
+  "arrival_date": "2023-05-18",
+  "brand_id": 2,
+  "codigo_barras_rfid": "RFID-VH-001",
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 4,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 3,
+  "location_id": 1,
+  "model_id": 4,
+  "name": "Toyota Hilux SR — VH-001",
+  "purchase_date": "2023-05-12",
+  "purchase_price": "42000",
+  "region_id": 1,
+  "serial_1": "8AFCF4BN0P0123456",
+  "service_configs": [
+    {"alert_id": 1, "measure": "distance_kilometers", "threshold": 5000},
+    {"alert_id": 1, "measure": "time_hours", "threshold": 200}
+  ],
+  "status": "active",
+  "tag_tecnico": "VH-001",
+  "tenure_type": "Propiedad",
+  "type_id": 2,
+  "warranty_end": "2026-05-12"
+  }}
+{"kind": "entity", "entity": "assets", "id": 5, "data": {
+  "arrival_date": "2022-11-08",
+  "brand_id": 2,
+  "codigo_barras_rfid": "RFID-VH-002",
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 5,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 5,
+  "location_id": 3,
+  "model_id": 4,
+  "name": "Toyota Hilux SR — VH-002",
+  "purchase_date": "2022-11-01",
+  "purchase_price": "39000",
+  "region_id": 2,
+  "serial_1": "8AFCF4BN0P0234567",
+  "service_configs": [{"alert_id": 1, "measure": "distance_kilometers", "threshold": 5000}],
+  "status": "active",
+  "tag_tecnico": "VH-002",
+  "tenure_type": "Alquiler",
+  "type_id": 2
+  }}
+{"kind": "entity", "entity": "assets", "id": 6, "data": {
+  "arrival_date": "2021-09-01",
+  "brand_id": 2,
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 4,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 4,
+  "location_id": 1,
+  "model_id": 5,
+  "name": "Toyota Land Cruiser — VH-003",
+  "purchase_date": "2021-08-20",
+  "purchase_price": "75000",
+  "region_id": 1,
+  "serial_1": "JTMHX05J804123789",
+  "service_configs": [{"alert_id": 1, "measure": "distance_kilometers", "threshold": 8000}],
+  "status": "active",
+  "tag_tecnico": "VH-003",
+  "tenure_type": "Propiedad",
+  "type_id": 2
+  }}
+{"kind": "entity", "entity": "assets", "id": 7, "data": {
+  "arrival_date": "2020-01-05",
+  "brand_id": 1,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 3,
+  "name": "Generador CAT C18 — GEN-001",
+  "purchase_date": "2019-11-10",
+  "purchase_price": "95000",
+  "region_id": 1,
+  "serial_1": "C180000X001234",
+  "service_configs": [{"alert_id": 1, "measure": "time_hours", "threshold": 500}],
+  "status": "active",
+  "tag_tecnico": "GEN-001",
+  "temp_max": "50",
+  "temp_min": "-10",
+  "tenure_type": "Propiedad",
+  "type_id": 3,
+  "warranty_end": "2024-11-10"
+  }}
+{"kind": "entity", "entity": "assets", "id": 8, "data": {
+  "arrival_date": "2020-04-01",
+  "brand_id": 1,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 1,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 4,
+  "model_id": 3,
+  "name": "Generador CAT C18 — GEN-002",
+  "purchase_date": "2020-03-15",
+  "purchase_price": "95000",
+  "region_id": 3,
+  "serial_1": "C180000X001235",
+  "service_configs": [{"alert_id": 1, "measure": "time_hours", "threshold": 500}],
+  "status": "active",
+  "tag_tecnico": "GEN-002",
+  "tenure_type": "Propiedad",
+  "type_id": 3
+  }}
+{"kind": "entity", "entity": "assets", "id": 9, "data": {
+  "arrival_date": "2020-09-15",
+  "brand_id": 3,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 7,
+  "name": "Chiller Carrier 30XA — HVAC-001",
+  "purchase_date": "2020-08-01",
+  "purchase_price": "120000",
+  "refrigerant": "R134a",
+  "region_id": 1,
+  "serial_1": "CAR30XA0001234",
+  "status": "active",
+  "tag_tecnico": "HVAC-001",
+  "temp_max": "15",
+  "temp_min": "5",
+  "tenure_type": "Propiedad",
+  "type_id": 4,
+  "warranty_end": "2025-08-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 10, "data": {
+  "arrival_date": "2020-09-15",
+  "brand_id": 3,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 7,
+  "name": "Chiller Carrier 30XA — HVAC-002",
+  "purchase_date": "2020-08-01",
+  "purchase_price": "120000",
+  "refrigerant": "R134a",
+  "region_id": 1,
+  "serial_1": "CAR30XA0001235",
+  "status": "maintenance",
+  "tag_tecnico": "HVAC-002",
+  "tenure_type": "Propiedad",
+  "type_id": 4
+  }}
+{"kind": "entity", "entity": "assets", "id": 11, "data": {
+  "arrival_date": "2022-07-10",
+  "brand_id": 4,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 9,
+  "name": "Servidor Dell R750 — SRV-001",
+  "purchase_date": "2022-07-01",
+  "purchase_price": "18500",
+  "region_id": 1,
+  "serial_1": "CNRK0004S",
+  "serial_2": "7JVHMN3",
+  "status": "active",
+  "tag_tecnico": "SRV-001",
+  "temp_max": "35",
+  "temp_min": "10",
+  "tenure_type": "Propiedad",
+  "type_id": 5,
+  "warranty_end": "2025-07-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 12, "data": {
+  "arrival_date": "2022-07-10",
+  "brand_id": 4,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 9,
+  "name": "Servidor Dell R750 — SRV-002",
+  "purchase_date": "2022-07-01",
+  "purchase_price": "18500",
+  "region_id": 1,
+  "serial_1": "CNRK0004T",
+  "serial_2": "8KVHMN4",
+  "status": "active",
+  "tag_tecnico": "SRV-002",
+  "tenure_type": "Propiedad",
+  "type_id": 5
+  }}
+{"kind": "entity", "entity": "assets", "id": 13, "data": {
+  "arrival_date": "2023-03-01",
+  "brand_id": 4,
+  "connectivity_tier": "qr_only",
+  "cost_center_id": 3,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 10,
+  "name": "Servidor Dell R450 — SRV-003",
+  "purchase_date": "2023-02-15",
+  "purchase_price": "9800",
+  "region_id": 1,
+  "serial_1": "CNRK0009A",
+  "status": "active",
+  "tag_tecnico": "SRV-003",
+  "tenure_type": "Propiedad",
+  "type_id": 5
+  }}
+{"kind": "entity", "entity": "assets", "id": 14, "data": {
+  "arrival_date": "2021-06-10",
+  "brand_id": 5,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 11,
+  "name": "UPS APC SRT 10kVA — UPS-001",
+  "purchase_date": "2021-06-01",
+  "purchase_price": "8200",
+  "region_id": 1,
+  "serial_1": "AS1830450296",
+  "status": "active",
+  "tag_tecnico": "UPS-001",
+  "tenure_type": "Propiedad",
+  "type_id": 6,
+  "warranty_end": "2024-06-01"
+  }}
+{"kind": "entity", "entity": "assets", "id": 15, "data": {
+  "arrival_date": "2021-06-10",
+  "brand_id": 5,
+  "connectivity_tier": "gateway",
+  "cost_center_id": 3,
+  "criticality": "Alta",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 2,
+  "model_id": 12,
+  "name": "UPS APC Symmetra — UPS-002",
+  "purchase_date": "2021-06-01",
+  "purchase_price": "14500",
+  "region_id": 1,
+  "serial_1": "AS1830450297",
+  "status": "active",
+  "tag_tecnico": "UPS-002",
+  "tenure_type": "Propiedad",
+  "type_id": 6
+  }}
+{"kind": "entity", "entity": "assets", "id": 16, "data": {
+  "arrival_date": "2020-10-15",
+  "brand_id": 7,
+  "connectivity_tier": "gps_cellular",
+  "cost_center_id": 1,
+  "criticality": "Media",
+  "currency_id": 2,
+  "custodian_id": 1,
+  "location_id": 6,
+  "model_id": 14,
+  "name": "Tractor John Deere 6130M — TRAC-001",
+  "purchase_date": "2020-10-01",
+  "purchase_price": "85000",
+  "region_id": 5,
+  "serial_1": "JD6130M001234",
+  "service_configs": [{"alert_id": 1, "measure": "time_hours", "threshold": 250}],
+  "status": "active",
+  "tag_tecnico": "TRAC-001",
+  "tenure_type": "Propiedad",
+  "type_id": 7,
+  "warranty_end": "2023-10-01"
+  }}
+
+# prop_associations: 17
+{"kind": "entity", "entity": "prop_associations", "id": 1, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 2,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 2, "data": {
+  "entity_id": 1,
+  "prop_definition_id": 5,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 3, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 3,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 4, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 1,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 5, "data": {
+  "entity_id": 2,
+  "prop_definition_id": 4,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 6, "data": {
+  "entity_id": 3,
+  "prop_definition_id": 6,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 7, "data": {
+  "entity_id": 3,
+  "prop_definition_id": 2,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 8, "data": {
+  "entity_id": 3,
+  "prop_definition_id": 7,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 9, "data": {
+  "entity_id": 4,
+  "prop_definition_id": 12,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 10, "data": {
+  "entity_id": 4,
+  "prop_definition_id": 13,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 11, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 8,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 12, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 9,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 13, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 10,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 14, "data": {
+  "entity_id": 5,
+  "prop_definition_id": 11,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 15, "data": {
+  "entity_id": 6,
+  "prop_definition_id": 6,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 16, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 2,
+  "requirement": "requerida",
+  "target_entity": "asset_type"
+  }}
+{"kind": "entity", "entity": "prop_associations", "id": 17, "data": {
+  "entity_id": 7,
+  "prop_definition_id": 5,
+  "requirement": "opcional",
+  "target_entity": "asset_type"
+  }}
+
+# sensors: 10
+{"kind": "entity", "entity": "sensors", "id": 1, "data": {
+  "driver": "can_obd",
+  "external_id": "GPS-EXC001",
+  "metadata": {"asset_tag": "EXC-001", "protocol": "CAN-J1939"},
+  "name": "Telemática EXC-001",
+  "type": "gps_telematics"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 2, "data": {
+  "driver": "can_obd",
+  "external_id": "GPS-EXC002",
+  "metadata": {"asset_tag": "EXC-002", "protocol": "CAN-J1939"},
+  "name": "Telemática EXC-002",
+  "type": "gps_telematics"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 3, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "GPS-VH001",
+  "metadata": {"asset_tag": "VH-001", "imei": "356938035643809"},
+  "name": "GPS Hilux VH-001",
+  "type": "gps_telematics"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 4, "data": {
+  "driver": "mqtt_ota",
+  "external_id": "GPS-VH002",
+  "metadata": {"asset_tag": "VH-002", "imei": "356938035643810"},
+  "name": "GPS Hilux VH-002",
+  "type": "gps_telematics"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 5, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-DC-01",
+  "metadata": {"rack": "A01", "unit_id": 1},
+  "name": "Sensor Temp/Humedad DC Fila A",
+  "type": "temperature_humidity"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 6, "data": {
+  "driver": "modbus_rtu",
+  "external_id": "TEMP-DC-02",
+  "metadata": {"rack": "B01", "unit_id": 2},
+  "name": "Sensor Temp/Humedad DC Fila B",
+  "type": "temperature_humidity"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 7, "data": {
+  "driver": "snmp_v2",
+  "external_id": "PWR-UPS001",
+  "metadata": {"oid_base": ".1.3.6.1.4.1.318"},
+  "name": "Monitor UPS-001",
+  "type": "power_monitor"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 8, "data": {
+  "driver": "snmp_v2",
+  "external_id": "PWR-UPS002",
+  "metadata": {"oid_base": ".1.3.6.1.4.1.318"},
+  "name": "Monitor UPS-002",
+  "type": "power_monitor"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 9, "data": {
+  "driver": "modbus_tcp",
+  "external_id": "GEN-CTRL-001",
+  "metadata": {"ip": "10.0.10.21", "port": 502},
+  "name": "Controlador GEN-001",
+  "type": "genset_controller"
+  }}
+{"kind": "entity", "entity": "sensors", "id": 10, "data": {
+  "driver": "modbus_tcp",
+  "external_id": "GEN-CTRL-002",
+  "metadata": {"ip": "10.0.10.22", "port": 502},
+  "name": "Controlador GEN-002",
+  "type": "genset_controller"
+  }}
+
+# users: 16
+{"kind": "entity", "entity": "users", "id": 1, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "hl@example.com",
+  "name": "HL",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "admin",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 2, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "dev@ual.li",
+  "name": "Dev",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "developer",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 3, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "manager@example.com",
+  "name": "Manager",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "manager",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 4, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "viewer@example.com",
+  "name": "Viewer",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "viewer",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 5, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "facundo.salaberry.h@estudiantes.utec.edu.uy",
+  "name": "Facundo Salaberry",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 6, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "alexis.menchaca@estudiantes.utec.edu.uy",
+  "name": "Alexis Menchaca",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 7, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "ignacio.ortega@estudiantes.utec.edu.uy",
+  "name": "Ignacio Ortega",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 8, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "kevin.jaffe@estudiantes.utec.edu.uy",
+  "name": "Kevin Jaffe",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 9, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "lucas.brito@estudiantes.utec.edu.uy",
+  "name": "Lucas Brito",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 10, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "alan.machado@estudiantes.utec.edu.uy",
+  "name": "Alan Machado",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 11, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "matthew.freire@estudiantes.utec.edu.uy",
+  "name": "Matthew Freire",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 12, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "luciano.gamba@estudiantes.utec.edu.uy",
+  "name": "Luciano Gamba",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 13, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "gaston.perez@estudiantes.utec.edu.uy",
+  "name": "Gaston Perez",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 14, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "agustin.machado@estudiantes.utec.edu.uy",
+  "name": "Agustin Machado",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 15, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "fabricio.rivero.r@estudiantes.utec.edu.uy",
+  "name": "Fabricio Rivero",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "users", "id": 16, "data": {
+  "active": true,
+  "created_at": {"$now": ""},
+  "email": "facundo.guerra.n@estudiantes.utec.edu.uy",
+  "name": "Facundo Guerra",
+  "password_hash": "$2b$10$C.6TAiQOamXbGpzcHhmoR.mGswuyJJyk8OwSdWlC6O4IT8oqmtUWS",
+  "role": "operator",
+  "tenant_id": 1,
+  "updated_at": {"$now": ""}
+  }}
+
+# tenant_settings: 2
+{"kind": "entity", "entity": "tenant_settings", "id": 1, "data": {
+  "key": "general",
+  "locale": "es",
+  "tenant_name": "Constructec S.A.",
+  "updated_at": {"$now": ""}
+  }}
+{"kind": "entity", "entity": "tenant_settings", "id": 2, "data": {
+  "email_alerts": true,
+  "key": "notifications",
+  "slack_enabled": false,
+  "updated_at": {"$now": ""},
+  "webhooks_enabled": true
+  }}
+
+# rules: 5
+{"kind": "entity", "entity": "rules", "id": 1, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "2",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Notifica cuando el vehículo alcanza 5000 km desde el último servicio",
+  "duration": 0,
+  "enabled": true,
+  "name": "Mantenimiento vehículo 5000 km",
+  "priority": 60,
+  "threshold": 5000,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 2, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "1",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Notifica cuando la maquinaria supera 250 horas de motor",
+  "duration": 0,
+  "enabled": true,
+  "name": "Mantenimiento maquinaria 250 horas",
+  "priority": 70,
+  "threshold": 250,
+  "trigger_type": "threshold"
+  }}
+{"kind": "entity", "entity": "rules", "id": 3, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "2",
+  "condition_type": "value_gt",
+  "created_at": {"$now": ""},
+  "description": "Alerta cuando un activo GPS sale de la zona asignada",
+  "duration": 0,
+  "enabled": true,
+  "name": "Equipo fuera de zona geográfica",
+  "priority": 85,
+  "threshold": 0,
+  "trigger_type": "geofence"
+  }}
+{"kind": "entity", "entity": "rules", "id": 4, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "2",
+  "condition_type": "duration_exceeded",
+  "created_at": {"$now": ""},
+  "description": "Detecta activos que no reportan posición por más de 72 horas",
+  "duration": 72,
+  "enabled": true,
+  "name": "Activo sin reporte GPS — 72 horas",
+  "priority": 50,
+  "threshold": 0,
+  "trigger_type": "schedule"
+  }}
+{"kind": "entity", "entity": "rules", "id": 5, "data": {
+  "action_config": "",
+  "action_type": "notify",
+  "asset_type_id": "3",
+  "condition_type": "duration_exceeded",
+  "created_at": {"$now": ""},
+  "description": "Los generadores deben probarse al menos una vez por mes",
+  "duration": 720,
+  "enabled": true,
+  "name": "Generador sin arranque de prueba — 30 días",
+  "priority": 55,
+  "threshold": 0,
+  "trigger_type": "schedule"
+  }}
+
+# sensor_bindings: 8
+{"kind": "entity", "entity": "sensor_bindings", "id": 1, "data": {
+  "asset_id": 1,
+  "binding_metadata": {"protocol": "CAN-J1939", "role": "primary_gps"},
+  "created_at": {"$now": ""},
+  "sensor_id": 1
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 2, "data": {
+  "asset_id": 2,
+  "binding_metadata": {"protocol": "CAN-J1939", "role": "primary_gps"},
+  "created_at": {"$now": ""},
+  "sensor_id": 2
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 3, "data": {
+  "asset_id": 4,
+  "binding_metadata": {"role": "primary_gps"},
+  "created_at": {"$now": ""},
+  "sensor_id": 3
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 4, "data": {
+  "asset_id": 5,
+  "binding_metadata": {"role": "primary_gps"},
+  "created_at": {"$now": ""},
+  "sensor_id": 4
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 5, "data": {
+  "asset_id": 7,
+  "binding_metadata": {"protocol": "Modbus-TCP", "role": "controller"},
+  "created_at": {"$now": ""},
+  "sensor_id": 9
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 6, "data": {
+  "asset_id": 8,
+  "binding_metadata": {"protocol": "Modbus-TCP", "role": "controller"},
+  "created_at": {"$now": ""},
+  "sensor_id": 10
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 7, "data": {
+  "asset_id": 14,
+  "binding_metadata": {"protocol": "SNMP-v2", "role": "power_monitor"},
+  "created_at": {"$now": ""},
+  "sensor_id": 7
+  }}
+{"kind": "entity", "entity": "sensor_bindings", "id": 8, "data": {
+  "asset_id": 15,
+  "binding_metadata": {"protocol": "SNMP-v2", "role": "power_monitor"},
+  "created_at": {"$now": ""},
+  "sensor_id": 8
+  }}
+
+# alerts: 4
+{"kind": "entity", "entity": "alerts", "id": 1, "data": {
+  "alerta_id": 1,
+  "asset_id": 2,
+  "asset_name": "Excavadora CAT 320 GC — EXC-002",
+  "created_at": {"$date": "-2dT08:30:00Z"},
+  "message": "Equipo ingresado a taller para revisión de sistema hidráulico. Horas motor: 1,842.",
+  "severity": "medium",
+  "source": "seed",
+  "status": "open",
+  "title": "Equipo ingresado a taller para revisión de sist..."
+  }}
+{"kind": "entity", "entity": "alerts", "id": 2, "data": {
+  "alerta_id": 1,
+  "asset_id": 3,
+  "asset_name": "Bulldozer CAT D6N — BULL-001",
+  "created_at": {"$date": "T06:00:00Z"},
+  "message": "241 horas de motor registradas — próximo mantenimiento en menos de 10 horas.",
+  "severity": "medium",
+  "source": "seed",
+  "status": "open",
+  "title": "241 horas de motor registradas — próximo manten..."
+  }}
+{"kind": "entity", "entity": "alerts", "id": 3, "data": {
+  "asset_id": 4,
+  "asset_name": "Toyota Hilux SR — VH-001",
+  "created_at": {"$date": "-1dT14:15:00Z"},
+  "message": "Odómetro: 4,850 km. Próximo servicio de 5,000 km en 150 km.",
+  "severity": "low",
+  "source": "seed",
+  "status": "open",
+  "title": "Odómetro: 4,850 km. Próximo servicio de 5,000 k..."
+  }}
+{"kind": "entity", "entity": "alerts", "id": 4, "data": {
+  "acknowledged_at": {"$date": "-5dT10:30:00Z"},
+  "acknowledged_by": "hl@example.com",
+  "asset_id": 7,
+  "asset_name": "Generador CAT C18 — GEN-001",
+  "created_at": {"$date": "-5dT09:00:00Z"},
+  "message": {"$text": "Garantía vence el ${date:+28d}. Contactar proveedor para renovación."},
+  "severity": "low",
+  "status": "acknowledged"
+  }}
+
+# events: 6
+{"kind": "entity", "entity": "events", "id": 1, "data": {
+  "location": {"lat": -34.9011, "lon": -56.1645},
+  "sensor_id": 3,
+  "timestamp": {"$date": "-1dT08:15:00Z"},
+  "trigger_type": "gateway_poll",
+  "unit": "km/h",
+  "value": {"lat": -34.9011, "lon": -56.1645, "odometer_km": 4850, "speed_kmh": 45}
+  }}
+{"kind": "entity", "entity": "events", "id": 2, "data": {
+  "location": {"lat": -31.3833, "lon": -57.9667},
+  "sensor_id": 4,
+  "timestamp": {"$date": "-1dT09:05:00Z"},
+  "trigger_type": "gateway_poll",
+  "unit": "km/h",
+  "value": {"lat": -31.3833, "lon": -57.9667, "odometer_km": 32410, "speed_kmh": 88}
+  }}
+{"kind": "entity", "entity": "events", "id": 3, "data": {
+  "sensor_id": 1,
+  "timestamp": {"$date": "-1dT09:30:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "hours",
+  "value": {"engine_hours": 1243.5, "fuel_pct": 68, "rpm": 1800}
+  }}
+{"kind": "entity", "entity": "events", "id": 4, "data": {
+  "sensor_id": 9,
+  "timestamp": {"$date": "T00:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "unit": "hours",
+  "value": {"charge_pct": 0, "engine_hours": 31420, "frequency_hz": 50, "voltage_v": 380}
+  }}
+{"kind": "entity", "entity": "events", "id": 5, "data": {
+  "sensor_id": 7,
+  "timestamp": {"$date": "T07:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "value": {"autonomy_min": 28, "battery_pct": 100, "charge_pct": 42, "output_voltage_v": 220}
+  }}
+{"kind": "entity", "entity": "events", "id": 6, "data": {
+  "sensor_id": 8,
+  "timestamp": {"$date": "T07:00:00Z"},
+  "trigger_type": "sensor_driver",
+  "value": {"autonomy_min": 21, "battery_pct": 100, "charge_pct": 58, "output_voltage_v": 220}
+  }}

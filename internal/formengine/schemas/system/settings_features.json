@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "title": "Feature Settings",
+  "properties": {
+    "map_enabled": {
+      "type": "boolean",
+      "title": "Map view",
+      "x-seam-input": "toggle"
+    }
+  },
+  "required": []
+}

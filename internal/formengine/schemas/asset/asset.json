@@ -1,0 +1,565 @@
+{
+  "type": "object",
+  "title": "Asset",
+  "x-seam-form": {
+    "module": "assets",
+    "name": "asset",
+    "width": "2xl",
+    "tabs": [
+      {
+        "id": "tab-principal",
+        "label": "assets.forms.asset.tab.principal",
+        "sections": [
+          {
+            "id": "basico",
+            "label": "assets.forms.asset.section.basic",
+            "layout": "2-col-left",
+            "fields": [
+              "name",
+              "type_id",
+              "status",
+              "criticality",
+              "connectivity_tier"
+            ]
+          },
+          {
+            "id": "identificacion",
+            "label": "assets.forms.asset.section.identification",
+            "layout": "2-col-right",
+            "fields": [
+              "giai",
+              "grai",
+              "barcode_rfid",
+              "technical_tag"
+            ]
+          },
+          {
+            "id": "caracterizacion",
+            "label": "assets.forms.asset.section.characterization",
+            "layout": "2-col-right",
+            "fields": [
+              "brand_id",
+              "model_id",
+              "serial_1",
+              "serial_2",
+              "lot"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tab-loc",
+        "label": "assets.forms.asset.tab.loc",
+        "sections": [
+          {
+            "id": "ubicacion",
+            "label": "assets.forms.asset.section.location",
+            "layout": "2-col-left",
+            "fields": [
+              "location_id",
+              "region_id",
+              "latitude",
+              "longitude",
+              "parent_id"
+            ]
+          },
+          {
+            "id": "custodia",
+            "label": "assets.forms.asset.section.custody",
+            "layout": "2-col-right",
+            "fields": [
+              "custodian_id",
+              "tenure_type",
+              "loan_expiry",
+              "loan_links"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tab-geo",
+        "label": "assets.forms.asset.tab.geo",
+        "sections": [
+          {
+            "id": "geo-map",
+            "label": "assets.forms.asset.section.geo_map",
+            "layout": "1-col",
+            "fields": [
+              "gps_location"
+            ]
+          },
+          {
+            "id": "geo-photos",
+            "label": "assets.forms.asset.section.photos",
+            "layout": "1-col",
+            "fields": [
+              "photos"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tab-ciclo",
+        "label": "assets.forms.asset.tab.lifecycle",
+        "sections": [
+          {
+            "id": "fechas",
+            "label": "assets.forms.asset.section.dates",
+            "layout": "2-col-left",
+            "fields": [
+              "purchase_date",
+              "expected_arrival_date",
+              "arrival_date",
+              "obsolescence_date",
+              "expiration_date",
+              "decommission_date",
+              "decommission_reason"
+            ]
+          },
+          {
+            "id": "docs-ciclo",
+            "label": "assets.forms.asset.section.lifecycle_documents",
+            "layout": "2-col-right",
+            "fields": [
+              "lifecycle_links"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "tab-mantenimiento",
+        "label": "assets.forms.asset.tab.maintenance",
+        "sections": [
+          {
+            "id": "finance",
+            "label": "assets.forms.asset.section.finance",
+            "layout": "2-col-left",
+            "fields": [
+              "purchase_price",
+              "currency_id",
+              "current_price",
+              "cost_center_id",
+              "warranty_end",
+              "document_links"
+            ]
+          },
+          {
+            "id": "service",
+            "label": "assets.forms.asset.section.service",
+            "layout": "2-col-right",
+            "fields": [
+              "temp_min",
+              "temp_max",
+              "refrigerant",
+              "voltage_consumption",
+              "service_configs"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 500,
+      "title": "Name",
+      "x-seam-placeholder": "e.g. Forklift Toyota 8FGU25"
+    },
+    "type_id": {
+      "type": "integer",
+      "title": "Asset Type",
+      "x-seam-input": "asset-type-select",
+      "x-seam-source": "entity:asset-types",
+      "x-seam-fk-popover": "/asset-types"
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "x-seam-input": "select",
+      "enum": [
+        "active",
+        "inactive",
+        "maintenance",
+        "lost"
+      ]
+    },
+    "criticality": {
+      "type": "string",
+      "title": "Criticality",
+      "x-seam-input": "select",
+      "enum": [
+        "High",
+        "Medium",
+        "Low"
+      ]
+    },
+    "connectivity_tier": {
+      "type": "string",
+      "title": "Connectivity",
+      "x-seam-input": "select",
+      "enum": [
+        "qr_only",
+        "gateway",
+        "lora_mesh",
+        "gps_cellular"
+      ]
+    },
+    "giai": {
+      "type": "string",
+      "maxLength": 30,
+      "title": "GIAI",
+      "x-seam-placeholder": "e.g. 0614141123452"
+    },
+    "grai": {
+      "type": "string",
+      "maxLength": 30,
+      "title": "GRAI",
+      "x-seam-placeholder": "e.g. 06141411234520001"
+    },
+    "barcode_rfid": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Barcode / RFID",
+      "x-seam-placeholder": "e.g. 7501031311309"
+    },
+    "technical_tag": {
+      "type": "string",
+      "maxLength": 50,
+      "title": "Technical Tag",
+      "x-seam-placeholder": "e.g. ELEV-2026-04"
+    },
+    "brand_id": {
+      "type": "integer",
+      "title": "Brand",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:brands",
+      "x-seam-fk-popover": "/brands"
+    },
+    "model_id": {
+      "type": "integer",
+      "title": "Model",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:models",
+      "x-seam-fk-popover": "/models"
+    },
+    "serial_1": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Serial 1",
+      "x-seam-placeholder": "e.g. 1234567890"
+    },
+    "serial_2": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Serial 2",
+      "x-seam-placeholder": "e.g. 9876543210"
+    },
+    "lot": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Lot",
+      "x-seam-placeholder": "e.g. LOT-2026-A"
+    },
+    "location_id": {
+      "type": "integer",
+      "title": "Location",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:locations",
+      "x-seam-fk-popover": "/locations"
+    },
+    "region_id": {
+      "type": "integer",
+      "title": "Region",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:regions"
+    },
+    "latitude": {
+      "type": "number",
+      "title": "Latitude"
+    },
+    "gps_location": {
+      "type": "string",
+      "title": "GPS location",
+      "x-seam-input": "gps"
+    },
+    "photos": {
+      "type": "string",
+      "title": "Photos",
+      "x-seam-input": "image",
+      "x-seam-hide-label": true
+    },
+    "longitude": {
+      "type": "number",
+      "title": "Longitude"
+    },
+    "parent_id": {
+      "type": "integer",
+      "title": "Parent ID",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:assets",
+      "x-seam-selector": "assets",
+      "x-seam-placeholder": "Search or browse asset...",
+      "x-seam-help": "The asset that contains this one in the hierarchy",
+      "x-seam-help-style": "inline"
+    },
+    "custodian_id": {
+      "type": "integer",
+      "title": "Custodian",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:custodians",
+      "x-seam-fk-popover": "/custodians"
+    },
+    "tenure_type": {
+      "type": "string",
+      "title": "Tenure Type",
+      "x-seam-input": "select",
+      "enum": [
+        "Owned",
+        "Loaned",
+        "Borrowed",
+        "Rented"
+      ]
+    },
+    "loan_expiry": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Loan Expiry",
+      "format": "date",
+      "x-seam-visible-when": {
+        "field": "tenure_type",
+        "op": "eq",
+        "value": "Loaned"
+      }
+    },
+    "loan_links": {
+      "type": "array",
+      "title": "Loan Links",
+      "x-seam-input": "document-links",
+      "x-seam-visible-when": {
+        "field": "tenure_type",
+        "op": "eq",
+        "value": "Loaned"
+      },
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-placeholder": "e.g. Loan agreement"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "URL",
+            "x-seam-placeholder": "https://..."
+          },
+          "type": {
+            "type": "string",
+            "title": "Type (optional)",
+            "x-seam-placeholder": "PDF, DOCX..."
+          }
+        }
+      }
+    },
+    "purchase_date": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Purchase Date",
+      "format": "date"
+    },
+    "expected_arrival_date": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Expected Arrival Date",
+      "format": "date"
+    },
+    "arrival_date": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Arrival Date",
+      "format": "date"
+    },
+    "obsolescence_date": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Obsolescence Date",
+      "format": "date"
+    },
+    "expiration_date": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Expiration Date",
+      "format": "date"
+    },
+    "decommission_date": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Decommission Date",
+      "format": "date"
+    },
+    "decommission_reason": {
+      "type": "string",
+      "title": "Decommission Reason",
+      "x-seam-input": "select",
+      "x-seam-placeholder": "Select reason...",
+      "enum": [
+        "Sale",
+        "Scrap",
+        "Theft",
+        "Donation",
+        "Other"
+      ]
+    },
+    "lifecycle_links": {
+      "type": "array",
+      "title": "Lifecycle Links",
+      "x-seam-input": "document-links",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-placeholder": "e.g. Receipt/Delivery Record"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "URL",
+            "x-seam-placeholder": "https://..."
+          },
+          "type": {
+            "type": "string",
+            "title": "Type (optional)",
+            "x-seam-placeholder": "PDF, DOCX..."
+          }
+        }
+      }
+    },
+    "purchase_price": {
+      "type": "number",
+      "title": "Purchase Price",
+      "x-seam-placeholder": "0.00"
+    },
+    "currency_id": {
+      "type": "integer",
+      "title": "Currency",
+      "x-seam-input": "select",
+      "x-seam-placeholder": "Select currency...",
+      "x-seam-source": "entity:currencies"
+    },
+    "current_price": {
+      "type": "number",
+      "title": "Current Price",
+      "x-seam-placeholder": "0.00"
+    },
+    "cost_center_id": {
+      "type": "integer",
+      "title": "Cost Center",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:cost-centers",
+      "x-seam-fk-popover": "/cost-centers"
+    },
+    "warranty_end": {
+      "type": "string",
+      "maxLength": 10,
+      "title": "Warranty End",
+      "format": "date"
+    },
+    "document_links": {
+      "type": "array",
+      "title": "Document Links",
+      "x-seam-input": "document-links",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-placeholder": "e.g. Purchase invoice"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "URL",
+            "x-seam-placeholder": "https://..."
+          },
+          "type": {
+            "type": "string",
+            "title": "Type (optional)",
+            "x-seam-placeholder": "PDF, DOCX..."
+          }
+        }
+      }
+    },
+    "temp_min": {
+      "type": "number",
+      "title": "Min. Temp.",
+      "x-seam-unit": "°C",
+      "x-seam-placeholder": "-20"
+    },
+    "temp_max": {
+      "type": "number",
+      "title": "Max. Temp.",
+      "x-seam-unit": "°C",
+      "x-seam-placeholder": "50"
+    },
+    "refrigerant": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Refrigerant",
+      "x-seam-placeholder": "e.g. R-134a"
+    },
+    "voltage_consumption": {
+      "type": "string",
+      "maxLength": 100,
+      "title": "Voltage / Consumption",
+      "x-seam-placeholder": "e.g. 220V / 15A"
+    },
+    "service_configs": {
+      "type": "array",
+      "title": "Service Configurations",
+      "x-seam-input": "repeatable",
+      "x-seam-reorder": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "measure": {
+            "type": "string",
+            "title": "Measure",
+            "x-seam-input": "select",
+            "x-seam-placeholder": "Select measure...",
+            "enum": [
+              "distance_kilometers",
+              "distance_miles",
+              "time_hours",
+              "time_days",
+              "usage_cycles",
+              "condition_temperature"
+            ],
+            "x-seam-option-groups": true
+          },
+          "threshold": {
+            "type": "number",
+            "title": "Threshold",
+            "x-seam-placeholder": "e.g. 10000"
+          },
+          "alert_id": {
+            "type": "integer",
+            "title": "Alert",
+            "x-seam-input": "select",
+            "x-seam-placeholder": "Select alert...",
+            "x-seam-source": "entity:alert-types"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "name",
+    "type_id",
+    "criticality"
+  ]
+}

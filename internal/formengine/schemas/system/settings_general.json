@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "title": "General Settings",
+  "properties": {
+    "tenant_name": {
+      "type": "string",
+      "title": "Organization name",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "locale": {
+      "type": "string",
+      "title": "Language",
+      "x-seam-input": "select",
+      "enum": ["en", "es", "pt", "ja"]
+    }
+  },
+  "required": [
+    "tenant_name"
+  ]
+}

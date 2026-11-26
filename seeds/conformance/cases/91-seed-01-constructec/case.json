@@ -1,0 +1,45 @@
+{
+ "about": "Seam's seed 01 gives what its Python script gave, as of the same moment",
+ "entities": [
+  "regions",
+  "currencies",
+  "cost_centers",
+  "brands",
+  "models",
+  "custodians",
+  "alert_types",
+  "prop_definitions",
+  "locations",
+  "fsm_machines",
+  "asset_types",
+  "assets",
+  "prop_associations",
+  "sensors",
+  "users",
+  "tenant_settings",
+  "rules",
+  "sensor_bindings",
+  "alerts",
+  "events"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "../../../seed-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "check",
+    "../../../seed-01-constructec.seed"
+   ],
+   "says": "same"
+  }
+ ],
+ "ignore": [
+  "users.password_hash"
+ ]
+}

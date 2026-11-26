@@ -1,0 +1,426 @@
+# Seam AMS demonstration data: the Issues module, over the seed 06-asahikenki.
+# A .seed file, format version 2 (docs/SEED_FORMAT.md). It is an addition: load the seed it requires first, then:
+#   python3 seeds/seed.py load issues-06-asahikenki --url http://localhost:9090
+# xolu must run with XOLU_API_V2_ENABLED=true: the lifecycle of an issue is a state machine (/api/v2/fsm).
+# Seam must run with the Issues module on (SEAM_ENABLE_ISSUES=1), as with any module that is off by default.
+# Times written as {"$now": "-120m"} are relative to the moment of the load.
+{"seed": 2,
+  "name": "issues-06-asahikenki",
+  "description": "朝日建機のインシデント：報告、テンプレート、QRコード、グループ化された案件",
+  "tags": ["issues", "construction", "jp", "ja"],
+  "version": "1",
+  "addition": true,
+  "requires": ["06-asahikenki"],
+  "entities": ["issue_templates", "issue_template_assignments", "issue_qr_codes", "issues"],
+  "notes": "12 issues in every state of the lifecycle (one case with two grouped issues), 2 templates (one with two versions) assigned to 2 asset types, 4 QR codes (one revoked). Seam must run with the module on (SEAM_ENABLE_ISSUES=1).",
+  "x": {"seam": {"module": "issues"}}
+  }
+
+# The lifecycle of an issue: the state machine the application itself makes on first use, found here by name.
+{"kind": "fsm_def", "match": ["name"], "as": "lifecycle", "body": {
+  "name": "seam_issue_lifecycle",
+  "description": "Seam AMS Issues lifecycle (8 states, iteration 1)",
+  "initial": "reported",
+  "determinism": "firstmatch",
+  "states": {
+    "reported": {"terminal": false},
+    "triaged": {"terminal": false},
+    "in_progress": {"terminal": false},
+    "on_hold": {"terminal": false},
+    "resolved": {"terminal": false},
+    "closed": {"terminal": true},
+    "rejected": {"terminal": true},
+    "duplicate": {"terminal": true}
+  },
+  "transitions": [
+    {"from": "reported", "input": "triage", "to": "triaged"},
+    {"from": ["reported", "triaged"], "input": "start", "to": "in_progress"},
+    {"from": ["triaged", "in_progress"], "input": "hold", "to": "on_hold"},
+    {"from": "on_hold", "input": "resume", "to": "in_progress"},
+    {"from": "in_progress", "input": "resolve", "to": "resolved"},
+    {"from": "resolved", "input": "close", "to": "closed"},
+    {
+      "from": ["reported", "triaged", "in_progress", "on_hold", "resolved"],
+      "input": "reject",
+      "to": "rejected"
+    },
+    {"from": ["reported", "triaged", "in_progress"], "input": "merge", "to": "duplicate"}
+  ]
+  }}
+
+# What this file expects to find, put there by the seed it adds to: users, asset types and assets.
+{"kind": "entity", "entity": "users", "find": {"email": "facundo.salaberry.h@estudiantes.utec.edu.uy"}, "as": "u_op1"}
+{"kind": "entity", "entity": "users", "find": {"email": "alexis.menchaca@estudiantes.utec.edu.uy"}, "as": "u_op2"}
+{"kind": "entity", "entity": "users", "find": {"email": "ignacio.ortega@estudiantes.utec.edu.uy"}, "as": "u_op3"}
+{"kind": "entity", "entity": "users", "find": {"email": "kevin.jaffe@estudiantes.utec.edu.uy"}, "as": "u_op4"}
+{"kind": "entity", "entity": "users", "find": {"email": "manager@example.com"}, "as": "u_manager"}
+{"kind": "entity", "entity": "users", "find": {"email": "admin@asahi-kenki.example"}, "as": "u_admin"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "heavy-machinery"}, "as": "type_t1"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "grupo-electrogeno"}, "as": "type_t2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "EXC-001"}, "as": "asset_a1"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "BULL-001"}, "as": "asset_a1b"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "VH-001"}, "as": "asset_a2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "HVAC-001"}, "as": "asset_a3"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "SRV-001"}, "as": "asset_a4"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "GEN-001"}, "as": "asset_a5"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TRAC-001"}, "as": "asset_a6"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "UPS-001"}, "as": "asset_a7"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "SRV-002"}, "as": "asset_a8"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "UPS-002"}, "as": "asset_a9"}
+
+# Issue templates: the extra fields an issue asks for, by asset type. The second one has two versions; the current one is version 2.
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t1", "data": {
+  "key": "heavy_machinery_failure",
+  "name": "重機の故障",
+  "description": "ショベルカーやブルドーザーの故障を報告するときに入力する項目。",
+  "version": 1,
+  "fields": [
+    {"key": "hour_meter", "label": "アワーメーター (h)", "type": "number", "required": true},
+    {"key": "error_code", "label": "モニターのエラーコード", "type": "text", "required": false},
+    {"key": "machine_stopped", "label": "機械は停止していますか？", "type": "boolean", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"},
+  "sla_config": {
+    "first_response": {"critical": 30, "high": 60, "medium": 240, "low": 480},
+    "resolution": {"critical": 240, "high": 480, "medium": 1440, "low": 2880}
+  }
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2_v1", "data": {
+  "key": "generator_failure",
+  "name": "発電機の故障",
+  "description": "発電機の故障を報告するときに入力する項目。",
+  "version": 1,
+  "fields": [{"key": "running_hours", "label": "運転時間", "type": "number", "required": true}],
+  "is_current": 0,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"}
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2", "data": {
+  "key": "generator_failure",
+  "name": "発電機の故障",
+  "description": "発電機の故障を報告するときに入力する項目。",
+  "version": 2,
+  "fields": [
+    {"key": "running_hours", "label": "運転時間", "type": "number", "required": true},
+    {"key": "fuel_level", "label": "燃料残量 (%)", "type": "number", "required": false},
+    {"key": "started", "label": "始動しましたか？", "type": "boolean", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t1"},
+  "template_key": "heavy_machinery_failure",
+  "updated_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t2"},
+  "template_key": "generator_failure",
+  "updated_at": {"$now": "-12d"}
+  }}
+
+# QR codes for reporting an issue from the asset itself. The third asset had its code replaced: the old one is kept, revoked.
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "M3LNDK7RUP53JESC",
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "DUE5EOGWHACWYKWS",
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "CMDKTT54TIOOXN6Z",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "critico",
+  "active": false,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"},
+  "revoked_at": {"$now": "-6d"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "6KGVQWECZWLLI344",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-6d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+
+# One state machine per issue, and the inputs that took it to where it is. The history of each issue shows these
+# steps with the time of the load, which is when they are made.
+{"kind": "fsm_machine", "as": "m_iss_01", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_02", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_03", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_03"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_04", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_05", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_06", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "start", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "hold", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_machine", "as": "m_iss_07", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "start", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_machine", "as": "m_iss_08", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "close", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_09", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "reject", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_10", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_11", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_12", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+
+# The issues. Each is found by its seed_code, so loading the file again adds nothing. ISS-10 is a case: ISS-11 and
+# ISS-12 are grouped under it and follow its state.
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_01", "data": {
+  "seed_code": "ISS-01",
+  "title": "ブームから作動油が漏れている",
+  "description": "ブームシリンダーから油が垂れています。機械のQRコードから報告。",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_01"},
+  "channel": "qr",
+  "created_at": {"$now": "-120m"},
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "+120m"},
+  "sla_resolution_deadline": {"$now": "+1320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_02", "data": {
+  "seed_code": "ISS-02",
+  "title": "後部ブレーキランプの球切れ",
+  "description": "左のブレーキランプが点灯しません。車両は使用を続けています。",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_02"},
+  "channel": "app",
+  "created_at": {"$now": "-300m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "+180m"},
+  "sla_resolution_deadline": {"$now": "+4020m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_03", "data": {
+  "seed_code": "ISS-03",
+  "title": "チラーに高圧警報",
+  "description": "朝からチラーに凝縮圧力の高圧警報が出ています。",
+  "priority": "high",
+  "severity": "major",
+  "state": "triaged",
+  "machine_id": {"$seed": "m_iss_03"},
+  "channel": "app",
+  "created_at": {"$now": "-1560m"},
+  "asset_id": {"$seed": "asset_a3"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1440m"},
+  "sla_resolution_deadline": {"$now": "-120m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-780m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_04", "data": {
+  "seed_code": "ISS-04",
+  "title": "ブルドーザーが負荷時に出力低下",
+  "description": "土砂を押すとエンジン回転が落ち、黒煙が出ます。",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_04"},
+  "channel": "app",
+  "created_at": {"$now": "-1800m"},
+  "asset_id": {"$seed": "asset_a1b"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1740m"},
+  "sla_resolution_deadline": {"$now": "-1320m"},
+  "template_id": {"$seed": "tpl_t1"},
+  "form_data": {"hour_meter": "4820", "error_code": "E361-2", "machine_stopped": "false"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1740m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-600m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_05", "data": {
+  "seed_code": "ISS-05",
+  "title": "メインサーバーが応答しない",
+  "description": "本番サーバーが応答しなくなりました。現場のシステムが停止しています。",
+  "priority": "critical",
+  "severity": "critical",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_05"},
+  "channel": "app",
+  "created_at": {"$now": "-4320m"},
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-4260m"},
+  "sla_resolution_deadline": {"$now": "-4080m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-4140m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-1440m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_06", "data": {
+  "seed_code": "ISS-06",
+  "title": "週次点検で発電機が始動しない",
+  "description": "週次点検で発電機が始動しませんでした。交換用バッテリーの到着待ちです。",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "on_hold",
+  "machine_id": {"$seed": "m_iss_06"},
+  "channel": "app",
+  "created_at": {"$now": "-5760m"},
+  "asset_id": {"$seed": "asset_a5"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-5520m"},
+  "sla_resolution_deadline": {"$now": "-4320m"},
+  "template_id": {"$seed": "tpl_t2"},
+  "form_data": {"running_hours": "1260", "fuel_level": "78", "started": "false"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_op4"},
+  "first_response_at": {"$now": "-5640m"},
+  "first_responded_by": {"$seed": "u_op4"},
+  "updated_at": {"$now": "-1920m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_07", "data": {
+  "seed_code": "ISS-07",
+  "title": "後輪タイヤの空気圧低下",
+  "description": "右後輪の空気圧が一晩で下がります。バルブを修理しました。",
+  "priority": "medium",
+  "severity": "major",
+  "state": "resolved",
+  "machine_id": {"$seed": "m_iss_07"},
+  "channel": "app",
+  "created_at": {"$now": "-8640m"},
+  "asset_id": {"$seed": "asset_a6"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-8160m"},
+  "sla_resolution_deadline": {"$now": "-4320m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "first_response_at": {"$now": "-8400m"},
+  "first_responded_by": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-2160m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_08", "data": {
+  "seed_code": "ISS-08",
+  "title": "ワイパーブレードの交換",
+  "description": "拭き跡が残るため、2本とも交換しました。",
+  "priority": "low",
+  "severity": "minor",
+  "state": "closed",
+  "machine_id": {"$seed": "m_iss_08"},
+  "channel": "app",
+  "created_at": {"$now": "-17280m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-16800m"},
+  "sla_resolution_deadline": {"$now": "-7200m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-16920m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-4320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_09", "data": {
+  "seed_code": "ISS-09",
+  "title": "倉庫のゲートから異音",
+  "description": "引き戸のゲートを開けるときに音がします。",
+  "priority": "low",
+  "severity": "minor",
+  "state": "rejected",
+  "machine_id": {"$seed": "m_iss_09"},
+  "channel": "app",
+  "created_at": {"$now": "-11520m"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-11040m"},
+  "sla_resolution_deadline": {"$now": "-1440m"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_manager"},
+  "reject_reason": "このゲートはSeamで管理している資産ではありません。建物の保守担当に引き継ぎました。",
+  "updated_at": {"$now": "-3840m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_10", "data": {
+  "seed_code": "ISS-10",
+  "title": "サーバールームの停電",
+  "description": "受電側の停電でUPSがバッテリー運転に切り替わりました。この案件はサーバールームの報告をまとめています。",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_10"},
+  "channel": "app",
+  "created_at": {"$now": "-1200m"},
+  "asset_id": {"$seed": "asset_a7"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1080m"},
+  "sla_resolution_deadline": {"$now": "+240m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1140m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-400m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_11", "data": {
+  "seed_code": "ISS-11",
+  "title": "サーバーが勝手に再起動した",
+  "description": "停電中にサーバーが再起動しました。",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_11"},
+  "channel": "app",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a8"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1020m"},
+  "sla_resolution_deadline": {"$now": "+300m"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_12", "data": {
+  "seed_code": "ISS-12",
+  "title": "UPSの警報音が鳴っている",
+  "description": "UPSの警報音が鳴り続けています。機器のQRコードから報告。",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_12"},
+  "channel": "qr",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-900m"},
+  "sla_resolution_deadline": {"$now": "+300m"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}

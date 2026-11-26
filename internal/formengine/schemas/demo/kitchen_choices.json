@@ -1,0 +1,137 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "x-seam-input": "select",
+      "enum": ["Active", "Idle", "Maintenance", "Retired"],
+      "x-seam-help": "A plain static select: four options, so no search box."
+    },
+    "discipline": {
+      "type": "string",
+      "title": "Discipline",
+      "x-seam-input": "select",
+      "enum": [
+        "Mechanical", "Electrical", "Instrumentation", "Civil", "Safety",
+        "Lubrication", "Hydraulics", "Pneumatics", "Software", "Welding"
+      ],
+      "x-seam-help": "Ten options: from eight up, the select turns into a combobox with a live search box."
+    },
+    "failure_mode": {
+      "type": "string",
+      "title": "Failure mode",
+      "x-seam-input": "select",
+      "x-seam-option-groups": true,
+      "enum": [
+        "mechanical_bearing_wear", "mechanical_seal_leak", "mechanical_misalignment",
+        "electrical_winding_fault", "electrical_overload", "electrical_insulation",
+        "process_blockage", "process_cavitation"
+      ],
+      "x-seam-help": "x-seam-option-groups: options are grouped under a heading taken from the text before the first underscore (mechanical, electrical, process)."
+    },
+    "severity": {
+      "type": "string",
+      "title": "Severity",
+      "x-seam-input": "select",
+      "enum": ["Low", "Medium", "High", "Critical"],
+      "x-seam-option-icons": {
+        "Low": "arrow_downward",
+        "Medium": "drag_handle",
+        "High": "priority_high",
+        "Critical": "warning"
+      },
+      "x-seam-icon-position": "right",
+      "x-seam-help": "x-seam-option-icons with x-seam-icon-position: right. Pick High or Critical to reveal Escalation contact below."
+    },
+    "escalation_contact": {
+      "type": "string",
+      "title": "Escalation contact",
+      "x-seam-input": "text",
+      "x-seam-placeholder": "Who must be called?",
+      "x-seam-visible-when": {
+        "field": "severity",
+        "op": "in",
+        "value": ["High", "Critical"]
+      },
+      "x-seam-help": "x-seam-visible-when with op in: shown only while Severity is High or Critical."
+    },
+    "shutdown_reason": {
+      "type": "string",
+      "title": "Shutdown reason",
+      "x-seam-input": "select",
+      "enum": ["Planned", "Breakdown", "Safety", "Other"],
+      "x-seam-help": "Pick Other to reveal the two fields below."
+    },
+    "shutdown_notes": {
+      "type": "string",
+      "title": "Shutdown notes",
+      "x-seam-input": "textarea",
+      "x-seam-rows": 3,
+      "x-seam-visible-when": {
+        "field": "shutdown_reason",
+        "op": "eq",
+        "value": "Other"
+      },
+      "x-seam-help": "Visible while Shutdown reason is Other."
+    },
+    "shutdown_hours": {
+      "type": "number",
+      "title": "Estimated downtime",
+      "x-seam-input": "number",
+      "x-seam-unit": "h",
+      "x-seam-visible-when": {
+        "all_of": [
+          { "field": "shutdown_reason", "op": "eq", "value": "Other" },
+          { "field": "severity", "op": "not_empty" }
+        ]
+      },
+      "x-seam-help": "A composite rule (all_of): Shutdown reason is Other and Severity has a value."
+    },
+    "brand_id": {
+      "type": "integer",
+      "title": "Brand",
+      "x-seam-input": "select",
+      "x-seam-source": "entity:brands",
+      "x-seam-fk-popover": "/brands",
+      "x-seam-help": "A foreign-key select: options come from the tenant's brands (x-seam-source). Once a brand is chosen, the preview button next to the field opens a floating summary card (x-seam-fk-popover)."
+    },
+    "skills": {
+      "type": "array",
+      "title": "Skills required",
+      "x-seam-input": "multi-select",
+      "items": { "type": "string" },
+      "enum": ["Welding", "Electrical", "Rigging", "Confined space", "Hot work", "Working at height"],
+      "x-seam-help": "A checkbox group; each ticked option is posted under skills[]."
+    },
+    "linked_asset_id": {
+      "type": "integer",
+      "title": "Linked asset",
+      "x-seam-input": "asset-picker",
+      "x-seam-source": "entity:assets",
+      "x-seam-help": "asset-picker: the first assets are listed as soon as the box gets focus, and the list narrows as you type; the field posts the numeric id and shows the name."
+    },
+    "marked_asset_id": {
+      "type": "integer",
+      "title": "Linked asset (marker highlight)",
+      "x-seam-input": "asset-picker",
+      "x-seam-source": "entity:assets",
+      "x-seam-highlight": "background",
+      "x-seam-help": "The same widget with x-seam-highlight: background, a marker-style match instead of bold text."
+    },
+    "reviewer_id": {
+      "type": "integer",
+      "title": "Reviewer",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users",
+      "x-seam-selector": "users",
+      "x-seam-help": "any-picker with a Browse button (the Selectors tab shows it over more entities)."
+    },
+    "icon": {
+      "type": "string",
+      "title": "Icon",
+      "x-seam-input": "icon-picker",
+      "x-seam-help": "Search the Material Icons by name; the glyph is previewed beside the box and the name is what gets posted."
+    }
+  }
+}

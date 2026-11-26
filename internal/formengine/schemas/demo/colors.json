@@ -1,0 +1,142 @@
+{
+  "type": "object",
+  "properties": {
+    "baseline": {
+      "type": "array",
+      "title": "Baseline (theme colours)",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "No x-seam-accent: the theme's own colours, for comparison.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "title": "Item",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Item"
+          }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "title": "Risks",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-accent: rose tints the rows and the add button; x-seam-remove-color: rose makes the remove button match.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk": {
+            "type": "string",
+            "title": "Risk",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Describe the risk"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity",
+            "x-seam-input": "select",
+            "enum": [
+              "Low",
+              "Medium",
+              "High"
+            ]
+          },
+          "owner_id": {
+            "type": "integer",
+            "title": "Owner",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Owner"
+          }
+        }
+      },
+      "x-seam-accent": "rose",
+      "x-seam-remove-color": "rose"
+    },
+    "milestones": {
+      "type": "array",
+      "title": "Milestones",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-accent: emerald with x-seam-add-style: filled; the filled button takes the accent colour.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone": {
+            "type": "string",
+            "title": "Milestone",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Milestone"
+          },
+          "due": {
+            "type": "string",
+            "title": "Due",
+            "format": "date",
+            "x-seam-input": "date"
+          }
+        }
+      },
+      "x-seam-accent": "emerald",
+      "x-seam-add-style": "filled",
+      "x-seam-add-label": "Add milestone"
+    },
+    "notes": {
+      "type": "array",
+      "title": "Notes",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-accent: amber with a slate remove button (x-seam-remove-color) so removing stands apart from adding.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Note"
+          }
+        }
+      },
+      "x-seam-accent": "amber",
+      "x-seam-remove-color": "slate"
+    },
+    "brand": {
+      "type": "array",
+      "title": "Custom hex colour",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-accent also takes a #rrggbb value (here #7c3aed). The nested Lines below override it with their own.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Name"
+          },
+          "lines": {
+            "type": "array",
+            "title": "Lines",
+            "x-seam-input": "repeatable",
+            "x-seam-help": "A nested repeatable with its own accent (teal) inside the violet one.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "line": {
+                  "type": "string",
+                  "title": "Line",
+                  "x-seam-input": "text",
+                  "x-seam-placeholder": "Line"
+                }
+              }
+            },
+            "x-seam-accent": "teal"
+          }
+        }
+      },
+      "x-seam-accent": "#7c3aed",
+      "x-seam-layout": "form"
+    }
+  }
+}

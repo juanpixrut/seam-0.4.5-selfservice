@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "title": "Currency",
+  "properties": {
+    "iso_code": {
+      "type": "string",
+      "title": "ISO code (3 letters)",
+      "x-seam-input": "text",
+      "minLength": 3,
+      "maxLength": 3
+    },
+    "symbol": {
+      "type": "string",
+      "title": "Symbol",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 5
+    }
+  },
+  "required": [
+    "iso_code",
+    "symbol"
+  ]
+}

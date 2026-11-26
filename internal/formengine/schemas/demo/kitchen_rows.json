@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+    "site_visits": {
+      "type": "array",
+      "title": "Site visits",
+      "x-seam-input": "repeatable",
+      "x-seam-layout": "form",
+      "x-seam-help": "Every row holds widgets that need a script. Add rows and use each control in them: a row you add works exactly like the first.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag_code": {
+            "type": "string",
+            "title": "Tag code",
+            "x-seam-input": "text",
+            "x-seam-input-mask": "AA-9999"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone",
+            "x-seam-input": "tel",
+            "x-seam-input-mask": "999-999-9999"
+          },
+          "product_code": {
+            "type": "string",
+            "title": "Product barcode",
+            "x-seam-input": "barcode",
+            "x-seam-barcode-format": "EAN13"
+          },
+          "location": {
+            "type": "string",
+            "title": "Location",
+            "x-seam-input": "gps"
+          },
+          "signature": {
+            "type": "string",
+            "title": "Visitor signature",
+            "x-seam-input": "signature"
+          },
+          "asset_id": {
+            "type": "integer",
+            "title": "Asset",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:assets",
+            "x-seam-selector": "assets",
+            "x-seam-browse": "icon"
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "x-seam-input": "icon-picker"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity",
+            "x-seam-input": "select",
+            "enum": ["Low", "Medium", "High"]
+          },
+          "visited": {
+            "type": "string",
+            "title": "Visited",
+            "format": "date",
+            "x-seam-input": "date"
+          }
+        }
+      }
+    }
+  }
+}

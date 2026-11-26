@@ -1,0 +1,45 @@
+{
+ "about": "Seam's seed 06 gives what its Python script gave, as of the same moment",
+ "entities": [
+  "regions",
+  "currencies",
+  "cost_centers",
+  "brands",
+  "models",
+  "custodians",
+  "alert_types",
+  "prop_definitions",
+  "locations",
+  "asset_types",
+  "assets",
+  "prop_associations",
+  "sensors",
+  "users",
+  "tenant_settings",
+  "fsm_machines",
+  "rules",
+  "sensor_bindings",
+  "alerts",
+  "events"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "../../../seed-06-asahikenki.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "check",
+    "../../../seed-06-asahikenki.seed"
+   ],
+   "says": "same"
+  }
+ ],
+ "ignore": [
+  "users.password_hash"
+ ]
+}

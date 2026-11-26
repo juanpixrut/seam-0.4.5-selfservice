@@ -1,0 +1,1198 @@
+package ui
+
+import (
+	"fmt"
+
+	mi "github.com/ha1tch/minty"
+)
+
+// AssetDetailData holds data for the asset detail page.
+type AssetDetailData struct {
+	Asset        AssetDetail
+	RecentEvents []EventSummary
+}
+
+// AssetDetail represents full asset information.
+type AssetDetail struct {
+	ID               int64
+	Name             string
+	TypeID           int64
+	TypeName         string
+	Status           string
+	QRCode           string
+	ConnectivityTier string
+	FSMState         string
+	GIAI             string
+	GRAI             string
+	CodigoBarrasRFID string
+	TagTecnico       string
+	// Block E — Lifecycle
+	FechaCompra        string
+	FechaPrevIngreso   string
+	FechaIngreso       string
+	FechaObsolescencia string
+	FechaExpiracion    string
+	FechaBaja          string
+	MotivoBaja         string
+	LinksCicloVida     []DocumentLink
+	// Block B — Characterisation
+	MarcaID    int64
+	ModeloID   int64
+	Serie1     string
+	Serie2     string
+	Lote       string
+	Criticidad string
+	// Block C — Location
+	UbicacionFisicaID int64
+	RegionID          int64
+	IDPadre           int64
+	// Block D — Custody
+	CustodioID      int64
+	CalidadTenencia string
+	VtoComodato     string
+	LinksComodato   []DocumentLink
+	// Block G — Finance
+	PrecioCompra    string
+	MonedaID        int64
+	PrecioActual    string
+	CentroCostoID   int64
+	FinGarantia     string
+	LinksDocumentos []DocumentLink
+	// Block F — Service/IoT
+	RangoTempMin   string
+	RangoTempMax   string
+	Refrigerante   string
+	VoltajeConsumo string
+	ServiceConfigs []ServiceConfig
+	Identity       map[string]interface{}
+	State          map[string]interface{}
+	CreatedAt      string
+	UpdatedAt      string
+	LastEventTime  string
+}
+
+// AssetDetailPage renders the asset detail page.
+func AssetDetailPage(data AssetDetailData) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		return b.Div(mi.Class("space-y-6"),
+			// Page header with breadcrumb
+			b.Div(mi.Class("flex items-center justify-between"),
+				b.Div(
+					// Breadcrumb
+					b.Nav(mi.Class("text-sm text-gray-500 dark:text-gray-400 mb-2"),
+						b.A(mi.Href("/assets"), mi.Class("hover:text-gray-700 dark:hover:text-gray-300"), "Assets"),
+						b.Span(mi.Class("mx-2"), "/"),
+						b.Span(mi.Class("text-gray-900 dark:text-white"), data.Asset.Name),
+					),
+					// Title with status
+					b.Div(mi.Class("flex items-center gap-3"),
+						b.H1(mi.Class("text-2xl font-bold text-gray-900 dark:text-white"),
+							data.Asset.Name,
+						),
+						StatusBadge(data.Asset.Status)(b),
+					),
+				),
+				// Actions
+				b.Div(mi.Class("flex items-center gap-2"),
+					b.Button(
+						mi.Class("inline-flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"),
+						mi.Attr("hx-get", fmt.Sprintf("/assets/dynamic/%d/edit", data.Asset.ID)),
+						mi.Attr("hx-target", "#seam-modal-body"),
+						mi.Attr("hx-swap", "innerHTML"),
+						mi.Attr("onclick", "SeamModal.open('Editar Activo')"),
+						b.Span(mi.Class("material-icons text-base leading-none"), "edit"),
+						"Editar",
+					),
+					Button("Delete", "danger",
+						mi.Attr("onclick", fmt.Sprintf("SeamConfirm.showDanger('Delete asset?',function(){htmx.ajax('DELETE','/api/v1/assets/%d',{target:document.body,swap:'innerHTML'})},{title:'Confirm Delete'})", data.Asset.ID)),
+					)(b),
+				),
+			),
+
+			// Main content grid
+			b.Div(mi.Class("grid grid-cols-1 lg:grid-cols-3 gap-6"),
+				// Left column - main info
+				b.Div(mi.Class("lg:col-span-2 space-y-6"),
+					// Basic info card
+					Card("Asset Information", assetInfoContent(data.Asset))(b),
+
+					// Identity fields card
+					Card("Identity Fields", assetIdentityContent(data.Asset.Identity))(b),
+
+					// State fields card
+					Card("State Fields", assetStateContent(data.Asset.State))(b),
+
+					// Recent events
+					CardWithActions("Recent Events",
+						func(b *mi.Builder) mi.Node {
+							return b.A(mi.Href(fmt.Sprintf("/events?asset_id=%d", data.Asset.ID)),
+								mi.Class("text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"),
+								"View all",
+							)
+						},
+						assetEventsContent(data.RecentEvents),
+					)(b),
+				),
+
+				// Right column - sidebar
+				b.Div(mi.Class("space-y-6"),
+					// QR Code card
+					Card("QR Code", assetQRContent(data.Asset.QRCode))(b),
+
+					// FSM State card
+					Card("State Machine", assetFSMContent(data.Asset.FSMState))(b),
+				),
+			),
+		)
+	}
+}
+
+func assetInfoContent(asset AssetDetail) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		return b.Dl(mi.Class("grid grid-cols-2 gap-4"),
+			infoRow(b, "Type", asset.TypeName),
+			infoRow(b, "Status", asset.Status),
+			infoRow(b, "Connectivity", asset.ConnectivityTier),
+			infoRow(b, "Created", asset.CreatedAt),
+			infoRow(b, "Updated", asset.UpdatedAt),
+			infoRow(b, "Last Event", asset.LastEventTime),
+		)
+	}
+}
+
+func infoRow(b *mi.Builder, label, value string) mi.Node {
+	return b.Div(
+		b.Dt(mi.Class("text-sm font-medium text-gray-500 dark:text-gray-400"), label),
+		b.Dd(mi.Class("mt-1 text-sm text-gray-900 dark:text-white"), value),
+	)
+}
+
+func assetIdentityContent(identity map[string]interface{}) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		if len(identity) == 0 {
+			return b.P(mi.Class("text-sm text-gray-500 dark:text-gray-400"),
+				"No identity fields defined.",
+			)
+		}
+
+		rows := make([]interface{}, 0, len(identity))
+		for key, value := range identity {
+			rows = append(rows, infoRow(b, key, fmt.Sprintf("%v", value)))
+		}
+
+		return b.Dl(append([]interface{}{mi.Class("grid grid-cols-2 gap-4")}, rows...)...)
+	}
+}
+
+func assetStateContent(state map[string]interface{}) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		if len(state) == 0 {
+			return b.P(mi.Class("text-sm text-gray-500 dark:text-gray-400"),
+				"No state fields defined.",
+			)
+		}
+		rows := make([]interface{}, 0, len(state))
+		for key, value := range state {
+			rows = append(rows, infoRow(b, key, fmt.Sprintf("%v", value)))
+		}
+		return b.Dl(append([]interface{}{mi.Class("grid grid-cols-2 gap-4")}, rows...)...)
+	}
+}
+
+func assetEventsContent(events []EventSummary) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		if len(events) == 0 {
+			return b.P(mi.Class("text-sm text-gray-500 dark:text-gray-400 text-center py-4"),
+				"No events recorded yet.",
+			)
+		}
+
+		items := make([]interface{}, len(events))
+		for i, evt := range events {
+			items[i] = b.Div(mi.Class("flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0"),
+				b.Div(
+					b.Div(mi.Class("text-sm font-medium text-gray-900 dark:text-white"), evt.TriggerType),
+					b.Div(mi.Class("text-xs text-gray-500 dark:text-gray-400"), evt.Value),
+				),
+				b.Div(mi.Class("text-xs text-gray-400 dark:text-gray-500"), evt.Timestamp),
+			)
+		}
+
+		return b.Div(items...)
+	}
+}
+
+func assetQRContent(qrCode string) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		if qrCode == "" {
+			return b.Div(mi.Class("text-center py-4"),
+				b.P(mi.Class("text-sm text-gray-500 dark:text-gray-400 mb-2"), "No QR code assigned"),
+				Button("Generate QR", "secondary")(b),
+			)
+		}
+
+		return b.Div(mi.Class("text-center"),
+			// Placeholder for QR code image
+			b.Div(mi.Class("w-32 h-32 mx-auto bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mb-2"),
+				b.Span(mi.Class("material-icons text-4xl text-gray-400"), "qr_code_2"),
+			),
+			b.P(mi.Class("text-sm font-mono text-gray-600 dark:text-gray-400"), qrCode),
+		)
+	}
+}
+
+func assetFSMContent(state string) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		if state == "" {
+			state = "unknown"
+		}
+
+		stateColor := "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+		switch state {
+		case "active", "online":
+			stateColor = "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+		case "alert", "warning":
+			stateColor = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
+		case "critical", "offline":
+			stateColor = "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+		}
+
+		return b.Div(mi.Class("text-center py-2"),
+			b.Div(mi.Class("inline-block px-4 py-2 rounded-full text-sm font-medium "+stateColor),
+				state,
+			),
+		)
+	}
+}
+
+// =============================================================================
+// ASSET CREATE/EDIT FORM
+// =============================================================================
+
+// AssetFormData holds data for the asset create/edit form.
+type AssetFormData struct {
+	IsEdit         bool
+	IsPartial      bool   // true when rendered inside the SeamModal (HTMX partial)
+	Error          string // top-level summary shown as a banner above the tabs
+	Asset          AssetDetail
+	AssetTypes     []AssetTypeOption
+	Statuses       []string
+	Connectivity   []string
+	Errors         map[string]string
+	CSRFToken      string
+	IdentityFields []FieldRow
+	StateFields    []FieldRow
+	FieldValues    map[string]string
+
+	// Wave 2 dropdown data
+	Marcas       []MarcaRow
+	Modelos      []ModeloRow
+	Regiones     []RegionRow
+	Ubicaciones  []UbicacionRow
+	Custodios    []CustodioRow
+	Monedas      []MonedaRow
+	CentrosCosto []CentroCostoRow
+	Alertas      []AlertaRow
+
+	// Wave 2 — Block D custody
+	LinksComodato []DocumentLink
+	// Wave 2 — Block E lifecycle
+	LinksCicloVida []DocumentLink
+	// Wave 2 — Block G finance
+	LinksDocumentos []DocumentLink
+	// Wave 3 — P-19 custom property values
+	PropValues []PropValueEntry
+}
+
+// ServiceConfig is one entry in the Block F repeating service config group.
+type ServiceConfig struct {
+	Medida   string
+	Umbral   float64
+	AlertaID int64
+}
+
+// AssetTypeOption represents an asset type option for the selector.
+type AssetTypeOption struct {
+	ID       int64
+	Name     string
+	Selected bool
+}
+
+// AssetFormPage renders the asset create/edit form.
+func AssetFormPage(data AssetFormData) mi.H {
+	return func(b *mi.Builder) mi.Node {
+		action := "/assets"
+		method := "post"
+		if data.IsEdit {
+			action = fmt.Sprintf("/assets/%d", data.Asset.ID)
+		}
+
+		// When rendered as a modal partial, the form uses hx-post so the
+		// response can be swapped back into the modal body on validation error,
+		// or trigger HX-Redirect on success — without a full page navigation.
+		var formAttrs []interface{}
+		formAttrs = append(formAttrs, mi.Class("space-y-0"))
+		if data.IsPartial {
+			formAttrs = append(formAttrs,
+				mi.ID("asset-edit-form"),
+				mi.Attr("hx-post", action),
+				mi.Attr("hx-target", "#seam-modal-body"),
+				mi.Attr("hx-swap", "innerHTML"),
+			)
+		} else {
+			formAttrs = append(formAttrs, mi.Method(method), mi.Action(action))
+		}
+
+		// Error banner (top-level, shown above tabs).
+		// data.Error is a pre-formatted summary; if absent, build one from the
+		// Errors map so that every validation failure is visible regardless of
+		// whether the individual field widget is wired to show it.
+		var errorBanner mi.Node
+		bannerText := data.Error
+		if bannerText == "" && len(data.Errors) > 0 {
+			bannerText = errorsToSummary(data.Errors)
+		}
+		if bannerText != "" {
+			errorBanner = b.Div(mi.Class("mb-4 px-4 py-3 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700 rounded-lg text-sm text-red-700 dark:text-red-400 whitespace-pre-line"),
+				bannerText,
+			)
+		} else {
+			errorBanner = b.Span()
+		}
+
+		// Append all form children to attrs slice (Go doesn't allow f(slice..., moreArgs))
+		formAttrs = append(formAttrs,
+			CSRFField(data.CSRFToken)(b),
+			conditionalMethodOverride(b, method),
+			errorBanner,
+
+			// ── Tab bar (3 tabs) ────────────────────────────────────
+			b.Div(mi.Class("border-b border-gray-200 dark:border-gray-700"),
+				b.Div(mi.Class("flex gap-0 overflow-x-auto"),
+					assetTabBtn(b, "tab-principal", "Principal", true),
+					assetTabBtn(b, "tab-loc", "Ubicación y Custodia", false),
+					assetTabBtn(b, "tab-ciclo", "Ciclo de Vida", false),
+					assetTabBtn(b, "tab-finserv", "Finanzas y Service", false),
+				),
+			),
+
+			// ── Tab 1: Principal (Basic + Blocks A + B) ────────────
+			b.Div(mi.ID("tab-principal"), mi.Class("asset-tab-panel pt-4"),
+				b.Div(mi.Class("grid grid-cols-1 lg:grid-cols-2 gap-6"),
+					// Left: core identity
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Básico"),
+						formFieldWithError(b, "Nombre *", "name", "text", data.Asset.Name, data.Errors["name"], true),
+						assetTypeSelectWithHTMX(b, "Tipo de Activo *", "type_id", data.AssetTypes, data.Errors["type_id"]),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							statusSelectErr(b, "Estado", "status", data.Statuses, data.Asset.Status, fieldError(data.Errors, "status")),
+							assetEnumSelectErr(b, "Criticidad *", "criticidad", data.Asset.Criticidad, true,
+								[]struct{ V, L string }{{"Alta", "Alta"}, {"Media", "Media"}, {"Baja", "Baja"}},
+								fieldError(data.Errors, "criticidad")),
+						),
+						connectivitySelectErr(b, "Conectividad", "connectivity_tier", data.Connectivity, data.Asset.ConnectivityTier, fieldError(data.Errors, "connectivity_tier")),
+					),
+					// Right: identification + characterisation
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Identificación"),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							formFieldWithError(b, "GIAI", "giai", "text", data.Asset.GIAI, nil, false),
+							formFieldWithError(b, "GRAI", "grai", "text", data.Asset.GRAI, nil, false),
+						),
+						formFieldWithError(b, "Código Barras / RFID", "codigo_barras_rfid", "text", data.Asset.CodigoBarrasRFID, nil, false),
+						formFieldWithError(b, "Tag Técnico", "tag_tecnico", "text", data.Asset.TagTecnico, nil, false),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider pt-1"), "Caracterización"),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							assetFKSelectWithJump(b, "Marca", "marca_id", data.Asset.MarcaID, "/marcas", func() []struct {
+								ID    int64
+								Label string
+							} {
+								var opts []struct {
+									ID    int64
+									Label string
+								}
+								for _, m := range data.Marcas {
+									opts = append(opts, struct {
+										ID    int64
+										Label string
+									}{m.ID, m.Codigo + " — " + m.Nombre})
+								}
+								return opts
+							}()),
+							assetFKSelectWithJump(b, "Modelo", "modelo_id", data.Asset.ModeloID, "/modelos", func() []struct {
+								ID    int64
+								Label string
+							} {
+								var opts []struct {
+									ID    int64
+									Label string
+								}
+								for _, m := range data.Modelos {
+									opts = append(opts, struct {
+										ID    int64
+										Label string
+									}{m.ID, m.Nombre})
+								}
+								return opts
+							}()),
+						),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							formFieldWithError(b, "Serie 1", "serie_1", "text", data.Asset.Serie1, nil, false),
+							formFieldWithError(b, "Serie 2", "serie_2", "text", data.Asset.Serie2, nil, false),
+						),
+						formFieldWithError(b, "Lote", "lote", "text", data.Asset.Lote, nil, false),
+						// Dynamic fields from asset type template
+						b.Div(mi.ID("asset-type-fields"),
+							assetDynamicFields(b, data.IdentityFields, data.StateFields, data.FieldValues),
+						),
+					),
+				),
+			),
+
+			// ── Tab 2: Ubicación y Custodia (Blocks C + D) ────────
+			b.Div(mi.ID("tab-loc"), mi.Class("asset-tab-panel pt-4"),
+				b.Div(mi.Class("grid grid-cols-1 lg:grid-cols-2 gap-6"),
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Ubicación Física"),
+						assetFKSelectWithJump(b, "Ubicación", "ubicacion_fisica_id", data.Asset.UbicacionFisicaID, "/ubicaciones", func() []struct {
+							ID    int64
+							Label string
+						} {
+							var opts []struct {
+								ID    int64
+								Label string
+							}
+							for _, u := range data.Ubicaciones {
+								opts = append(opts, struct {
+									ID    int64
+									Label string
+								}{u.ID, u.NombreCorto})
+							}
+							return opts
+						}()),
+						assetFKSelect(b, "Región *", "region_id", data.Asset.RegionID, func() []struct {
+							ID    int64
+							Label string
+						} {
+							var opts []struct {
+								ID    int64
+								Label string
+							}
+							for _, r := range data.Regiones {
+								opts = append(opts, struct {
+									ID    int64
+									Label string
+								}{r.ID, r.Descripcion})
+							}
+							return opts
+						}()),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							formFieldWithError(b, "Latitud", "latitude", "number", "", nil, false),
+							formFieldWithError(b, "Longitud", "longitude", "number", "", nil, false),
+						),
+						formFieldWithError(b, "ID Padre", "id_padre", "number",
+							func() string {
+								if data.Asset.IDPadre == 0 {
+									return ""
+								}
+								return fmt.Sprintf("%d", data.Asset.IDPadre)
+							}(), nil, false),
+					),
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Custodia"),
+						assetFKSelectWithJump(b, "Custodio", "custodio_id", data.Asset.CustodioID, "/custodios", func() []struct {
+							ID    int64
+							Label string
+						} {
+							var opts []struct {
+								ID    int64
+								Label string
+							}
+							for _, c := range data.Custodios {
+								opts = append(opts, struct {
+									ID    int64
+									Label string
+								}{c.ID, c.NombreRazonSocial})
+							}
+							return opts
+						}()),
+						assetEnumSelectErr(b, "Calidad de Tenencia", "calidad_tenencia", data.Asset.CalidadTenencia, false,
+							[]struct{ V, L string }{
+								{"Propiedad", "Propiedad"}, {"Comodato", "Comodato"},
+								{"Préstamo", "Préstamo"}, {"Alquiler", "Alquiler"},
+							},
+							fieldError(data.Errors, "calidad_tenencia")),
+						formFieldWithError(b, "Vencimiento Comodato", "vto_comodato", "date", data.Asset.VtoComodato, nil, false),
+						DocumentLinksField(b, "Links Comodato", "links_comodato", data.LinksComodato),
+					),
+				),
+			),
+
+			// ── Tab 3: Ciclo de Vida (Block E) ────────────────────
+			b.Div(mi.ID("tab-ciclo"), mi.Class("asset-tab-panel pt-4"),
+				b.Div(mi.Class("grid grid-cols-1 lg:grid-cols-2 gap-6"),
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Fechas de Ciclo de Vida"),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							formFieldWithError(b, "Fecha Compra", "fecha_compra", "date", data.Asset.FechaCompra, nil, false),
+							formFieldWithError(b, "Fecha Prev. Ingreso", "fecha_prev_ingreso", "date", data.Asset.FechaPrevIngreso, nil, false),
+							formFieldWithError(b, "Fecha Ingreso", "fecha_ingreso", "date", data.Asset.FechaIngreso, nil, false),
+							formFieldWithError(b, "Fecha Obsolescencia", "fecha_obsolescencia", "date", data.Asset.FechaObsolescencia, nil, false),
+							formFieldWithError(b, "Fecha Expiración", "fecha_expiracion", "date", data.Asset.FechaExpiracion, nil, false),
+							formFieldWithError(b, "Fecha de Baja", "fecha_baja", "date", data.Asset.FechaBaja, nil, false),
+						),
+						assetEnumSelectErr(b, "Motivo de Baja", "motivo_baja", data.Asset.MotivoBaja, false,
+							[]struct{ V, L string }{
+								{"Venta", "Venta"}, {"Desguace", "Desguace"},
+								{"Robo", "Robo"}, {"Donación", "Donación"}, {"Otros", "Otros"},
+							},
+							fieldError(data.Errors, "motivo_baja")),
+					),
+					b.Div(mi.Class("space-y-4"),
+						DocumentLinksField(b, "Links Ciclo de Vida", "links_ciclo_vida", data.LinksCicloVida),
+						func() mi.Node {
+							if len(data.PropValues) == 0 {
+								return b.Span()
+							}
+							return b.Div(mi.Class("mt-2 pt-4 border-t border-gray-200 dark:border-gray-700"),
+								PropValuesSection(b, data.PropValues),
+							)
+						}(),
+					),
+				),
+			),
+
+			// ── Tab 4: Finanzas y Service (Blocks F + G) ───────────
+			b.Div(mi.ID("tab-finserv"), mi.Class("asset-tab-panel pt-4"),
+				b.Div(mi.Class("grid grid-cols-1 lg:grid-cols-2 gap-6"),
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Finanzas"),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							formFieldWithError(b, "Precio Compra", "precio_compra", "number", data.Asset.PrecioCompra, nil, false),
+							assetFKSelect(b, "Moneda", "moneda_id", data.Asset.MonedaID, func() []struct {
+								ID    int64
+								Label string
+							} {
+								var opts []struct {
+									ID    int64
+									Label string
+								}
+								for _, m := range data.Monedas {
+									opts = append(opts, struct {
+										ID    int64
+										Label string
+									}{m.ID, m.CodigoISO + " " + m.Simbolo})
+								}
+								return opts
+							}()),
+						),
+						formFieldWithError(b, "Precio Actual", "precio_actual", "number", data.Asset.PrecioActual, nil, false),
+						assetFKSelectWithJump(b, "Centro de Costo", "centro_costo_id", data.Asset.CentroCostoID, "/centros-costo", func() []struct {
+							ID    int64
+							Label string
+						} {
+							var opts []struct {
+								ID    int64
+								Label string
+							}
+							for _, c := range data.CentrosCosto {
+								opts = append(opts, struct {
+									ID    int64
+									Label string
+								}{c.ID, c.CodigoContable + " — " + c.Nombre})
+							}
+							return opts
+						}()),
+						formFieldWithError(b, "Fin de Garantía", "fin_garantia", "date", data.Asset.FinGarantia, nil, false),
+						DocumentLinksField(b, "Links Documentos", "links_documentos", data.LinksDocumentos),
+					),
+					b.Div(mi.Class("space-y-4"),
+						b.H3(mi.Class("text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider"), "Service e IoT"),
+						b.Div(mi.Class("grid grid-cols-2 gap-3"),
+							formFieldWithError(b, "Temp. Mín. (°C)", "rango_temp_min", "number", data.Asset.RangoTempMin, nil, false),
+							formFieldWithError(b, "Temp. Máx. (°C)", "rango_temp_max", "number", data.Asset.RangoTempMax, nil, false),
+							formFieldWithError(b, "Refrigerante", "refrigerante", "text", data.Asset.Refrigerante, nil, false),
+							formFieldWithError(b, "Voltaje / Consumo", "voltaje_consumo", "text", data.Asset.VoltajeConsumo, nil, false),
+						),
+						serviceConfigsField(b, data.Asset.ServiceConfigs, data.Alertas),
+					),
+				),
+			),
+
+			// ── Tab switching ───────────────────────────────────────
+			// Shared window.SeamTabs.wire() helper in app.js — see
+			// internal/formengine/renderer.go's tabSwitchScript for the
+			// 2026-07-28 note on why this used to be a hand-typed,
+			// byte-for-byte duplicate of that one.
+			b.Script(mi.Raw(`SeamTabs.wire('.asset-tab-panel','.asset-tab-btn');`)),
+
+			// ── Action buttons ──────────────────────────────────────
+			// For partial (modal) render the buttons live in data-modal-footer,
+			// a sibling div outside the scrollable body. For full-page render
+			// they appear inline at the bottom of the form as usual.
+			func() mi.Node {
+				if data.IsPartial {
+					return b.Span() // buttons are in data-modal-footer — see below
+				}
+				return b.Div(
+					mi.Class("flex items-center justify-between pt-4 mt-2 border-t border-gray-200 dark:border-gray-700"),
+					b.Div(conditionalDeleteButton(b, data.IsEdit, data.Asset.ID, data.Asset.Name)),
+					b.Div(mi.Class("flex gap-3"),
+						b.A(mi.Href("/assets"),
+							mi.Class("px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm"),
+							"Cancelar",
+						),
+						b.Button(mi.Type("submit"),
+							mi.Class("px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium text-sm"),
+							conditionalButtonText(data.IsEdit, "Guardar Cambios", "Crear Activo"),
+						),
+					),
+				)
+			}(),
+		)
+
+		// For partial render: the form sits in the scrollable modal body;
+		// action buttons are in data-modal-footer — SeamModal JS moves them
+		// into the fixed footer slot outside the scrollable body.
+		if data.IsPartial {
+			return b.Div(mi.Class("w-full"),
+				b.Form(formAttrs...),
+				b.Div(mi.Attr("data-modal-footer", ""), mi.Class("flex items-center justify-between w-full"),
+					b.Div(conditionalDeleteButton(b, data.IsEdit, data.Asset.ID, data.Asset.Name)),
+					b.Div(mi.Class("flex gap-3"),
+						b.Button(mi.Type("button"),
+							mi.Class("px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm"),
+							mi.Attr("onclick", "SeamModal.close()"),
+							"Cancelar",
+						),
+						b.Button(mi.Type("submit"),
+							mi.Attr("form", "asset-edit-form"),
+							// Explicit HTMX attrs ensure HTMX intercepts the click
+							// directly on the button rather than waiting for the form
+							// submit event triggered by the form= attribute, which
+							// can race against HTMX's own event listener.
+							mi.Attr("hx-post", action),
+							mi.Attr("hx-include", "#asset-edit-form"),
+							mi.Attr("hx-target", "#seam-modal-body"),
+							mi.Attr("hx-swap", "innerHTML"),
+							mi.Class("px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium text-sm"),
+							conditionalButtonText(data.IsEdit, "Guardar Cambios", "Crear Activo"),
+						),
+					),
+				),
+			)
+		}
+		// Full-page render (non-modal): constrain to the same dimensions as
+		// the modal so the form always looks the same regardless of path.
+		return b.Div(
+			mi.Class("min-h-screen bg-gray-100 dark:bg-gray-900 flex items-start justify-center py-8 px-4"),
+			b.Div(
+				mi.Style("width:1290px;max-width:100%;min-height:500px;max-height:900px;overflow-y:auto;background:white;border-radius:10px;padding:20px 24px;"),
+				b.Form(formAttrs...),
+			),
+		)
+	}
+}
+
+func assetTypeSelectWithHTMX(b *mi.Builder, label, name string, options []AssetTypeOption, errMsg interface{}) mi.Node {
+	selClass := "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+	var opts []interface{}
+	opts = append(opts,
+		mi.Name(name),
+		mi.ID(name),
+		mi.Class(selClass),
+		mi.Attr("hx-get", "/assets/type-fields"),
+		mi.Attr("hx-trigger", "change"),
+		mi.Attr("hx-target", "#asset-type-fields"),
+		mi.Attr("hx-include", "[name=type_id]"),
+	)
+	var nodes []interface{}
+	nodes = append(nodes, b.Option(mi.Value(""), "— select type —"))
+	for _, opt := range options {
+		if opt.Selected {
+			nodes = append(nodes, b.Option(mi.Value(fmt.Sprintf("%d", opt.ID)), mi.Selected(), opt.Name))
+		} else {
+			nodes = append(nodes, b.Option(mi.Value(fmt.Sprintf("%d", opt.ID)), opt.Name))
+		}
+	}
+	opts = append(opts, nodes...)
+	selectedID := int64(0)
+	for _, opt := range options {
+		if opt.Selected {
+			selectedID = opt.ID
+			break
+		}
+	}
+	jumpStyle := "display:none"
+	if selectedID > 0 {
+		jumpStyle = ""
+	}
+	labelNode := b.Label(mi.For(name),
+		mi.Class("flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"),
+		b.Span(mi.Class("flex-1"), label, b.Span(mi.Class("text-red-500 ml-1"), "*")),
+		b.Button(
+			mi.ID("jump-"+name),
+			mi.Type("button"),
+			mi.Attr("onclick", "SeamPopover.show(this,'"+name+"')"),
+			mi.Title("Ver / editar tipo de activo"),
+			mi.Class("text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"),
+			mi.Style(jumpStyle+";background:none;border:none;padding:0;cursor:pointer"),
+			mi.Attr("data-jump-base", "/asset-types"),
+			b.Span(mi.Class("material-icons"), mi.Style("font-size:20px;line-height:1;vertical-align:middle"), "info"),
+		),
+	)
+	errNode := b.Span()
+	if errMsg != nil && errMsg != "" {
+		errNode = b.P(mi.Class("mt-1 text-sm text-red-500"), fmt.Sprintf("%v", errMsg))
+	}
+	return b.Div(labelNode, b.Select(opts...), errNode)
+}
+
+// assetDynamicFields renders the user-defined identity and state fields from the asset type.
+func assetDynamicFields(b *mi.Builder, identityFields, stateFields []FieldRow, values map[string]string) mi.Node {
+	if len(identityFields) == 0 && len(stateFields) == 0 {
+		return b.Span() // empty — HTMX will replace this when type is selected
+	}
+	var sections []interface{}
+	if len(identityFields) > 0 {
+		var fields []interface{}
+		for _, f := range identityFields {
+			v := ""
+			if values != nil {
+				v = values["identity."+f.Key]
+			}
+			fields = append(fields, assetDynamicField(b, f, "identity."+f.Key, v))
+		}
+		sections = append(sections, Card("Identity Fields", func(b *mi.Builder) mi.Node {
+			inner := []interface{}{mi.Class("space-y-4")}
+			inner = append(inner, fields...)
+			return b.Div(inner...)
+		})(b))
+	}
+	if len(stateFields) > 0 {
+		var fields []interface{}
+		for _, f := range stateFields {
+			v := ""
+			if values != nil {
+				v = values["state."+f.Key]
+			}
+			fields = append(fields, assetDynamicField(b, f, "state."+f.Key, v))
+		}
+		sections = append(sections, Card("State Fields", func(b *mi.Builder) mi.Node {
+			inner := []interface{}{mi.Class("space-y-4")}
+			inner = append(inner, fields...)
+			return b.Div(inner...)
+		})(b))
+	}
+	inner := []interface{}{mi.Class("space-y-6")}
+	inner = append(inner, sections...)
+	return b.Div(inner...)
+}
+
+func assetDynamicField(b *mi.Builder, f FieldRow, name, value string) mi.Node {
+	label := f.Label
+	if label == "" {
+		label = f.Key
+	}
+	inputType := f.Type
+	if inputType == "" || inputType == "text" {
+		inputType = "text"
+	}
+	class := "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+	labelNode := b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"), label)
+	if f.Required {
+		labelNode = b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"),
+			label, b.Span(mi.Class("text-red-500 ml-1"), "*"))
+	}
+	var inputNode mi.Node
+	switch inputType {
+	case "number":
+		if f.Required {
+			inputNode = b.Input(mi.Type("number"), mi.Name(name), mi.ID(name), mi.Value(value), mi.Class(class), mi.Required())
+		} else {
+			inputNode = b.Input(mi.Type("number"), mi.Name(name), mi.ID(name), mi.Value(value), mi.Class(class))
+		}
+	case "boolean":
+		checked := value == "true"
+		if checked {
+			inputNode = b.Input(mi.Type("checkbox"), mi.Name(name), mi.ID(name), mi.Value("true"), mi.Checked(), mi.Class("h-4 w-4 text-indigo-600"))
+		} else {
+			inputNode = b.Input(mi.Type("checkbox"), mi.Name(name), mi.ID(name), mi.Value("true"), mi.Class("h-4 w-4 text-indigo-600"))
+		}
+	default:
+		if f.Required {
+			inputNode = b.Input(mi.Type("text"), mi.Name(name), mi.ID(name), mi.Value(value), mi.Class(class), mi.Required())
+		} else {
+			inputNode = b.Input(mi.Type("text"), mi.Name(name), mi.ID(name), mi.Value(value), mi.Class(class))
+		}
+	}
+	return b.Div(labelNode, inputNode)
+}
+
+func conditionalMethodOverride(b *mi.Builder, method string) mi.Node {
+	if method == "put" {
+		return b.Input(mi.Type("hidden"), mi.Name("_method"), mi.Value("PUT"))
+	}
+	return b.Span()
+}
+
+func conditionalDeleteButton(b *mi.Builder, isEdit bool, assetID int64, assetName string) mi.Node {
+	if !isEdit {
+		return b.Span()
+	}
+	onclick := fmt.Sprintf(`SeamConfirm.showDanger('Are you sure you want to delete',function(){htmx.ajax('DELETE','/api/v1/assets/%d',{target:document.body,swap:'innerHTML'})},{dangerName:'%s'})`, assetID, assetName)
+	return b.Button(
+		mi.Type("button"),
+		mi.Class("inline-flex items-center gap-1 px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-medium"),
+		mi.Attr("onclick", onclick),
+		b.Span(mi.Class("material-icons text-base"), "delete"),
+		"Delete Asset",
+	)
+}
+
+func conditionalButtonText(isEdit bool, editText, createText string) string {
+	if isEdit {
+		return editText
+	}
+	return createText
+}
+
+func formFieldWithError(b *mi.Builder, label, name, inputType, value string, err interface{}, required bool) mi.Node {
+	inputClass := "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+	if err != nil {
+		inputClass = "w-full px-3 py-2 border border-red-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+	}
+
+	labelNode := b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"),
+		label,
+		conditionalRequired(b, required),
+	)
+
+	var inputNode mi.Node
+	if required {
+		inputNode = b.Input(mi.Type(inputType), mi.Name(name), mi.ID(name), mi.Value(value), mi.Class(inputClass), mi.Required())
+	} else {
+		inputNode = b.Input(mi.Type(inputType), mi.Name(name), mi.ID(name), mi.Value(value), mi.Class(inputClass))
+	}
+
+	errorNode := b.Span()
+	if err != nil {
+		errorNode = b.P(mi.Class("mt-1 text-sm text-red-500"), fmt.Sprintf("%v", err))
+	}
+
+	return b.Div(labelNode, inputNode, errorNode)
+}
+
+func conditionalRequired(b *mi.Builder, required bool) mi.Node {
+	if required {
+		return b.Span(mi.Class("text-red-500 ml-1"), "*")
+	}
+	return b.Span()
+}
+
+func assetTypeSelect(b *mi.Builder, label, name string, options []AssetTypeOption, err interface{}) mi.Node {
+	selectClass := "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500"
+	if err != nil {
+		selectClass = "w-full px-3 py-2 border border-red-500 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-red-500"
+	}
+
+	selectOpts := []interface{}{
+		mi.Name(name),
+		mi.ID(name),
+		mi.Class(selectClass),
+		mi.Required(),
+		b.Option(mi.Value(""), "Select a type..."),
+	}
+	for _, opt := range options {
+		if opt.Selected {
+			selectOpts = append(selectOpts, b.Option(mi.Value(fmt.Sprintf("%d", opt.ID)), mi.Selected(), opt.Name))
+		} else {
+			selectOpts = append(selectOpts, b.Option(mi.Value(fmt.Sprintf("%d", opt.ID)), opt.Name))
+		}
+	}
+
+	return b.Div(
+		b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"),
+			label, b.Span(mi.Class("text-red-500 ml-1"), "*"),
+		),
+		b.Select(selectOpts...),
+		conditionalError(b, err),
+	)
+}
+
+func conditionalError(b *mi.Builder, err interface{}) mi.Node {
+	if err != nil {
+		return b.P(mi.Class("mt-1 text-sm text-red-500"), fmt.Sprintf("%v", err))
+	}
+	return b.Span()
+}
+
+// statusSelect renders a status dropdown with optional field error message.
+func statusSelect(b *mi.Builder, label, name string, statuses []string, selected string) mi.Node {
+	return statusSelectErr(b, label, name, statuses, selected, "")
+}
+
+func statusSelectErr(b *mi.Builder, label, name string, statuses []string, selected, errMsg string) mi.Node {
+	borderCls := "border-gray-300 dark:border-gray-600"
+	if errMsg != "" {
+		borderCls = "border-red-500 dark:border-red-500"
+	}
+	selectOpts := []interface{}{
+		mi.Name(name),
+		mi.ID(name),
+		mi.Class("w-full px-3 py-2 border " + borderCls + " rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"),
+	}
+	for _, s := range statuses {
+		if s == selected {
+			selectOpts = append(selectOpts, b.Option(mi.Value(s), mi.Selected(), s))
+		} else {
+			selectOpts = append(selectOpts, b.Option(mi.Value(s), s))
+		}
+	}
+	nodes := []interface{}{
+		b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"), label),
+		b.Select(selectOpts...),
+	}
+	if errMsg != "" {
+		nodes = append(nodes, b.P(mi.Class("mt-1 text-xs text-red-600 dark:text-red-400"), errMsg))
+	}
+	return b.Div(append([]interface{}{}, nodes...)...)
+}
+
+// connectivitySelect renders a connectivity tier dropdown with optional field error.
+func connectivitySelect(b *mi.Builder, label, name string, tiers []string, selected string) mi.Node {
+	return connectivitySelectErr(b, label, name, tiers, selected, "")
+}
+
+func connectivitySelectErr(b *mi.Builder, label, name string, tiers []string, selected, errMsg string) mi.Node {
+	borderCls := "border-gray-300 dark:border-gray-600"
+	if errMsg != "" {
+		borderCls = "border-red-500 dark:border-red-500"
+	}
+	selectOpts := []interface{}{
+		mi.Name(name),
+		mi.ID(name),
+		mi.Class("w-full px-3 py-2 border " + borderCls + " rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"),
+	}
+	for _, t := range tiers {
+		if t == selected {
+			selectOpts = append(selectOpts, b.Option(mi.Value(t), mi.Selected(), t))
+		} else {
+			selectOpts = append(selectOpts, b.Option(mi.Value(t), t))
+		}
+	}
+	nodes := []interface{}{
+		b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"), label),
+		b.Select(selectOpts...),
+	}
+	if errMsg != "" {
+		nodes = append(nodes, b.P(mi.Class("mt-1 text-xs text-red-600 dark:text-red-400"), errMsg))
+	}
+	return b.Div(append([]interface{}{}, nodes...)...)
+}
+
+// ── Wave 2 form helpers ───────────────────────────────────────────────────────
+
+const selectClass = "mt-1 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+
+// assetFKSelect renders a labelled FK dropdown for the asset form.
+// opts is a slice of {ID int64, Label string} structs.
+func assetFKSelect(b *mi.Builder, label, name string, selected int64, opts []struct {
+	ID    int64
+	Label string
+}) mi.Node {
+	attrs := []interface{}{
+		mi.Name(name), mi.ID(name), mi.Class(selectClass),
+		b.Option(mi.Value("0"), "— Sin asignar —"),
+	}
+	for _, o := range opts {
+		val := fmt.Sprintf("%d", o.ID)
+		if o.ID == selected {
+			attrs = append(attrs, b.Option(mi.Value(val), mi.Selected(), o.Label))
+		} else {
+			attrs = append(attrs, b.Option(mi.Value(val), o.Label))
+		}
+	}
+	return b.Div(mi.Class("mb-1"),
+		b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300"), label),
+		b.Select(attrs...),
+	)
+}
+
+// assetFKSelectWithJump is assetFKSelect plus a small "open in new tab" icon
+// next to the label. The icon appears only when a value is selected (ID > 0).
+// data-jump-base on the <select> lets initFKJumps() in app.js update the href
+// live when the user changes the selection.
+func assetFKSelectWithJump(b *mi.Builder, label, name string, selected int64, jumpBase string, opts []struct {
+	ID    int64
+	Label string
+}) mi.Node {
+	jumpID := "jump-" + name
+	jumpStyle := "display:none"
+	if selected > 0 {
+		jumpStyle = ""
+	}
+
+	attrs := []interface{}{
+		mi.Name(name), mi.ID(name), mi.Class(selectClass),
+		mi.Attr("data-jump-base", jumpBase),
+		b.Option(mi.Value("0"), "— Sin asignar —"),
+	}
+	for _, o := range opts {
+		val := fmt.Sprintf("%d", o.ID)
+		if o.ID == selected {
+			attrs = append(attrs, b.Option(mi.Value(val), mi.Selected(), o.Label))
+		} else {
+			attrs = append(attrs, b.Option(mi.Value(val), o.Label))
+		}
+	}
+
+	return b.Div(mi.Class("mb-1"),
+		b.Label(mi.For(name),
+			mi.Class("flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"),
+			b.Span(mi.Class("flex-1"), label),
+			b.Button(
+				mi.ID(jumpID),
+				mi.Type("button"),
+				mi.Attr("onclick", "SeamPopover.show(this,'"+name+"')"),
+				mi.Title("Ver / editar"),
+				mi.Class("text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"),
+				mi.Style(jumpStyle+";background:none;border:none;padding:0;cursor:pointer"),
+				b.Span(mi.Class("material-icons"), mi.Style("font-size:20px;line-height:1;vertical-align:middle"), "info"),
+			),
+		),
+		b.Select(attrs...),
+	)
+}
+
+// assetEnumSelect renders a labelled enum dropdown for the asset form.
+// assetEnumSelect renders a labelled select with optional inline field error.
+// errMsg is the queryfy error string (empty = no error shown).
+func assetEnumSelect(b *mi.Builder, label, name, selected string, required bool, opts []struct{ V, L string }) mi.Node {
+	return assetEnumSelectErr(b, label, name, selected, required, opts, "")
+}
+
+// assetEnumSelectErr is assetEnumSelect with an explicit per-field error message.
+func assetEnumSelectErr(b *mi.Builder, label, name, selected string, required bool, opts []struct{ V, L string }, errMsg string) mi.Node {
+	reqMark := ""
+	borderCls := "border-gray-300 dark:border-gray-600"
+	if errMsg != "" {
+		borderCls = "border-red-500 dark:border-red-500"
+	}
+	cls := "w-full px-3 py-2 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm " + borderCls
+	attrs := []interface{}{mi.Name(name), mi.ID(name), mi.Class(cls)}
+	if required {
+		attrs = append(attrs, mi.Required())
+		reqMark = " *"
+	}
+	attrs = append(attrs, b.Option(mi.Value(""), "— Seleccionar —"))
+	for _, o := range opts {
+		if o.V == selected {
+			attrs = append(attrs, b.Option(mi.Value(o.V), mi.Selected(), o.L))
+		} else {
+			attrs = append(attrs, b.Option(mi.Value(o.V), o.L))
+		}
+	}
+	nodes := []interface{}{
+		b.Label(mi.For(name), mi.Class("block text-sm font-medium text-gray-700 dark:text-gray-300"), label+reqMark),
+		b.Select(attrs...),
+	}
+	if errMsg != "" {
+		nodes = append(nodes, b.P(mi.Class("mt-1 text-xs text-red-600 dark:text-red-400"), errMsg))
+	}
+	return b.Div(append([]interface{}{mi.Class("mb-1")}, nodes...)...)
+}
+
+// serviceConfigsField renders the Block F repeating service config sub-form.
+// Each row: medida (enum), umbral (number), alerta (FK dropdown).
+func serviceConfigsField(b *mi.Builder, configs []ServiceConfig, alertas []AlertaRow) mi.Node {
+	const rowClass = "flex gap-2 items-start mb-2 svc-config-row"
+
+	medidaOpts := []string{"Kms", "Horas", "Usos"}
+
+	buildRow := func(cfg ServiceConfig) mi.Node {
+		// medida select
+		mAttrs := []interface{}{
+			mi.Name("svc_medida[]"), mi.Class("px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 w-28"),
+			b.Option(mi.Value(""), "Medida"),
+		}
+		for _, m := range medidaOpts {
+			if m == cfg.Medida {
+				mAttrs = append(mAttrs, b.Option(mi.Value(m), mi.Selected(), m))
+			} else {
+				mAttrs = append(mAttrs, b.Option(mi.Value(m), m))
+			}
+		}
+		// alerta select
+		aAttrs := []interface{}{
+			mi.Name("svc_alerta_id[]"), mi.Class("px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 flex-1"),
+			b.Option(mi.Value("0"), "— Alerta —"),
+		}
+		for _, a := range alertas {
+			val := fmt.Sprintf("%d", a.ID)
+			label := a.Tipo + " (" + a.Criticidad + ")"
+			if a.ID == cfg.AlertaID {
+				aAttrs = append(aAttrs, b.Option(mi.Value(val), mi.Selected(), label))
+			} else {
+				aAttrs = append(aAttrs, b.Option(mi.Value(val), label))
+			}
+		}
+		umbralVal := ""
+		if cfg.Umbral != 0 {
+			umbralVal = fmt.Sprintf("%g", cfg.Umbral)
+		}
+		return b.Div(mi.Class(rowClass),
+			b.Select(mAttrs...),
+			b.Input(mi.Type("number"), mi.Name("svc_umbral[]"),
+				mi.Attr("placeholder", "Umbral"), mi.Attr("value", umbralVal),
+				mi.Class("px-2 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 w-28")),
+			b.Select(aAttrs...),
+			b.Button(mi.Type("button"),
+				mi.Class("text-red-500 hover:text-red-700 text-sm px-2"),
+				mi.Attr("onclick", "this.closest('.svc-config-row').remove()"),
+				"✕"),
+		)
+	}
+
+	rows := []interface{}{}
+	for _, cfg := range configs {
+		rows = append(rows, buildRow(cfg))
+	}
+	if len(configs) == 0 {
+		rows = append(rows, buildRow(ServiceConfig{}))
+	}
+
+	const containerID = "svc_configs_container"
+	return b.Div(
+		b.Div(append([]interface{}{mi.ID(containerID)}, rows...)...),
+		b.Button(mi.Type("button"),
+			mi.Class("mt-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline"),
+			mi.Attr("onclick", `
+(function(){
+  var c=document.getElementById('svc_configs_container');
+  var t=c.querySelector('.svc-config-row').cloneNode(true);
+  t.querySelectorAll('select').forEach(function(s){s.selectedIndex=0;});
+  t.querySelectorAll('input').forEach(function(i){i.value='';});
+  c.appendChild(t);
+})()`,
+			),
+			"+ Agregar configuración",
+		),
+	)
+}
+
+// assetTabBtn renders a single tab button in the asset form tab bar.
+func assetTabBtn(b *mi.Builder, id, label string, active bool) mi.Node {
+	cls := "asset-tab-btn px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap cursor-pointer transition-colors "
+	if active {
+		cls += "border-indigo-600 text-indigo-600 dark:text-indigo-400 dark:border-indigo-400"
+	} else {
+		cls += "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+	}
+	return b.Button(
+		mi.Type("button"),
+		mi.Class(cls),
+		mi.Attr("data-tab", id),
+		label,
+	)
+}

@@ -1,0 +1,332 @@
+{
+ "issue_templates": {
+  "1": {
+   "created_at": "2027-01-15T13:17:00Z",
+   "deleted": 0,
+   "description": "ショベルカーやブルドーザーの故障を報告するときに入力する項目。",
+   "fields": [
+    {
+     "key": "hour_meter",
+     "label": "アワーメーター (h)",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "key": "error_code",
+     "label": "モニターのエラーコード",
+     "required": false,
+     "type": "text"
+    },
+    {
+     "key": "machine_stopped",
+     "label": "機械は停止していますか？",
+     "required": false,
+     "type": "boolean"
+    }
+   ],
+   "is_current": 1,
+   "key": "heavy_machinery_failure",
+   "name": "重機の故障",
+   "sla_config": {
+    "first_response": {
+     "critical": 30,
+     "high": 60,
+     "low": 480,
+     "medium": 240
+    },
+    "resolution": {
+     "critical": 240,
+     "high": 480,
+     "low": 2880,
+     "medium": 1440
+    }
+   },
+   "version": 1
+  },
+  "2": {
+   "created_at": "2027-01-15T13:17:00Z",
+   "deleted": 0,
+   "description": "発電機の故障を報告するときに入力する項目。",
+   "fields": [
+    {
+     "key": "running_hours",
+     "label": "運転時間",
+     "required": true,
+     "type": "number"
+    }
+   ],
+   "is_current": 0,
+   "key": "generator_failure",
+   "name": "発電機の故障",
+   "version": 1
+  },
+  "3": {
+   "created_at": "2027-02-02T13:17:00Z",
+   "deleted": 0,
+   "description": "発電機の故障を報告するときに入力する項目。",
+   "fields": [
+    {
+     "key": "running_hours",
+     "label": "運転時間",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "key": "fuel_level",
+     "label": "燃料残量 (%)",
+     "required": false,
+     "type": "number"
+    },
+    {
+     "key": "started",
+     "label": "始動しましたか？",
+     "required": false,
+     "type": "boolean"
+    }
+   ],
+   "is_current": 1,
+   "key": "generator_failure",
+   "name": "発電機の故障",
+   "version": 2
+  }
+ },
+ "issues": {
+  "1": {
+   "asset_category": "critico",
+   "asset_id": 1,
+   "channel": "qr",
+   "created_at": "2027-02-14T11:17:00Z",
+   "description": "ブームシリンダーから油が垂れています。機械のQRコードから報告。",
+   "machine_id": 1,
+   "priority": "medium",
+   "seed_code": "ISS-01",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T15:17:00Z",
+   "sla_resolution_deadline": "2027-02-15T11:17:00Z",
+   "state": "reported",
+   "title": "ブームから作動油が漏れている"
+  },
+  "10": {
+   "asset_category": "critico",
+   "asset_id": 14,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-13T17:17:00Z",
+   "description": "受電側の停電でUPSがバッテリー運転に切り替わりました。この案件はサーバールームの報告をまとめています。",
+   "first_responded_by": 6,
+   "first_response_at": "2027-02-13T18:17:00Z",
+   "machine_id": 10,
+   "priority": "high",
+   "reported_by": 4,
+   "seed_code": "ISS-10",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T19:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T17:17:00Z",
+   "state": "in_progress",
+   "title": "サーバールームの停電",
+   "updated_at": "2027-02-14T06:37:00Z"
+  },
+  "11": {
+   "asset_category": "critico",
+   "asset_id": 12,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-13T18:17:00Z",
+   "description": "停電中にサーバーが再起動しました。",
+   "machine_id": 11,
+   "master_id": 10,
+   "priority": "high",
+   "reported_by": 8,
+   "seed_code": "ISS-11",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T20:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T18:17:00Z",
+   "state": "in_progress",
+   "title": "サーバーが勝手に再起動した",
+   "updated_at": "2027-02-14T06:57:00Z"
+  },
+  "12": {
+   "asset_category": "critico",
+   "asset_id": 15,
+   "assignee": 6,
+   "channel": "qr",
+   "created_at": "2027-02-13T18:17:00Z",
+   "description": "UPSの警報音が鳴り続けています。機器のQRコードから報告。",
+   "machine_id": 12,
+   "master_id": 10,
+   "priority": "medium",
+   "seed_code": "ISS-12",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-13T22:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T18:17:00Z",
+   "state": "in_progress",
+   "title": "UPSの警報音が鳴っている",
+   "updated_at": "2027-02-14T06:57:00Z"
+  },
+  "2": {
+   "asset_category": "normal",
+   "asset_id": 4,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-14T08:17:00Z",
+   "description": "左のブレーキランプが点灯しません。車両は使用を続けています。",
+   "machine_id": 2,
+   "priority": "medium",
+   "reported_by": 7,
+   "seed_code": "ISS-02",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T16:17:00Z",
+   "sla_resolution_deadline": "2027-02-17T08:17:00Z",
+   "state": "reported",
+   "title": "後部ブレーキランプの球切れ"
+  },
+  "3": {
+   "asset_category": "critico",
+   "asset_id": 9,
+   "assignee": 8,
+   "channel": "app",
+   "created_at": "2027-02-13T11:17:00Z",
+   "description": "朝からチラーに凝縮圧力の高圧警報が出ています。",
+   "machine_id": 3,
+   "priority": "high",
+   "reported_by": 6,
+   "seed_code": "ISS-03",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T13:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T11:17:00Z",
+   "state": "triaged",
+   "title": "チラーに高圧警報",
+   "updated_at": "2027-02-14T00:17:00Z"
+  },
+  "4": {
+   "asset_category": "critico",
+   "asset_id": 3,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-13T07:17:00Z",
+   "description": "土砂を押すとエンジン回転が落ち、黒煙が出ます。",
+   "first_responded_by": 6,
+   "first_response_at": "2027-02-13T08:17:00Z",
+   "form_data": {
+    "error_code": "E361-2",
+    "hour_meter": "4820",
+    "machine_stopped": "false"
+   },
+   "machine_id": 4,
+   "priority": "high",
+   "reported_by": 8,
+   "seed_code": "ISS-04",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T08:17:00Z",
+   "sla_resolution_deadline": "2027-02-13T15:17:00Z",
+   "state": "in_progress",
+   "template_id": 1,
+   "title": "ブルドーザーが負荷時に出力低下",
+   "updated_at": "2027-02-14T03:17:00Z"
+  },
+  "5": {
+   "asset_category": "critico",
+   "asset_id": 11,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-11T13:17:00Z",
+   "description": "本番サーバーが応答しなくなりました。現場のシステムが停止しています。",
+   "first_responded_by": 7,
+   "first_response_at": "2027-02-11T16:17:00Z",
+   "machine_id": 5,
+   "priority": "critical",
+   "reported_by": 4,
+   "seed_code": "ISS-05",
+   "severity": "critical",
+   "sla_first_response_deadline": "2027-02-11T14:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T17:17:00Z",
+   "state": "in_progress",
+   "title": "メインサーバーが応答しない",
+   "updated_at": "2027-02-13T13:17:00Z"
+  },
+  "6": {
+   "asset_category": "critico",
+   "asset_id": 7,
+   "assignee": 9,
+   "channel": "app",
+   "created_at": "2027-02-10T13:17:00Z",
+   "description": "週次点検で発電機が始動しませんでした。交換用バッテリーの到着待ちです。",
+   "first_responded_by": 9,
+   "first_response_at": "2027-02-10T15:17:00Z",
+   "form_data": {
+    "fuel_level": "78",
+    "running_hours": "1260",
+    "started": "false"
+   },
+   "machine_id": 6,
+   "priority": "medium",
+   "reported_by": 9,
+   "seed_code": "ISS-06",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-10T17:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T13:17:00Z",
+   "state": "on_hold",
+   "template_id": 3,
+   "title": "週次点検で発電機が始動しない",
+   "updated_at": "2027-02-13T05:17:00Z"
+  },
+  "7": {
+   "asset_category": "normal",
+   "asset_id": 16,
+   "assignee": 8,
+   "channel": "app",
+   "created_at": "2027-02-08T13:17:00Z",
+   "description": "右後輪の空気圧が一晩で下がります。バルブを修理しました。",
+   "first_responded_by": 8,
+   "first_response_at": "2027-02-08T17:17:00Z",
+   "machine_id": 7,
+   "priority": "medium",
+   "reported_by": 6,
+   "seed_code": "ISS-07",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-08T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T13:17:00Z",
+   "state": "resolved",
+   "title": "後輪タイヤの空気圧低下",
+   "updated_at": "2027-02-13T01:17:00Z"
+  },
+  "8": {
+   "asset_category": "normal",
+   "asset_id": 4,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-02T13:17:00Z",
+   "description": "拭き跡が残るため、2本とも交換しました。",
+   "first_responded_by": 7,
+   "first_response_at": "2027-02-02T19:17:00Z",
+   "machine_id": 8,
+   "priority": "low",
+   "reported_by": 7,
+   "seed_code": "ISS-08",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-02T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-09T13:17:00Z",
+   "state": "closed",
+   "title": "ワイパーブレードの交換",
+   "updated_at": "2027-02-11T13:17:00Z"
+  },
+  "9": {
+   "asset_category": "normal",
+   "assignee": 4,
+   "channel": "app",
+   "created_at": "2027-02-06T13:17:00Z",
+   "description": "引き戸のゲートを開けるときに音がします。",
+   "machine_id": 9,
+   "priority": "low",
+   "reject_reason": "このゲートはSeamで管理している資産ではありません。建物の保守担当に引き継ぎました。",
+   "reported_by": 9,
+   "seed_code": "ISS-09",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-06T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-13T13:17:00Z",
+   "state": "rejected",
+   "title": "倉庫のゲートから異音",
+   "updated_at": "2027-02-11T21:17:00Z"
+  }
+ }
+}

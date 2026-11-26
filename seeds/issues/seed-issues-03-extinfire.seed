@@ -1,0 +1,440 @@
+# Seam AMS demonstration data: the Issues module, over the seed 03-extinfire.
+# A .seed file, format version 2 (docs/SEED_FORMAT.md). It is an addition: load the seed it requires first, then:
+#   python3 seeds/seed.py load issues-03-extinfire --url http://localhost:9090
+# xolu must run with XOLU_API_V2_ENABLED=true: the lifecycle of an issue is a state machine (/api/v2/fsm).
+# Seam must run with the Issues module on (SEAM_ENABLE_ISSUES=1), as with any module that is off by default.
+# Times written as {"$now": "-120m"} are relative to the moment of the load.
+{"seed": 2,
+  "name": "issues-03-extinfire",
+  "description": "Incidencias de Extinfire: reportes, plantillas, códigos QR y un caso agrupado",
+  "tags": ["issues", "fire-safety", "uy", "es"],
+  "version": "1",
+  "addition": true,
+  "requires": ["03-extinfire"],
+  "entities": ["issue_templates", "issue_template_assignments", "issue_qr_codes", "issues"],
+  "notes": "12 issues in every state of the lifecycle (one case with two grouped issues), 2 templates (one with two versions) assigned to 2 asset types, 4 QR codes (one revoked). Seam must run with the module on (SEAM_ENABLE_ISSUES=1).",
+  "x": {"seam": {"module": "issues"}}
+  }
+
+# The lifecycle of an issue: the state machine the application itself makes on first use, found here by name.
+{"kind": "fsm_def", "match": ["name"], "as": "lifecycle", "body": {
+  "name": "seam_issue_lifecycle",
+  "description": "Seam AMS Issues lifecycle (8 states, iteration 1)",
+  "initial": "reported",
+  "determinism": "firstmatch",
+  "states": {
+    "reported": {"terminal": false},
+    "triaged": {"terminal": false},
+    "in_progress": {"terminal": false},
+    "on_hold": {"terminal": false},
+    "resolved": {"terminal": false},
+    "closed": {"terminal": true},
+    "rejected": {"terminal": true},
+    "duplicate": {"terminal": true}
+  },
+  "transitions": [
+    {"from": "reported", "input": "triage", "to": "triaged"},
+    {"from": ["reported", "triaged"], "input": "start", "to": "in_progress"},
+    {"from": ["triaged", "in_progress"], "input": "hold", "to": "on_hold"},
+    {"from": "on_hold", "input": "resume", "to": "in_progress"},
+    {"from": "in_progress", "input": "resolve", "to": "resolved"},
+    {"from": "resolved", "input": "close", "to": "closed"},
+    {
+      "from": ["reported", "triaged", "in_progress", "on_hold", "resolved"],
+      "input": "reject",
+      "to": "rejected"
+    },
+    {"from": ["reported", "triaged", "in_progress"], "input": "merge", "to": "duplicate"}
+  ]
+  }}
+
+# What this file expects to find, put there by the seed it adds to: users, asset types and assets.
+{"kind": "entity", "entity": "users", "find": {"email": "facundo.salaberry.h@estudiantes.utec.edu.uy"}, "as": "u_op1"}
+{"kind": "entity", "entity": "users", "find": {"email": "alexis.menchaca@estudiantes.utec.edu.uy"}, "as": "u_op2"}
+{"kind": "entity", "entity": "users", "find": {"email": "ignacio.ortega@estudiantes.utec.edu.uy"}, "as": "u_op3"}
+{"kind": "entity", "entity": "users", "find": {"email": "kevin.jaffe@estudiantes.utec.edu.uy"}, "as": "u_op4"}
+{"kind": "entity", "entity": "users", "find": {"email": "manager@example.com"}, "as": "u_manager"}
+{"kind": "entity", "entity": "users", "find": {"email": "hl@example.com"}, "as": "u_admin"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "extintor-clase-k"}, "as": "type_t1"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "bie"}, "as": "type_t2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-K01"}, "as": "asset_a1"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-K02"}, "as": "asset_a1b"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-004"}, "as": "asset_a2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-E01"}, "as": "asset_a3"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PLAS-PD01"}, "as": "asset_a4"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "LIB-BIE-A1"}, "as": "asset_a5"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PLAS-R01"}, "as": "asset_a6"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-C01"}, "as": "asset_a7"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-C02"}, "as": "asset_a8"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "PORT-C03"}, "as": "asset_a9"}
+
+# Issue templates: the extra fields an issue asks for, by asset type. The second one has two versions; the current one is version 2.
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t1", "data": {
+  "key": "novedad_en_extintor_clase_k",
+  "name": "Novedad en extintor clase K",
+  "description": "Datos que se piden al reportar una novedad en un extintor de cocina.",
+  "version": 1,
+  "fields": [
+    {
+      "key": "presion_en_manometro",
+      "label": "Presión en el manómetro (bar)",
+      "type": "number",
+      "required": true
+    },
+    {"key": "precinto_roto", "label": "¿Precinto roto?", "type": "boolean", "required": false},
+    {"key": "observaciones", "label": "Observaciones", "type": "textarea", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"},
+  "sla_config": {
+    "first_response": {"critical": 30, "high": 60, "medium": 240, "low": 480},
+    "resolution": {"critical": 240, "high": 480, "medium": 1440, "low": 2880}
+  }
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2_v1", "data": {
+  "key": "novedad_en_boca_de_incendio",
+  "name": "Novedad en boca de incendio",
+  "description": "Datos que se piden al reportar una novedad en una boca de incendio equipada.",
+  "version": 1,
+  "fields": [{"key": "presion_en_la_red", "label": "Presión en la red (bar)", "type": "number", "required": true}],
+  "is_current": 0,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"}
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2", "data": {
+  "key": "novedad_en_boca_de_incendio",
+  "name": "Novedad en boca de incendio",
+  "description": "Datos que se piden al reportar una novedad en una boca de incendio equipada.",
+  "version": 2,
+  "fields": [
+    {"key": "presion_en_la_red", "label": "Presión en la red (bar)", "type": "number", "required": true},
+    {
+      "key": "manguera_completa",
+      "label": "¿Manguera y lanza completas?",
+      "type": "boolean",
+      "required": false
+    },
+    {"key": "gabinete", "label": "Estado del gabinete", "type": "text", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t1"},
+  "template_key": "novedad_en_extintor_clase_k",
+  "updated_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t2"},
+  "template_key": "novedad_en_boca_de_incendio",
+  "updated_at": {"$now": "-12d"}
+  }}
+
+# QR codes for reporting an issue from the asset itself. The third asset had its code replaced: the old one is kept, revoked.
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "BOVJGWN7EBT66X2S",
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "4MTSW7OBEXZ5PBHE",
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "SITP37LNT7OSJUDT",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "active": false,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"},
+  "revoked_at": {"$now": "-6d"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "X6VKVJAX4JWPJIIC",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "active": true,
+  "created_at": {"$now": "-6d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+
+# One state machine per issue, and the inputs that took it to where it is. The history of each issue shows these
+# steps with the time of the load, which is when they are made.
+{"kind": "fsm_machine", "as": "m_iss_01", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_02", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_03", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_03"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_04", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_05", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_06", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "start", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "hold", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_machine", "as": "m_iss_07", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "start", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_machine", "as": "m_iss_08", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "close", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_09", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "reject", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_10", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_11", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_12", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+
+# The issues. Each is found by its seed_code, so loading the file again adds nothing. ISS-10 is a case: ISS-11 and
+# ISS-12 are grouped under it and follow its state.
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_01", "data": {
+  "seed_code": "ISS-01",
+  "title": "Extintor de cocina sin precinto",
+  "description": "El extintor de la cocina no tiene el precinto. Reportado desde el código QR del equipo.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_01"},
+  "channel": "qr",
+  "created_at": {"$now": "-120m"},
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "+120m"},
+  "sla_resolution_deadline": {"$now": "+1320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_02", "data": {
+  "seed_code": "ISS-02",
+  "title": "Extintor sin tarjeta de control",
+  "description": "Falta la tarjeta de control mensual. El extintor está en su lugar.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_02"},
+  "channel": "app",
+  "created_at": {"$now": "-300m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "+180m"},
+  "sla_resolution_deadline": {"$now": "+4020m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_03", "data": {
+  "seed_code": "ISS-03",
+  "title": "Extintor de espuma con manguera resquebrajada",
+  "description": "La manguera del extintor de espuma tiene grietas cerca de la boquilla.",
+  "priority": "high",
+  "severity": "major",
+  "state": "triaged",
+  "machine_id": {"$seed": "m_iss_03"},
+  "channel": "app",
+  "created_at": {"$now": "-1560m"},
+  "asset_id": {"$seed": "asset_a3"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1440m"},
+  "sla_resolution_deadline": {"$now": "-120m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-780m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_04", "data": {
+  "seed_code": "ISS-04",
+  "title": "Extintor clase K con el precinto cortado",
+  "description": "En la ronda se encontró el precinto cortado y la presión en el límite.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_04"},
+  "channel": "app",
+  "created_at": {"$now": "-1800m"},
+  "asset_id": {"$seed": "asset_a1b"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1740m"},
+  "sla_resolution_deadline": {"$now": "-1320m"},
+  "template_id": {"$seed": "tpl_t1"},
+  "form_data": {
+    "presion_en_manometro": "9",
+    "precinto_roto": "true",
+    "observaciones": "El precinto apareció cortado después del turno de la noche."
+  },
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1740m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-600m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_05", "data": {
+  "seed_code": "ISS-05",
+  "title": "Panel de detección en falla",
+  "description": "El panel muestra falla de lazo y no supervisa los detectores del sector B.",
+  "priority": "critical",
+  "severity": "critical",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_05"},
+  "channel": "app",
+  "created_at": {"$now": "-4320m"},
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-4260m"},
+  "sla_resolution_deadline": {"$now": "-4080m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-4140m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-1440m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_06", "data": {
+  "seed_code": "ISS-06",
+  "title": "Boca de incendio sin lanza",
+  "description": "Falta la lanza y el vidrio del gabinete está roto. Se espera el repuesto.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "on_hold",
+  "machine_id": {"$seed": "m_iss_06"},
+  "channel": "app",
+  "created_at": {"$now": "-5760m"},
+  "asset_id": {"$seed": "asset_a5"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-5520m"},
+  "sla_resolution_deadline": {"$now": "-4320m"},
+  "template_id": {"$seed": "tpl_t2"},
+  "form_data": {"presion_en_la_red": "3.2", "manguera_completa": "false", "gabinete": "Vidrio roto"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_op4"},
+  "first_response_at": {"$now": "-5640m"},
+  "first_responded_by": {"$seed": "u_op4"},
+  "updated_at": {"$now": "-1920m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_07", "data": {
+  "seed_code": "ISS-07",
+  "title": "Extintor rodante con una rueda rota",
+  "description": "Una rueda del carro está rota y el equipo no se puede mover. Se cambió la rueda.",
+  "priority": "medium",
+  "severity": "major",
+  "state": "resolved",
+  "machine_id": {"$seed": "m_iss_07"},
+  "channel": "app",
+  "created_at": {"$now": "-8640m"},
+  "asset_id": {"$seed": "asset_a6"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-8400m"},
+  "sla_resolution_deadline": {"$now": "-7200m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "first_response_at": {"$now": "-8400m"},
+  "first_responded_by": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-2160m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_08", "data": {
+  "seed_code": "ISS-08",
+  "title": "Señalización tapada",
+  "description": "El cartel del extintor estaba tapado por una estantería. Se reubicó.",
+  "priority": "low",
+  "severity": "minor",
+  "state": "closed",
+  "machine_id": {"$seed": "m_iss_08"},
+  "channel": "app",
+  "created_at": {"$now": "-17280m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-16800m"},
+  "sla_resolution_deadline": {"$now": "-7200m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-16920m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-4320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_09", "data": {
+  "seed_code": "ISS-09",
+  "title": "Matafuego del auto vencido",
+  "description": "El matafuego de un vehículo particular está vencido.",
+  "priority": "low",
+  "severity": "minor",
+  "state": "rejected",
+  "machine_id": {"$seed": "m_iss_09"},
+  "channel": "app",
+  "created_at": {"$now": "-11520m"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-11040m"},
+  "sla_resolution_deadline": {"$now": "-1440m"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_manager"},
+  "reject_reason": "El matafuego del vehículo particular no pertenece al cliente. No corresponde al contrato.",
+  "updated_at": {"$now": "-3840m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_10", "data": {
+  "seed_code": "ISS-10",
+  "title": "Extintores de CO2 descargados tras un principio de incendio",
+  "description": "Se usaron los extintores de CO2 de la sala eléctrica. Este caso agrupa los equipos a recargar.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_10"},
+  "channel": "app",
+  "created_at": {"$now": "-1200m"},
+  "asset_id": {"$seed": "asset_a7"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1080m"},
+  "sla_resolution_deadline": {"$now": "+240m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1140m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-400m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_11", "data": {
+  "seed_code": "ISS-11",
+  "title": "Extintor de CO2 usado",
+  "description": "El extintor se descargó durante el principio de incendio.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_11"},
+  "channel": "app",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a8"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1020m"},
+  "sla_resolution_deadline": {"$now": "+300m"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_12", "data": {
+  "seed_code": "ISS-12",
+  "title": "Extintor de CO2 liviano, sin carga",
+  "description": "El extintor pesa poco y no tiene precinto. Reportado desde el código QR del equipo.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_12"},
+  "channel": "qr",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-660m"},
+  "sla_resolution_deadline": {"$now": "+3180m"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}

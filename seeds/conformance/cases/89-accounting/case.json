@@ -1,0 +1,54 @@
+{
+ "about": "the accounting seed loads over records the module made first, which it finds and leaves as they are; a second load adds nothing",
+ "entities": [
+  "adm_instance",
+  "adm_ae",
+  "adm_account",
+  "adm_company",
+  "adm_formula",
+  "adm_tenant",
+  "adm_item",
+  "adm_document",
+  "adm_commission",
+  "adm_settlement",
+  "adm_entry",
+  "adm_movement",
+  "adm_close",
+  "adm_line_claim"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "module.seed"
+   ]
+  },
+  {
+   "run": [
+    "load",
+    "../../../accounting/seed-accounting.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "load",
+    "../../../accounting/seed-accounting.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "says": "present"
+  },
+  {
+   "run": [
+    "check",
+    "../../../accounting/seed-accounting.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "exit": 1,
+   "says": "2 different"
+  }
+ ]
+}

@@ -1,0 +1,426 @@
+# Seam AMS demonstration data: the Issues module, over the seed 04-vendiberia.
+# A .seed file, format version 2 (docs/SEED_FORMAT.md). It is an addition: load the seed it requires first, then:
+#   python3 seeds/seed.py load issues-04-vendiberia --url http://localhost:9090
+# xolu must run with XOLU_API_V2_ENABLED=true: the lifecycle of an issue is a state machine (/api/v2/fsm).
+# Seam must run with the Issues module on (SEAM_ENABLE_ISSUES=1), as with any module that is off by default.
+# Times written as {"$now": "-120m"} are relative to the moment of the load.
+{"seed": 2,
+  "name": "issues-04-vendiberia",
+  "description": "Incidencias de Vendiberia: avisos, plantillas, códigos QR y un caso agrupado",
+  "tags": ["issues", "vending", "es", "es"],
+  "version": "1",
+  "addition": true,
+  "requires": ["04-vendiberia"],
+  "entities": ["issue_templates", "issue_template_assignments", "issue_qr_codes", "issues"],
+  "notes": "12 issues in every state of the lifecycle (one case with two grouped issues), 2 templates (one with two versions) assigned to 2 asset types, 4 QR codes (one revoked). Seam must run with the module on (SEAM_ENABLE_ISSUES=1).",
+  "x": {"seam": {"module": "issues"}}
+  }
+
+# The lifecycle of an issue: the state machine the application itself makes on first use, found here by name.
+{"kind": "fsm_def", "match": ["name"], "as": "lifecycle", "body": {
+  "name": "seam_issue_lifecycle",
+  "description": "Seam AMS Issues lifecycle (8 states, iteration 1)",
+  "initial": "reported",
+  "determinism": "firstmatch",
+  "states": {
+    "reported": {"terminal": false},
+    "triaged": {"terminal": false},
+    "in_progress": {"terminal": false},
+    "on_hold": {"terminal": false},
+    "resolved": {"terminal": false},
+    "closed": {"terminal": true},
+    "rejected": {"terminal": true},
+    "duplicate": {"terminal": true}
+  },
+  "transitions": [
+    {"from": "reported", "input": "triage", "to": "triaged"},
+    {"from": ["reported", "triaged"], "input": "start", "to": "in_progress"},
+    {"from": ["triaged", "in_progress"], "input": "hold", "to": "on_hold"},
+    {"from": "on_hold", "input": "resume", "to": "in_progress"},
+    {"from": "in_progress", "input": "resolve", "to": "resolved"},
+    {"from": "resolved", "input": "close", "to": "closed"},
+    {
+      "from": ["reported", "triaged", "in_progress", "on_hold", "resolved"],
+      "input": "reject",
+      "to": "rejected"
+    },
+    {"from": ["reported", "triaged", "in_progress"], "input": "merge", "to": "duplicate"}
+  ]
+  }}
+
+# What this file expects to find, put there by the seed it adds to: users, asset types and assets.
+{"kind": "entity", "entity": "users", "find": {"email": "facundo.salaberry.h@estudiantes.utec.edu.uy"}, "as": "u_op1"}
+{"kind": "entity", "entity": "users", "find": {"email": "alexis.menchaca@estudiantes.utec.edu.uy"}, "as": "u_op2"}
+{"kind": "entity", "entity": "users", "find": {"email": "ignacio.ortega@estudiantes.utec.edu.uy"}, "as": "u_op3"}
+{"kind": "entity", "entity": "users", "find": {"email": "kevin.jaffe@estudiantes.utec.edu.uy"}, "as": "u_op4"}
+{"kind": "entity", "entity": "users", "find": {"email": "manager@example.com"}, "as": "u_manager"}
+{"kind": "entity", "entity": "users", "find": {"email": "hl@example.com"}, "as": "u_admin"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "maq-cafe"}, "as": "type_t1"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "maq-bebidas-frias"}, "as": "type_t2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-C01"}, "as": "asset_a1"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-C02"}, "as": "asset_a1b"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-S01"}, "as": "asset_a2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-X01"}, "as": "asset_a3"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-FR01"}, "as": "asset_a4"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-F01"}, "as": "asset_a5"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-MM01"}, "as": "asset_a6"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-TP01"}, "as": "asset_a7"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-TP02"}, "as": "asset_a8"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "TEL-TP03"}, "as": "asset_a9"}
+
+# Issue templates: the extra fields an issue asks for, by asset type. The second one has two versions; the current one is version 2.
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t1", "data": {
+  "key": "averia_de_maquina_de_cafe",
+  "name": "Avería de máquina de café",
+  "description": "Datos que se piden al dar aviso de una avería en una máquina de café.",
+  "version": 1,
+  "fields": [
+    {"key": "codigo_en_pantalla", "label": "Código en pantalla", "type": "text", "required": true},
+    {"key": "devuelve_el_dinero", "label": "¿Devuelve el dinero?", "type": "boolean", "required": false},
+    {"key": "producto_afectado", "label": "Producto afectado", "type": "text", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"},
+  "sla_config": {
+    "first_response": {"critical": 30, "high": 60, "medium": 240, "low": 480},
+    "resolution": {"critical": 240, "high": 480, "medium": 1440, "low": 2880}
+  }
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2_v1", "data": {
+  "key": "averia_de_maquina_de_bebidas_frias",
+  "name": "Avería de máquina de bebidas frías",
+  "description": "Datos que se piden al dar aviso de una avería en una máquina de bebidas frías.",
+  "version": 1,
+  "fields": [{"key": "temperatura_interior", "label": "Temperatura interior (°C)", "type": "number", "required": true}],
+  "is_current": 0,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"}
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2", "data": {
+  "key": "averia_de_maquina_de_bebidas_frias",
+  "name": "Avería de máquina de bebidas frías",
+  "description": "Datos que se piden al dar aviso de una avería en una máquina de bebidas frías.",
+  "version": 2,
+  "fields": [
+    {"key": "temperatura_interior", "label": "Temperatura interior (°C)", "type": "number", "required": true},
+    {"key": "carril_afectado", "label": "Carril afectado", "type": "text", "required": false},
+    {"key": "producto_atascado", "label": "¿Producto atascado?", "type": "boolean", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t1"},
+  "template_key": "averia_de_maquina_de_cafe",
+  "updated_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t2"},
+  "template_key": "averia_de_maquina_de_bebidas_frias",
+  "updated_at": {"$now": "-12d"}
+  }}
+
+# QR codes for reporting an issue from the asset itself. The third asset had its code replaced: the old one is kept, revoked.
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "KDXBHYCNLWBRAFMP",
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "RNR32USGPLRQCGIR",
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "AZAEZH2QWHSLVJCK",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "active": false,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"},
+  "revoked_at": {"$now": "-6d"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "S42WAFWNRQYLNNFT",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "active": true,
+  "created_at": {"$now": "-6d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+
+# One state machine per issue, and the inputs that took it to where it is. The history of each issue shows these
+# steps with the time of the load, which is when they are made.
+{"kind": "fsm_machine", "as": "m_iss_01", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_02", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_03", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_03"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_04", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_05", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_06", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "start", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "hold", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_machine", "as": "m_iss_07", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "start", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_machine", "as": "m_iss_08", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "close", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_09", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "reject", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_10", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_11", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_12", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+
+# The issues. Each is found by its seed_code, so loading the file again adds nothing. ISS-10 is a case: ISS-11 and
+# ISS-12 are grouped under it and follow its state.
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_01", "data": {
+  "seed_code": "ISS-01",
+  "title": "La máquina de café no da cambio",
+  "description": "La máquina se queda con las monedas y no devuelve el cambio. Aviso desde el código QR de la máquina.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_01"},
+  "channel": "qr",
+  "created_at": {"$now": "-120m"},
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "+120m"},
+  "sla_resolution_deadline": {"$now": "+1320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_02", "data": {
+  "seed_code": "ISS-02",
+  "title": "Espiral de snacks atascada",
+  "description": "Una espiral de la fila 3 no gira. El resto de la máquina funciona.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_02"},
+  "channel": "app",
+  "created_at": {"$now": "-300m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "+180m"},
+  "sla_resolution_deadline": {"$now": "+4020m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_03", "data": {
+  "seed_code": "ISS-03",
+  "title": "La máquina combo no acepta billetes",
+  "description": "El lector de billetes rechaza todos los billetes desde ayer.",
+  "priority": "high",
+  "severity": "major",
+  "state": "triaged",
+  "machine_id": {"$seed": "m_iss_03"},
+  "channel": "app",
+  "created_at": {"$now": "-1560m"},
+  "asset_id": {"$seed": "asset_a3"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-1320m"},
+  "sla_resolution_deadline": {"$now": "+1320m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-780m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_04", "data": {
+  "seed_code": "ISS-04",
+  "title": "Máquina de café con error en pantalla",
+  "description": "La pantalla muestra un código de error y no sirve bebidas con leche.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_04"},
+  "channel": "app",
+  "created_at": {"$now": "-1800m"},
+  "asset_id": {"$seed": "asset_a1b"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1740m"},
+  "sla_resolution_deadline": {"$now": "-1320m"},
+  "template_id": {"$seed": "tpl_t1"},
+  "form_data": {"codigo_en_pantalla": "E12", "devuelve_el_dinero": "true", "producto_afectado": "Café con leche"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1740m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-600m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_05", "data": {
+  "seed_code": "ISS-05",
+  "title": "Máquina de comida fresca por encima de 8 °C",
+  "description": "La temperatura interior superó los 8 °C. Hay que retirar el producto.",
+  "priority": "critical",
+  "severity": "critical",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_05"},
+  "channel": "app",
+  "created_at": {"$now": "-4320m"},
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-4260m"},
+  "sla_resolution_deadline": {"$now": "-4080m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-4140m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-1440m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_06", "data": {
+  "seed_code": "ISS-06",
+  "title": "Máquina de bebidas frías no enfría",
+  "description": "Las bebidas salen calientes y hay una lata atascada. Se espera el compresor de repuesto.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "on_hold",
+  "machine_id": {"$seed": "m_iss_06"},
+  "channel": "app",
+  "created_at": {"$now": "-5760m"},
+  "asset_id": {"$seed": "asset_a5"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-5520m"},
+  "sla_resolution_deadline": {"$now": "-4320m"},
+  "template_id": {"$seed": "tpl_t2"},
+  "form_data": {"temperatura_interior": "11", "carril_afectado": "B4", "producto_atascado": "true"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_op4"},
+  "first_response_at": {"$now": "-5640m"},
+  "first_responded_by": {"$seed": "u_op4"},
+  "updated_at": {"$now": "-1920m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_07", "data": {
+  "seed_code": "ISS-07",
+  "title": "Puerta del micromarket no desbloquea",
+  "description": "La cerradura no abre con el pago aceptado. Se sustituyó el electroimán.",
+  "priority": "medium",
+  "severity": "major",
+  "state": "resolved",
+  "machine_id": {"$seed": "m_iss_07"},
+  "channel": "app",
+  "created_at": {"$now": "-8640m"},
+  "asset_id": {"$seed": "asset_a6"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-8400m"},
+  "sla_resolution_deadline": {"$now": "-7200m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "first_response_at": {"$now": "-8400m"},
+  "first_responded_by": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-2160m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_08", "data": {
+  "seed_code": "ISS-08",
+  "title": "Vinilo de la máquina despegado",
+  "description": "El vinilo lateral se estaba despegando. Se ha repuesto.",
+  "priority": "low",
+  "severity": "minor",
+  "state": "closed",
+  "machine_id": {"$seed": "m_iss_08"},
+  "channel": "app",
+  "created_at": {"$now": "-17280m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-16800m"},
+  "sla_resolution_deadline": {"$now": "-7200m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-16920m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-4320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_09", "data": {
+  "seed_code": "ISS-09",
+  "title": "El microondas del office no calienta",
+  "description": "El microondas que hay junto a las máquinas no calienta.",
+  "priority": "low",
+  "severity": "minor",
+  "state": "rejected",
+  "machine_id": {"$seed": "m_iss_09"},
+  "channel": "app",
+  "created_at": {"$now": "-11520m"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-11040m"},
+  "sla_resolution_deadline": {"$now": "-1440m"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_manager"},
+  "reject_reason": "El microondas del office no es un equipo de Vendiberia. Se ha avisado al cliente.",
+  "updated_at": {"$now": "-3840m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_10", "data": {
+  "seed_code": "ISS-10",
+  "title": "Terminales de pago sin conexión",
+  "description": "Los terminales no autorizan pagos con tarjeta por una caída del operador. Este caso agrupa los avisos del edificio.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_10"},
+  "channel": "app",
+  "created_at": {"$now": "-1200m"},
+  "asset_id": {"$seed": "asset_a7"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-960m"},
+  "sla_resolution_deadline": {"$now": "+1680m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1140m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-400m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_11", "data": {
+  "seed_code": "ISS-11",
+  "title": "El terminal rechaza todas las tarjetas",
+  "description": "El terminal muestra «sin conexión» y rechaza las tarjetas.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_11"},
+  "channel": "app",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a8"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-900m"},
+  "sla_resolution_deadline": {"$now": "+1740m"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_12", "data": {
+  "seed_code": "ISS-12",
+  "title": "No se puede pagar con el móvil",
+  "description": "El pago con el móvil no funciona. Aviso desde el código QR de la máquina.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_12"},
+  "channel": "qr",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-660m"},
+  "sla_resolution_deadline": {"$now": "+3180m"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}

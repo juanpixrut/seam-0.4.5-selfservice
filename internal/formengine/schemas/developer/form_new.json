@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": ["module", "name"],
+  "properties": {
+    "module": {
+      "type": "string",
+      "title": "Module",
+      "x-seam-input": "text",
+      "maxLength": 64,
+      "x-seam-placeholder": "workorders",
+      "x-seam-help": "The package the form belongs to: lower-case letters, digits and underscores."
+    },
+    "name": {
+      "type": "string",
+      "title": "Form name",
+      "x-seam-input": "text",
+      "maxLength": 64,
+      "x-seam-placeholder": "inspection",
+      "x-seam-help": "Lower-case letters, digits and underscores. Together with the module it must not exist yet."
+    }
+  }
+}

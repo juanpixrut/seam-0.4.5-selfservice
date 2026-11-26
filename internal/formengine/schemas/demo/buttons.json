@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "tags": {
+      "type": "array",
+      "title": "Tags",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-add-style: link, x-seam-add-label and x-seam-add-icon give a text-link add button; x-seam-remove-icon swaps the remove icon for a plain cross.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "title": "Tag",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Tag"
+          }
+        }
+      },
+      "x-seam-add-style": "link",
+      "x-seam-add-label": "Add tag",
+      "x-seam-add-icon": "label",
+      "x-seam-remove-icon": "close"
+    },
+    "steps": {
+      "type": "array",
+      "title": "Steps",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-add-style: filled gives a solid add button in the accent colour; x-seam-remove-label puts text beside the remove icon.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string",
+            "title": "Step",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Describe the step"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "x-seam-input": "select",
+            "enum": [
+              "Manual",
+              "Automatic",
+              "Review"
+            ]
+          }
+        }
+      },
+      "x-seam-add-style": "filled",
+      "x-seam-add-label": "New step",
+      "x-seam-add-icon": "playlist_add",
+      "x-seam-remove-label": "Delete",
+      "x-seam-remove-icon": "delete_outline"
+    },
+    "attachments": {
+      "type": "array",
+      "title": "Attachments",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-add-style: icon is an icon-only add button; its label (x-seam-add-label) becomes the tooltip and the accessible name.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "File name"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Note"
+          }
+        }
+      },
+      "x-seam-add-style": "icon",
+      "x-seam-add-label": "Attach a file",
+      "x-seam-add-icon": "attach_file",
+      "x-seam-remove-icon": "delete"
+    },
+    "approvers": {
+      "type": "array",
+      "title": "Approvers",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "The default outlined add button with a custom label and icon, and a labelled remove button, on rows that hold a picker.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "approver_id": {
+            "type": "integer",
+            "title": "Approver",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Approver"
+          },
+          "comment": {
+            "type": "string",
+            "title": "Comment",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Comment"
+          }
+        }
+      },
+      "x-seam-add-label": "Add approver",
+      "x-seam-add-icon": "person_add",
+      "x-seam-remove-label": "Remove approver",
+      "x-seam-remove-icon": "person_remove"
+    }
+  }
+}

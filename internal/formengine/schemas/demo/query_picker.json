@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "properties": {
+    "asset_id": {
+      "type": "integer",
+      "title": "Asset",
+      "x-seam-input": "query-picker",
+      "x-seam-query": "SELECT id, tag_tecnico, name, type_id, criticality, purchase_price, arrival_date, status FROM assets WHERE ((name LIKE :q) OR (tag_tecnico LIKE :q)) ORDER BY name ASC",
+      "x-seam-label-fields": ["tag_tecnico", "name"],
+      "x-seam-columns": [
+        {"field": "tag_tecnico", "muted": true},
+        {"field": "name", "key": true},
+        {"field": "type_id", "lookup": "asset_types.name"},
+        {"field": "criticality", "type": "badge", "variants": {"Alta": "danger", "Media": "warning", "Baja": "info"}},
+        {"field": "purchase_price", "type": "money", "currency": "USD"},
+        {"field": "arrival_date", "type": "date"},
+        {"field": "status", "type": "badge", "variants": {"active": "success", "maintenance": "warning", "inactive": "neutral", "lost": "danger"}}
+      ],
+      "x-seam-dropdown": "table",
+      "x-seam-detail": true,
+      "x-seam-selector": "query",
+      "x-seam-help": "Table layout with seven typed columns, a Browse button and a detail line. The type is a lookup, not a JOIN."
+    },
+    "model_id": {
+      "type": "integer",
+      "title": "Model",
+      "x-seam-input": "query-picker",
+      "x-seam-query": "SELECT id, name, brand_id FROM models WHERE (name LIKE :q) ORDER BY name ASC",
+      "x-seam-columns": [
+        {"field": "name", "key": true},
+        {"field": "brand_id", "lookup": "brands.name"}
+      ],
+      "x-seam-dropdown": "rows",
+      "x-seam-help": "Rows layout: the key column on the first line, the rest on the second. No Browse button."
+    },
+    "typed_asset_id": {
+      "type": "integer",
+      "title": "Asset by type",
+      "x-seam-input": "query-picker",
+      "x-seam-query": "SELECT a.id, a.name, t.name AS type_name, a.status FROM assets a JOIN asset_types t ON a.type_id = t.id WHERE ((a.name LIKE :q) OR (t.name LIKE :q)) ORDER BY a.name ASC",
+      "x-seam-columns": [
+        {"field": "name", "key": true},
+        {"field": "type_name"},
+        {"field": "status", "type": "badge", "variants": {"active": "success", "maintenance": "warning"}}
+      ],
+      "x-seam-limit": 5,
+      "x-seam-selector": "query",
+      "x-seam-browse": "icon",
+      "x-seam-highlight": "background",
+      "x-seam-help": "One JOIN, because the search also matches the type's name. No layout set: the widget picks by the field's width. Five rows, an icon-only Browse button and a marker-style match."
+    },
+    "lines": {
+      "type": "array",
+      "title": "Lines",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "The picker inside repeatable rows; rows you add get a working picker too.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "integer",
+            "title": "Asset",
+            "x-seam-input": "query-picker",
+            "x-seam-query": "SELECT id, tag_tecnico, name, status FROM assets WHERE ((name LIKE :q) OR (tag_tecnico LIKE :q)) ORDER BY name ASC",
+            "x-seam-columns": [
+              {"field": "name", "key": true},
+              {"field": "tag_tecnico", "muted": true},
+              {"field": "status", "type": "badge", "variants": {"active": "success", "maintenance": "warning"}}
+            ],
+            "x-seam-placeholder": "Asset"
+          },
+          "hours": {
+            "type": "integer",
+            "title": "Hours",
+            "x-seam-input": "number",
+            "x-seam-placeholder": "Hours"
+          }
+        }
+      }
+    }
+  }
+}

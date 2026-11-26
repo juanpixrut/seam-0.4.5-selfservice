@@ -1,0 +1,137 @@
+package ui
+
+// validate.go — queryfy integration helpers for UI form validation.
+//
+// Each Create/Update handler calls validateForm() to run a queryfy schema
+// against the submitted map[string]any. On failure it returns a
+// map[string]string keyed by field path (matching form field names) so
+// individual form controls can display inline error messages.
+
+import (
+	"errors"
+	"strings"
+
+	"github.com/ha1tch/queryfy"
+	"github.com/ha1tch/seam-ui/internal/validation"
+)
+
+// validateForm runs a queryfy schema against data.
+// Returns nil if valid, or a map[fieldPath]message on failure.
+// The special key "_" holds a top-level summary when present.
+func validateForm(data map[string]any, schema queryfy.Schema) map[string]string {
+	// Strip empty strings and zero int64s — these both mean "not provided" in HTML forms.
+	// Empty string: unselected text inputs and selects.
+	// int64(0): FK select with no selection (toInt64FromString("") returns 0).
+	// Treating both as absent lets Optional constraints (Enum, Positive, etc.) be skipped.
+	// Required fields with these values become absent and trigger "field is required".
+	filtered := make(map[string]any, len(data))
+	for k, v := range data {
+		switch val := v.(type) {
+		case string:
+			if val == "" {
+				continue // empty string → absent
+			}
+		case int64:
+			if val == 0 {
+				continue // zero FK → absent
+			}
+		}
+		filtered[k] = v
+	}
+	// Use Loose mode: forms legitimately submit extra fields (hidden inputs,
+	// dynamic fields, metadata). Strict mode is for API boundaries only.
+	err := queryfy.ValidateWithMode(filtered, schema, queryfy.Loose)
+	if err == nil {
+		return nil
+	}
+	var ve *queryfy.ValidationError
+	if !errors.As(err, &ve) {
+		// Unexpected error type — surface as top-level
+		return map[string]string{"_": err.Error()}
+	}
+	result := make(map[string]string, len(ve.Errors)+1)
+	for _, fe := range ve.Errors {
+		path := fe.Path
+		if path == "" {
+			path = "_"
+		}
+		// First error per path wins
+		if _, exists := result[path]; !exists {
+			result[path] = fe.Message
+		}
+	}
+	return result
+}
+
+// firstError returns the first non-empty error message from the map,
+// used to populate a single top-level Error string on simple forms.
+func firstError(errs map[string]string) string {
+	if errs == nil {
+		return ""
+	}
+	if msg, ok := errs["_"]; ok {
+		return msg
+	}
+	for _, msg := range errs {
+		return msg
+	}
+	return ""
+}
+
+// fieldError returns the error message for a specific field, or "".
+func fieldError(errs map[string]string, field string) string {
+	if errs == nil {
+		return ""
+	}
+	return errs[field]
+}
+
+// Expose schemas for use in handlers without importing validation directly.
+var (
+	schemaRegionCreate    = validation.RegionCreateSchema
+	schemaMonedaCreate    = validation.MonedaCreateSchema
+	schemaCentroCreate    = validation.CentroCostoCreateSchema
+	schemaMarcaCreate     = validation.MarcaCreateSchema
+	schemaCustodioCreate  = validation.CustodioCreateSchema
+	schemaAlertaCreate    = validation.AlertaCreateSchema
+	schemaPropDefCreate   = validation.PropDefinitionCreateSchema
+	schemaModeloCreate    = validation.ModeloCreateSchema
+	schemaUbicacionCreate = validation.UbicacionCreateSchema
+	schemaPropAssocCreate = validation.PropAssocCreateSchema
+	schemaAssetTypeCreate = validation.AssetTypeCreateSchema
+	schemaAssetTypeUpdate = validation.AssetTypeUpdateSchema
+	schemaRuleCreate      = validation.RuleUISchema
+	schemaSensorCreate    = validation.SensorCreateSchema
+	schemaUserUpdate      = validation.UserUpdateSchema
+)
+
+// errorsToSummary converts a validation error map into a human-readable
+// multi-line string suitable for display in a top-level error banner.
+// Each entry is formatted as "field: message". The "_" key (top-level errors)
+// is listed first without a field prefix.
+func errorsToSummary(errs map[string]string) string {
+	if len(errs) == 0 {
+		return ""
+	}
+	lines := make([]string, 0, len(errs))
+	if top, ok := errs["_"]; ok {
+		lines = append(lines, top)
+	}
+	// Sort remaining keys for stable output
+	keys := make([]string, 0, len(errs))
+	for k := range errs {
+		if k != "_" {
+			keys = append(keys, k)
+		}
+	}
+	// Simple insertion sort — field count is always small
+	for i := 1; i < len(keys); i++ {
+		for j := i; j > 0 && keys[j] < keys[j-1]; j-- {
+			keys[j], keys[j-1] = keys[j-1], keys[j]
+		}
+	}
+	for _, k := range keys {
+		lines = append(lines, k+": "+errs[k])
+	}
+	return strings.Join(lines, "\n")
+}

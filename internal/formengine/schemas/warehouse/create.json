@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "title": "New Warehouse",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "x-seam-input": "textarea"
+    },
+    "location": {
+      "type": "string",
+      "x-seam-input": "gps",
+      "title": "Location"
+    },
+    "responsible_user_id": {
+      "type": "integer",
+      "title": "Responsible",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users",
+      "x-seam-selector": "users"
+    },
+    "enabled": {
+      "type": "boolean",
+      "title": "Active",
+      "x-seam-input": "checkbox"
+    }
+  },
+  "required": [
+    "name",
+    "location",
+    "responsible_user_id",
+    "enabled"
+  ]
+}

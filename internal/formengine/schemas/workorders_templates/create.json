@@ -1,0 +1,405 @@
+{
+    "type": "object",
+    "title": "Work Orders Templates",
+    "x-seam-form": {
+        "module": "workorders-templates",
+        "name": "workorders-template",
+        "width": "2xl",
+        "tabs": [
+            {
+                "id": "tab-principal",
+                "label": "workorders-templates.forms.tab.principal",
+                "sections": [
+                    {
+                        "id": "basic",
+                        "label": "workorders-templates.forms.workorders-template.section.basic",
+                        "layout": "2-col",
+                        "fields": [
+                            "name",
+                            "color",
+                            "description",
+                            "icon"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "tab-scope",
+                "label": "workorders-templates.forms.tab.scope",
+                "sections": [
+                    {
+                        "id": "asset_type",
+                        "label": "workorders-templates.forms.workorders-template.section.asset_type",
+                        "layout": "2-col-left",
+                        "fields": [
+                            "assetType"
+                        ]
+                    },
+                    {
+                        "id": "quantity",
+                        "label": "workorders-templates.forms.workorders-template.section.quantity",
+                        "layout": "2-col-right",
+                        "fields": [
+                            "minAssets",
+                            "maxAssets"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "tab-header",
+                "label": "workorders-templates.forms.tab.header",
+                "sections": [
+                    {
+                        "id": "header",
+                        "label": "workorders-templates.forms.workorders-template.section.header",
+                        "fields": [
+                            "header_items"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "tab-workflow",
+                "label": "workorders-templates.forms.tab.workflow",
+                "sections": [
+                    {
+                        "id": "Workflow",
+                        "label": "workorders-templates.forms.workorders-template.section.workflow",
+                        "fields": [
+                            "blocks",
+                            "workflow_states",
+                            "actions"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "tab-rules",
+                "label": "workorders-templates.forms.tab.numbering",
+                "sections": [
+                    {
+                        "id": "numbering",
+                        "label": "workorders-templates.forms.workorders-template.section.numbering",
+                        "layout": "2-col",
+                        "fields": [
+                            "prefix",
+                            "sequence_length",
+                            "suffix",
+                            "reset_policy"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "tab-consumables",
+                "label": "workorders-templates.forms.tab.consumables",
+                "sections": [
+                    {
+                        "id": "consumable_options",
+                        "layout": "2-col",
+                        "fields": [
+                            "consumables_allowed",
+                            "add_any_consumables_allowed"
+                        ]
+                    },
+                    {
+                        "id": "consumable_items",
+                        "fields": [
+                            "consumables"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "minLength": 1,
+            "maxLength": 500
+        },
+        "description": {
+            "type": "string",
+            "title": "Description",
+            "x-seam-input": "textarea",
+            "x-seam-rows": 3
+        },
+        "color": {
+            "type": "string",
+            "title": "Color",
+            "x-seam-input": "color",
+            "x-seam-help": "Used for visual identification in the UI",
+            "x-seam-help-style": "inline"
+        },
+        "icon": {
+            "type": "string",
+            "title": "Icon",
+            "x-seam-input": "icon-picker",
+            "x-seam-help": "Search the Material Icons by name; the glyph is previewed beside the box."
+        },
+        "assetType": {
+            "type": "integer",
+            "title": "Asset Type",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:asset_types"
+        },
+        "minAssets": {
+            "type": "integer",
+            "title": "Minimum Quantity",
+            "x-seam-input": "number"
+        },
+        "maxAssets": {
+            "type": "integer",
+            "title": "Maximum Quantity",
+            "x-seam-input": "number"
+        },
+        "header_items": {
+            "type": "array",
+            "title": "Header",
+            "x-seam-input": "repeatable",
+            "x-seam-naming": "indexed",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "tag": {
+                        "type": "string",
+                        "title": "Tag",
+                        "x-seam-input": "text",
+                        "x-seam-help": "Tag"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Type",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "boolean",
+                            "number",
+                            "text",
+                            "asset",
+                            "gps",
+                            "date"
+                        ]
+                    },
+                    "default_value": {
+                        "type": "string",
+                        "title": "Default value"
+                    },
+                    "to_fill_out": {
+                        "type": "string",
+                        "title": "To fill out",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "upon_creating",
+                            "upon_executing"
+                        ]
+                    },
+                    "required": {
+                        "type": "boolean",
+                        "title": "Required",
+                        "x-seam-input": "checkbox"
+                    }
+                }
+            }
+        },
+        "blocks": {
+            "type": "array",
+            "title": "Blocks",
+            "x-seam-input": "repeatable",
+            "x-seam-help": "Define the different stages and the individuals responsible for carrying them out.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Block name",
+                        "x-seam-input": "text"
+                    },
+                    "responsible_type": {
+                        "type": "string",
+                        "title": "Responsible",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "user",
+                            "crew",
+                            "third_party"
+                        ]
+                    },
+                    "predecessor": {
+                        "type": "string",
+                        "title": "Predecessor block",
+                        "x-seam-input": "text"
+                    },
+                    "lines": {
+                        "type": "array",
+                        "title": "Lines",
+                        "x-seam-input": "repeatable",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "title": "Tag",
+                                    "x-seam-input": "text"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "title": "Type",
+                                    "x-seam-input": "select",
+                                    "enum": [
+                                        "boolean",
+                                        "number",
+                                        "text",
+                                        "asset",
+                                        "gps",
+                                        "date"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "workflow_states": {
+            "type": "array",
+            "title": "Workflow",
+            "minItems": 2,
+            "x-seam-input": "repeatable",
+            "x-seam-reorder": true,
+            "x-seam-help": "Define the states the work order must pass through and the order in which they occur.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "State",
+                        "x-seam-input": "text"
+                    }
+                }
+            }
+        },
+        "actions": {
+            "type": "array",
+            "title": "Automatic actions",
+            "x-seam-input": "repeatable",
+            "x-seam-naming": "indexed",
+            "x-seam-layout": "form",
+            "x-seam-help": "Define the actions that can be performed on the work order.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "integer",
+                        "title": "Action",
+                        "x-seam-input": "any-picker",
+                        "x-seam-source": "entity:wo_actions",
+                        "x-seam-help": "The action to execute."
+                    },
+                    "trigger_point": {
+                        "type": "string",
+                        "title": "Execution point",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "before_work_order",
+                            "before_block",
+                            "after_block",
+                            "after_work_order"
+                        ],
+                        "x-seam-help": "When this action should be executed."
+                    },
+                    "block_reference": {
+                        "type": "string",
+                        "title": "Block reference",
+                        "x-seam-input": "text"
+                    }
+                }
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "x-seam-input": "text",
+            "x-seam-input-mask": "AAAAAAAAAA",
+            "x-seam-help": "Required. Max length: 10"
+        },
+        "sequence_length": {
+            "type": "integer",
+            "title": "Sequence Length",
+            "x-seam-input": "number",
+            "x-seam-help": "Length of number sequence. (Should have at least 2 digits, up to 10)"
+        },
+        "suffix": {
+            "type": "string",
+            "title": "Suffix",
+            "x-seam-input": "text",
+            "x-seam-input-mask": "AAAAAAAAAA",
+            "x-seam-help": "Required. Max length: 10"
+        },
+        "reset_policy": {
+            "type": "string",
+            "title": "Reset Policy",
+            "x-seam-input": "select",
+            "enum": [
+                "none",
+                "annual",
+                "monthly"
+            ],
+            "x-seam-help": "Determines whether the sequence restarts (Optional)"
+        },
+        "consumables_allowed": {
+            "type": "boolean",
+            "title": "Consumables Allowed",
+            "x-seam-input": "checkbox"
+        },
+        "add_any_consumables_allowed": {
+            "type": "boolean",
+            "title": "Allow Any Consumable",
+            "x-seam-input": "checkbox",
+            "x-seam-visible-when": {
+                "field": "consumables_allowed",
+                "op": "eq",
+                "value": true
+            }
+        },
+        "consumables": {
+            "type": "array",
+            "title": "Consumables",
+            "x-seam-input": "repeatable",
+            "x-seam-visible-when": {
+                "field": "consumables_allowed",
+                "op": "eq",
+                "value": true
+            },
+            "items": {
+                "type": "object",
+                "properties": {
+                    "consumable_id": {
+                        "type": "integer",
+                        "title": "Consumable",
+                        "x-seam-input": "any-picker",
+                        "x-seam-source": "entity:consumable"
+                    },
+                    "quantity": {
+                        "type": "string",
+                        "title": "Quantity",
+                        "format": "decimal",
+                        "decimalPrecision": 18,
+                        "decimalScale": 9,
+                        "x-seam-input": "decimal"
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "name",
+        "workflow_states",
+        "prefix",
+        "suffix",
+        "sequence_length",
+        "reset_policy"
+    ]
+}

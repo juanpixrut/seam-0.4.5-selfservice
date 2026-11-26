@@ -1,0 +1,58 @@
+// loadVencimientos returns assets with fecha_expiracion or fin_garantia
+// falling within the next 30 days, ordered by urgency.
+func (h *UIHandler) loadVencimientos(ctx context.Context, assetNames map[int64]string) []DashVencimientoRow {
+	result, err := h.xoluClient.OQL(ctx,
+		"SELECT id, name, fecha_expiracion, fin_garantia FROM assets WHERE fecha_expiracion != '' OR fin_garantia != ''")
+	if err != nil || result == nil {
+		return nil
+	}
+
+	now := time.Now()
+	horizon := now.AddDate(0, 0, 30)
+	const layout = "2006-01-02"
+
+	var rows []DashVencimientoRow
+
+	addIfSoon := func(assetID int64, assetName, campo, fechaStr string) {
+		if fechaStr == "" {
+			return
+		}
+		t, err := time.Parse(layout, fechaStr[:10]) // handle datetime strings too
+		if err != nil {
+			return
+		}
+		if t.After(now) && !t.After(horizon) {
+			days := int(t.Sub(now).Hours() / 24)
+			name := assetName
+			if name == "" {
+				name = assetNames[assetID]
+			}
+			rows = append(rows, DashVencimientoRow{
+				AssetID:   assetID,
+				AssetName: name,
+				Campo:     campo,
+				Fecha:     t.Format("02/01/2006"),
+				DaysLeft:  days,
+			})
+		}
+	}
+
+	for _, row := range result.Data {
+		id := toInt64(row["id"])
+		name := toString(row["name"])
+		addIfSoon(id, name, "expiration", toString(row["fecha_expiracion"]))
+		addIfSoon(id, name, "warranty_end", toString(row["fin_garantia"]))
+	}
+
+	// Sort by days left ascending
+	for i := 1; i < len(rows); i++ {
+		for j := i; j > 0 && rows[j].DaysLeft < rows[j-1].DaysLeft; j-- {
+			rows[j], rows[j-1] = rows[j-1], rows[j]
+		}
+	}
+
+	if len(rows) > 10 {
+		rows = rows[:10]
+	}
+	return rows
+}

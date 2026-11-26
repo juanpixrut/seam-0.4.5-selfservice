@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  seam:
+    build: .
+    container_name: seam-ams
+    ports:
+      - "8080:8080"
+    environment:
+      # These win over config.json. The names are the ones Seam reads
+      # (internal/config/config.go); scripts/tests/test_makefile.py checks them.
+      - SEAM_HOST=0.0.0.0
+      - SEAM_PORT=8080
+      - XOLU_URL=http://xolu:9000
+      - SEAM_JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - SEAM_LOG_LEVEL=info
+      # Work Orders, Issues and Accounting are off unless switched on, here or
+      # in config.json (features.enable_work_orders, enable_issues, enable_accounting).
+      # - SEAM_ENABLE_WORK_ORDERS=1
+      # - SEAM_ENABLE_ISSUES=1
+      # - SEAM_ENABLE_ACCOUNTING=1
+      # Developer module: off by default and needs authentication. See DEPLOY.md.
+      # - SEAM_ENABLE_DEVELOPER=1
+      # - SEAM_LOCALES_DIR=/app/overrides/locales
+      # - SEAM_SCHEMAS_DIR=/app/overrides/schemas
+    volumes:
+      - ./config.json:/app/config.json:ro
+    depends_on:
+      xolu:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  xolu:
+    image: ghcr.io/ha1tch/olu:latest  # TODO(tech team): confirm whether this image is published as ghcr.io/ha1tch/xolu -- left as-is, unverified, not guessed
+    container_name: seam-xolu
+    ports:
+      - "9000:9000"
+    volumes:
+      - xolu-data:/data
+    environment:
+      # How Seam needs xolu to run. The list is the one of scripts/lib/xolu-env.sh,
+      # which `make launch` and the demo packages use; scripts/tests/test_makefile.py
+      # fails if a setting is there and not here.
+      - XOLU_BASE_DIR=/data
+      - XOLU_PORT=9000
+      - XOLU_STORAGE_TYPE=sqlite
+      - XOLU_TENANT_MODE=path
+      - XOLU_TENANT_AUTO_REGISTER=true
+      - XOLU_GRAPH_MODE=flat
+      - XOLU_FULLTEXT_ENABLED=true
+      - XOLU_TIMESERIES_ENABLED=true
+      - XOLU_TS_RETENTION_ENABLED=true
+      - XOLU_TS_COMPRESSION=zstd
+      - XOLU_STRICT_COMMIT=true
+      - XOLU_CASCADING_DELETE=true
+      - XOLU_API_V2_ENABLED=true  # the lifecycle of an issue is a state machine (/api/v2/fsm)
+      - XOLU_BLOB_ENABLED=true  # photo galleries and QR images live in xolu's blob store, which is off by default
+      - XOLU_METRICS_ENABLED=true
+      - XOLU_LOG_LEVEL=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  xolu-data:
+    driver: local
+
+networks:
+  default:
+    name: seam-network

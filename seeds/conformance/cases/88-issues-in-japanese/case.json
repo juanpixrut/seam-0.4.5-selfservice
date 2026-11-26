@@ -1,0 +1,34 @@
+{
+ "about": "the Issues seed of the Japanese dataset",
+ "entities": [
+  "issue_templates",
+  "issues"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "../../../seed-06-asahikenki.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "load",
+    "../../../issues/seed-issues-06-asahikenki.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "check",
+    "../../../issues/seed-issues-06-asahikenki.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "says": "same"
+  }
+ ]
+}

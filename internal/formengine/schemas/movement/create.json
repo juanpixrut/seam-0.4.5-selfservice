@@ -1,0 +1,74 @@
+{
+  "type": "object",
+  "title": "Register movement",
+  "properties": {
+    "type": {
+      "type": "string",
+      "title": "Movement type",
+      "x-seam-input": "select",
+      "enum": ["entry", "exit", "transfer", "adjust"]
+    },
+    "consumable_id": {
+        "type": "integer",
+        "title": "Consumable",
+        "x-seam-input": "select",
+        "x-seam-source": "entity:consumable"
+        },
+        "target_warehouse_id": {
+        "type": "integer",
+        "title": "Destination warehouse",
+        "x-seam-input": "select",
+        "x-seam-source": "entity:warehouse",
+        "x-seam-visible-when": {
+            "field": "type",
+            "op": "eq",
+            "value": "transfer"
+        }
+    },
+    "quantity": {
+      "type": "string",
+      "title": "Quantity to move",
+      "format": "decimal",
+      "decimalPrecision": 12,
+      "decimalScale": 2,
+      "x-seam-input": "decimal",
+      "x-seam-visible-when": {
+        "field": "type",
+        "op": "in",
+        "value": ["entry", "exit", "transfer"]
+      }
+    },
+    "physical_quantity": {
+      "type": "string",
+      "title": "Physical stock count",
+      "format": "decimal",
+      "decimalPrecision": 12,
+      "decimalScale": 2,
+      "x-seam-input": "decimal",
+      "x-seam-visible-when": {
+        "field": "type",
+        "op": "eq",
+        "value": "adjust"
+      }
+    },
+    "reason": {
+      "type": "string",
+      "title": "Reason or note",
+      "minLength": 1,
+      "x-seam-input": "textarea"
+    },
+    "reference": {
+      "type": "string",
+      "title": "Associated reference",
+      "x-seam-input": "text"
+    }
+  },
+  "required": [
+    "type",
+    "consumable_id",
+    "target_warehouse_id",
+    "quantity",
+    "physical_quantity",
+    "reason"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "title": "New Work Order",
+  "x-seam-form": {
+      "module": "workorders",
+      "name": "workorder"
+  },
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Title",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "x-seam-input": "textarea"
+    },
+    "assignment_type": {
+      "type": "string",
+      "title": "Assignment Type",
+      "x-seam-input": "select",
+      "enum": [
+          "direct_assignment",
+          "board_posting"
+      ],
+      "x-seam-help": "Direct Assignment will allow to assign the work order to a responsable of your choice. Board Posting will publish the work order in the general catalog for claiming."
+    },
+    "responsible_type": {
+      "type": "string",
+      "title": "Responsible",
+      "x-seam-input": "select",
+      "enum": [
+          "user",
+          "crew",
+          "third_party"
+      ]
+    }
+  },
+  "required": [
+    "title",
+    "assignment_type",
+    "responsible_type"
+  ]
+}

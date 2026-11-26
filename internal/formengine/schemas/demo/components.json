@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "owner_id": {
+      "type": "integer",
+      "title": "Owner",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users",
+      "x-seam-selector": "users",
+      "x-seam-help": "any-picker with a Browse button (x-seam-selector: users); the match is bold in the theme colour (x-seam-highlight: color, the default)."
+    },
+    "code": {
+      "type": "string",
+      "title": "Code",
+      "x-seam-input": "text",
+      "x-seam-placeholder": "e.g. SN-0042",
+      "x-seam-help": "A plain field with an explicit placeholder (x-seam-placeholder)."
+    },
+    "icon": {
+      "type": "string",
+      "title": "Icon",
+      "x-seam-input": "icon-picker",
+      "x-seam-help": "Search the Material Icons by name; the glyph is previewed beside the box."
+    },
+    "reviewer_id": {
+      "type": "integer",
+      "title": "Reviewer",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users",
+      "x-seam-selector": "users",
+      "x-seam-browse": "icon",
+      "x-seam-highlight": "background",
+      "x-seam-help": "The same widget with a small icon-only Browse button (x-seam-browse: icon) and a marker-style match (x-seam-highlight: background)."
+    }
+  }
+}

@@ -1,0 +1,661 @@
+{
+ "asset_types": {
+  "1": {
+   "color": "#6366f1",
+   "connectivity_tiers": [
+    "qr",
+    "gps"
+   ],
+   "description": "Activos exclusivos para probar las plantillas WO.",
+   "identity_template": {},
+   "name": "Equipos de prueba WO",
+   "slug": "seed-wo-demo-equipment",
+   "state_template": {}
+  }
+ },
+ "assets": {
+  "1": {
+   "connectivity_tier": "qr",
+   "name": "Equipo de prueba WO 1",
+   "status": "active",
+   "tag_tecnico": "SEED-WO-001",
+   "type_id": 1
+  },
+  "2": {
+   "connectivity_tier": "qr",
+   "name": "Equipo de prueba WO 2",
+   "status": "active",
+   "tag_tecnico": "SEED-WO-002",
+   "type_id": 1
+  },
+  "3": {
+   "connectivity_tier": "qr",
+   "name": "Equipo de prueba WO 3",
+   "status": "active",
+   "tag_tecnico": "SEED-WO-003",
+   "type_id": 1
+  }
+ },
+ "consumable": {
+  "1": {
+   "consumable_type_id": 1,
+   "consumable_unit": 1,
+   "description": "Insumo de catálogo sin existencias iniciales.",
+   "enabled": true,
+   "name": "Filtro de prueba WO",
+   "stock_min": 0
+  },
+  "2": {
+   "consumable_type_id": 1,
+   "consumable_unit": 1,
+   "description": "Insumo de catálogo sin existencias iniciales.",
+   "enabled": true,
+   "name": "Kit de limpieza de prueba WO",
+   "stock_min": 0
+  },
+  "3": {
+   "consumable_type_id": 1,
+   "consumable_unit": 1,
+   "description": "Insumo de catálogo sin existencias iniciales.",
+   "enabled": true,
+   "name": "Precinto de prueba WO",
+   "stock_min": 0
+  }
+ },
+ "consumable_types": {
+  "1": {
+   "description": "Catálogo de prueba para plantillas WO.",
+   "name": "Insumos de prueba WO"
+  }
+ },
+ "unit": {
+  "1": {
+   "iso_code": "WOU",
+   "name": "Unidad de prueba WO",
+   "symbol": "uWO"
+  }
+ },
+ "wo_actions": {
+  "1": {
+   "code": "update_asset_location",
+   "description": "Acción de catálogo para actualizar la ubicación GPS de una lista de activos. Define sus parámetros; no implementa su ejecución.",
+   "enabled": true,
+   "name": "Actualizar ubicación de activos",
+   "parameters": [
+    {
+     "entity": "assets",
+     "key": "assets",
+     "multiple": true,
+     "name": "Activos",
+     "required": true,
+     "type": "asset"
+    },
+    {
+     "entity": "",
+     "key": "location",
+     "multiple": false,
+     "name": "Ubicación de destino",
+     "required": true,
+     "type": "gps"
+    }
+   ]
+  },
+  "2": {
+   "code": "register_inspection",
+   "description": "Acción de prueba para mapear parámetros individuales de tipo activo, booleano, número, fecha y texto. Permite comprobar valores false y 0, parámetros obligatorios y observaciones opcionales.",
+   "enabled": true,
+   "name": "Registrar inspección",
+   "parameters": [
+    {
+     "entity": "assets",
+     "key": "asset",
+     "multiple": false,
+     "name": "Activo inspeccionado",
+     "required": true,
+     "type": "asset"
+    },
+    {
+     "entity": "",
+     "key": "approved",
+     "multiple": false,
+     "name": "Inspección aprobada",
+     "required": true,
+     "type": "boolean"
+    },
+    {
+     "entity": "",
+     "key": "reading",
+     "multiple": false,
+     "name": "Lectura registrada",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "entity": "",
+     "key": "inspection_date",
+     "multiple": false,
+     "name": "Fecha de inspección",
+     "required": true,
+     "type": "date"
+    },
+    {
+     "entity": "",
+     "key": "notes",
+     "multiple": false,
+     "name": "Observaciones",
+     "required": false,
+     "type": "text"
+    }
+   ]
+  },
+  "3": {
+   "code": "register_measurement_series",
+   "description": "Acción de prueba para mapear listas de números, booleanos, fechas y textos. Permite comprobar listas fijas, listas de un elemento y la conversión de un campo individual a un parámetro múltiple.",
+   "enabled": true,
+   "name": "Registrar serie de mediciones",
+   "parameters": [
+    {
+     "entity": "",
+     "key": "readings",
+     "multiple": true,
+     "name": "Lecturas",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "entity": "",
+     "key": "results",
+     "multiple": true,
+     "name": "Resultados",
+     "required": true,
+     "type": "boolean"
+    },
+    {
+     "entity": "",
+     "key": "dates",
+     "multiple": true,
+     "name": "Fechas",
+     "required": false,
+     "type": "date"
+    },
+    {
+     "entity": "",
+     "key": "labels",
+     "multiple": true,
+     "name": "Etiquetas",
+     "required": false,
+     "type": "text"
+    }
+   ]
+  },
+  "4": {
+   "code": "register_route_points",
+   "description": "Acción de prueba para mapear puntos GPS y activos múltiples, con una descripción obligatoria. Permite comprobar widgets GPS y pickers dentro de repetibles, y valores individuales como listas.",
+   "enabled": true,
+   "name": "Registrar puntos de recorrido",
+   "parameters": [
+    {
+     "entity": "",
+     "key": "points",
+     "multiple": true,
+     "name": "Puntos del recorrido",
+     "required": true,
+     "type": "gps"
+    },
+    {
+     "entity": "assets",
+     "key": "assets",
+     "multiple": true,
+     "name": "Activos involucrados",
+     "required": false,
+     "type": "asset"
+    },
+    {
+     "entity": "",
+     "key": "description",
+     "multiple": false,
+     "name": "Descripción",
+     "required": true,
+     "type": "text"
+    }
+   ]
+  }
+ },
+ "work_order_templates": {
+  "1": {
+   "actions": [],
+   "add_any_consumables_allowed": false,
+   "asset_type_id": 1,
+   "blocks": [
+    {
+     "lines": [
+      {
+       "name": "equipo_aislado",
+       "type": "boolean"
+      }
+     ],
+     "name": "Preparacion",
+     "predecessor": "",
+     "responsible_type": "user"
+    },
+    {
+     "lines": [
+      {
+       "name": "filtro_cambiado",
+       "type": "boolean"
+      },
+      {
+       "name": "horas_trabajo",
+       "type": "number"
+      }
+     ],
+     "name": "Mantenimiento",
+     "predecessor": "Preparacion",
+     "responsible_type": "crew"
+    }
+   ],
+   "color": "#f59e0b",
+   "consumables": [
+    {
+     "consumable_id": 1,
+     "quantity": 1
+    },
+    {
+     "consumable_id": 2,
+     "quantity": 0.5
+    }
+   ],
+   "consumables_allowed": true,
+   "description": "Consumibles fijos y reglas, sin acciones. Probar prioridad mayor que 3 y repuesto requerido.",
+   "header_items": [
+    {
+     "default_value": "1",
+     "required": true,
+     "tag": "prioridad",
+     "to_fill_out": "upon_creating",
+     "type": "number"
+    },
+    {
+     "default_value": "false",
+     "required": true,
+     "tag": "requiere_repuesto",
+     "to_fill_out": "upon_creating",
+     "type": "boolean"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "justificacion",
+     "to_fill_out": "upon_creating",
+     "type": "text"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "fecha_programada",
+     "to_fill_out": "upon_creating",
+     "type": "date"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "observaciones",
+     "to_fill_out": "upon_executing",
+     "type": "text"
+    }
+   ],
+   "icon": "build",
+   "latest": true,
+   "max_assets": 1,
+   "min_assets": 1,
+   "name": "Demo WO - Mantenimiento preventivo",
+   "prefix": "MANT",
+   "reset_policy": "annual",
+   "rule_item": [
+    {
+     "action_type": "set_mandatory",
+     "conditions": [
+      {
+       "comparison_value": "3",
+       "field": "header:prioridad",
+       "logical_operator_next": "None",
+       "operator": "greater_than"
+      }
+     ],
+     "message_text": "Ingresar una justificación para prioridad alta.",
+     "message_type": "WARNING",
+     "name": "Justificar prioridad alta",
+     "stop_execution": false,
+     "target_field": "header:justificacion",
+     "trigger": "on_evaluate_header"
+    },
+    {
+     "action_type": "set_mandatory",
+     "conditions": [
+      {
+       "comparison_value": "true",
+       "field": "header:requiere_repuesto",
+       "logical_operator_next": "None",
+       "operator": "equals"
+      }
+     ],
+     "message_text": "Detallar el repuesto utilizado.",
+     "message_type": "WARNING",
+     "name": "Registrar repuesto",
+     "stop_execution": false,
+     "target_field": "header:observaciones",
+     "trigger": "on_evaluate_header"
+    }
+   ],
+   "seed_code": "wo_demo_maintenance_v1",
+   "sequence_length": 5,
+   "suffix": "WO",
+   "version": 1,
+   "workflow_states": [
+    {
+     "name": "Pendiente"
+    },
+    {
+     "name": "En mantenimiento"
+    },
+    {
+     "name": "Finalizada"
+    }
+   ]
+  },
+  "2": {
+   "actions": [
+    {
+     "action": 2,
+     "block_reference": "",
+     "mapping_values": [
+      {
+       "context_path": "header:activo_inspeccionado",
+       "parameter": "asset",
+       "source": "context"
+      },
+      {
+       "context_path": "header:aprobada",
+       "parameter": "approved",
+       "source": "context"
+      },
+      {
+       "context_path": "header:lectura",
+       "parameter": "reading",
+       "source": "context"
+      },
+      {
+       "context_path": "header:fecha_inspeccion",
+       "parameter": "inspection_date",
+       "source": "context"
+      },
+      {
+       "context_path": "header:observaciones",
+       "parameter": "notes",
+       "source": "context"
+      }
+     ],
+     "trigger_point": "before_work_order"
+    },
+    {
+     "action": 3,
+     "block_reference": "Inspeccion",
+     "mapping_values": [
+      {
+       "context_path": "block:Inspeccion:line:lectura_final",
+       "parameter": "readings",
+       "source": "context",
+       "transform": "wrap_in_array"
+      },
+      {
+       "fixed_value": [
+        false,
+        true
+       ],
+       "parameter": "results",
+       "source": "fixed"
+      },
+      {
+       "fixed_value": [
+        "2026-11-15"
+       ],
+       "parameter": "dates",
+       "source": "fixed"
+      },
+      {
+       "fixed_value": [
+        "inicial",
+        "final"
+       ],
+       "parameter": "labels",
+       "source": "fixed"
+      }
+     ],
+     "trigger_point": "after_block"
+    }
+   ],
+   "add_any_consumables_allowed": true,
+   "asset_type_id": 1,
+   "blocks": [
+    {
+     "lines": [
+      {
+       "name": "lectura_final",
+       "type": "number"
+      },
+      {
+       "name": "resultado_final",
+       "type": "boolean"
+      }
+     ],
+     "name": "Inspeccion",
+     "predecessor": "",
+     "responsible_type": "third_party"
+    }
+   ],
+   "color": "#0ea5e9",
+   "consumables": [
+    {
+     "consumable_id": 3,
+     "quantity": 2
+    }
+   ],
+   "consumables_allowed": true,
+   "description": "Consumibles y extras, reglas y acciones. Incluye mapeos de contexto, listas fijas, false y 0.",
+   "header_items": [
+    {
+     "default_value": "1",
+     "required": true,
+     "tag": "activo_inspeccionado",
+     "to_fill_out": "upon_creating",
+     "type": "asset"
+    },
+    {
+     "default_value": "false",
+     "required": true,
+     "tag": "aprobada",
+     "to_fill_out": "upon_creating",
+     "type": "boolean"
+    },
+    {
+     "default_value": "0",
+     "required": true,
+     "tag": "lectura",
+     "to_fill_out": "upon_creating",
+     "type": "number"
+    },
+    {
+     "default_value": "2026-11-15",
+     "required": true,
+     "tag": "fecha_inspeccion",
+     "to_fill_out": "upon_creating",
+     "type": "date"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "observaciones",
+     "to_fill_out": "upon_creating",
+     "type": "text"
+    }
+   ],
+   "icon": "fact_check",
+   "latest": true,
+   "max_assets": 3,
+   "min_assets": 1,
+   "name": "Demo WO - Inspeccion y mediciones",
+   "prefix": "INSP",
+   "reset_policy": "annual",
+   "rule_item": [
+    {
+     "action_type": "set_mandatory",
+     "conditions": [
+      {
+       "comparison_value": "false",
+       "field": "header:aprobada",
+       "logical_operator_next": "None",
+       "operator": "equals"
+      }
+     ],
+     "message_text": "Explicar el motivo del rechazo.",
+     "message_type": "WARNING",
+     "name": "Explicar inspeccion rechazada",
+     "stop_execution": false,
+     "target_field": "header:observaciones",
+     "trigger": "on_evaluate_header"
+    }
+   ],
+   "seed_code": "wo_demo_inspection_v1",
+   "sequence_length": 5,
+   "suffix": "WO",
+   "version": 1,
+   "workflow_states": [
+    {
+     "name": "Pendiente"
+    },
+    {
+     "name": "En inspeccion"
+    },
+    {
+     "name": "Revisada"
+    },
+    {
+     "name": "Cerrada"
+    }
+   ]
+  },
+  "3": {
+   "actions": [
+    {
+     "action": 4,
+     "block_reference": "Traslado",
+     "mapping_values": [
+      {
+       "context_path": "block:Traslado:line:punto_llegada",
+       "parameter": "points",
+       "source": "context",
+       "transform": "wrap_in_array"
+      },
+      {
+       "context_path": "work_order.assets",
+       "parameter": "assets",
+       "source": "context"
+      },
+      {
+       "context_path": "header:descripcion_traslado",
+       "parameter": "description",
+       "source": "context"
+      }
+     ],
+     "trigger_point": "after_block"
+    },
+    {
+     "action": 1,
+     "block_reference": "",
+     "mapping_values": [
+      {
+       "context_path": "work_order.assets",
+       "parameter": "assets",
+       "source": "context"
+      },
+      {
+       "context_path": "header:ubicacion_destino",
+       "parameter": "location",
+       "source": "context"
+      }
+     ],
+     "trigger_point": "after_work_order"
+    }
+   ],
+   "add_any_consumables_allowed": false,
+   "asset_type_id": 1,
+   "blocks": [
+    {
+     "lines": [
+      {
+       "name": "punto_llegada",
+       "type": "gps"
+      },
+      {
+       "name": "fecha_llegada",
+       "type": "date"
+      }
+     ],
+     "name": "Traslado",
+     "predecessor": "",
+     "responsible_type": "crew"
+    }
+   ],
+   "color": "#10b981",
+   "consumables": [],
+   "consumables_allowed": false,
+   "description": "Sin consumibles ni reglas. Acciones de recorrido y actualización de ubicación GPS.",
+   "header_items": [
+    {
+     "default_value": "-34.9011,-56.1645",
+     "required": true,
+     "tag": "ubicacion_destino",
+     "to_fill_out": "upon_creating",
+     "type": "gps"
+    },
+    {
+     "default_value": "Traslado de equipos de prueba",
+     "required": true,
+     "tag": "descripcion_traslado",
+     "to_fill_out": "upon_creating",
+     "type": "text"
+    },
+    {
+     "default_value": "",
+     "required": true,
+     "tag": "recepcion_confirmada",
+     "to_fill_out": "upon_executing",
+     "type": "boolean"
+    }
+   ],
+   "icon": "location_on",
+   "latest": true,
+   "max_assets": 3,
+   "min_assets": 2,
+   "name": "Demo WO - Traslado de activos",
+   "prefix": "TRAS",
+   "reset_policy": "annual",
+   "rule_item": [],
+   "seed_code": "wo_demo_relocation_v1",
+   "sequence_length": 5,
+   "suffix": "WO",
+   "version": 1,
+   "workflow_states": [
+    {
+     "name": "Preparada"
+    },
+    {
+     "name": "En traslado"
+    },
+    {
+     "name": "Entregada"
+    }
+   ]
+  }
+ }
+}

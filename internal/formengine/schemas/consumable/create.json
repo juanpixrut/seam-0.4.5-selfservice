@@ -1,0 +1,76 @@
+{
+    "type": "object",
+    "title": "New Consumable",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "description": {
+            "type": "string",
+            "title": "Description",
+            "x-seam-input": "textarea"
+        },
+        "consumable_type": {
+            "type": "integer",
+            "title": "Type",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:consumable_types"
+        },
+        "consumable_unit": {
+            "type": "integer",
+            "title": "Unit",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:unit"
+        },
+        "stock_min": {
+            "type": "string",
+            "title": "Minimum Stock",
+            "format": "decimal",
+            "decimalPrecision": 12,
+            "decimalScale": 2,
+            "x-seam-input": "decimal"
+        },
+        "enabled": {
+            "type": "boolean",
+            "title": "Active",
+            "x-seam-input": "checkbox"
+        },
+        "add_receiving_warehouse": {
+            "type": "boolean",
+            "title": "Add Receiving Warehouse",
+            "x-seam-input": "checkbox"
+        },
+        "receiving_warehouse": {
+            "type": "integer",
+            "title": "Receiving Warehouse",
+            "x-seam-visible-when": {
+                "field": "add_receiving_warehouse",
+                "op": "eq",
+                "value": true
+            },
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:warehouse"
+        },
+        "stock": {
+            "type": "string",
+            "title": "Stock",
+            "format": "decimal",
+            "decimalPrecision": 12,
+            "decimalScale": 2,
+            "x-seam-input": "decimal",
+            "x-seam-visible-when": {
+                "field": "add_receiving_warehouse",
+                "op": "eq",
+                "value": true
+            }
+        }
+    },
+    "required": [
+        "name",
+        "consumable_unit"
+    ]
+}

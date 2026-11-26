@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "site_location": {
+      "type": "string",
+      "title": "Site location (empty)",
+      "x-seam-input": "gps",
+      "x-seam-help": "gps, starting empty: click the map to drop a marker, or press the location button to use the browser's position. Drag the marker to refine it. The field posts lat,lng with six decimals, and typing coordinates by hand moves the marker."
+    },
+    "depot_location": {
+      "type": "string",
+      "title": "Depot location (preset)",
+      "x-seam-input": "gps",
+      "x-seam-help": "The same widget opened on a stored value: the map centres on it and the marker is already in place."
+    },
+    "yard_location": {
+      "type": "string",
+      "title": "Yard location (wide panel)",
+      "x-seam-input": "gps",
+      "x-seam-panel": "wide",
+      "x-seam-help": "x-seam-panel: wide. The map opens at the full width of the field, in the page flow, like the icon-picker's grid. Every gps field has the expand button (top right of the panel) to switch between the two modes."
+    },
+    "ean13_code": {
+      "type": "string",
+      "title": "EAN-13 barcode",
+      "x-seam-input": "barcode",
+      "x-seam-barcode-format": "EAN13",
+      "x-seam-help": "barcode with the default symbology (EAN13). The vector preview redraws as you type, and the field turns red while the value is not valid for the symbology."
+    },
+    "ean8_code": {
+      "type": "string",
+      "title": "EAN-8 barcode",
+      "x-seam-input": "barcode",
+      "x-seam-barcode-format": "EAN8",
+      "x-seam-help": "x-seam-barcode-format: EAN8 (seven digits plus the check digit)."
+    },
+    "upc_code": {
+      "type": "string",
+      "title": "UPC-A barcode",
+      "x-seam-input": "barcode",
+      "x-seam-barcode-format": "UPC",
+      "x-seam-help": "x-seam-barcode-format: UPC (eleven digits plus the check digit)."
+    },
+    "handover_signature": {
+      "type": "string",
+      "title": "Handover signature",
+      "x-seam-input": "signature",
+      "x-seam-help": "signature: draw with the mouse or a finger. The stroke is serialised as a data:image/png;base64 string, so the echo page shows it as one long value. Clear wipes the canvas."
+    },
+    "photos": {
+      "type": "string",
+      "title": "Photos",
+      "x-seam-input": "image",
+      "x-seam-help": "image: a drag-and-drop gallery stored in /blob. It needs a saved record to attach the pictures to, so on this demo page (which saves nothing) it shows the create-mode message; on an edit form it is the full uploader."
+    }
+  }
+}

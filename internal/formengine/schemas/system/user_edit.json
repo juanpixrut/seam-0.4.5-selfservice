@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "title": "Edit User",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "x-seam-input": "text",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "title": "Role",
+      "x-seam-input": "select",
+      "enum": ["admin", "manager", "operator", "viewer"]
+    },
+    "active": {
+      "type": "boolean",
+      "title": "Account active",
+      "x-seam-input": "toggle"
+    }
+  },
+  "required": [
+    "name",
+    "role"
+  ]
+}

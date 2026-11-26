@@ -1,0 +1,193 @@
+package ui
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+	"time"
+
+	xolu "github.com/ha1tch/xolu/pkg/client"
+)
+
+// ── loadVencimientos helper (tests 9–12) ──────────────────────────────────────
+//
+// loadVencimientos fetches assets from xolu and filters/sorts in Go.
+// We test this by spinning up a mock xolu server that returns controlled asset
+// data, then calling loadVencimientos and asserting on the result.
+
+func mockOLUForDashboard(t *testing.T, assets []map[string]any) *httptest.Server {
+	t.Helper()
+	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" && contains(r.URL.Path, "/oql") {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]any{
+				"status": "completed",
+				"data":   assets,
+				"stats":  map[string]any{"rows_returned": len(assets)},
+			})
+			return
+		}
+		w.WriteHeader(http.StatusNotFound)
+	}))
+}
+
+func contains(s, sub string) bool {
+	return len(s) >= len(sub) && (s == sub || len(s) > 0 && containsHelper(s, sub))
+}
+
+func containsHelper(s, sub string) bool {
+	for i := 0; i <= len(s)-len(sub); i++ {
+		if s[i:i+len(sub)] == sub {
+			return true
+		}
+	}
+	return false
+}
+
+func newTestHandler(t *testing.T, server *httptest.Server) *UIHandler {
+	t.Helper()
+	client := xolu.New(server.URL)
+	cfg := Config{AppName: "Test", Version: "0.0.0"}
+	return &UIHandler{
+		xoluClient: client,
+		page:       NewPageHandler(cfg),
+	}
+}
+
+func dateFromNow(days int) string {
+	return time.Now().AddDate(0, 0, days).Format("2006-01-02")
+}
+
+func TestLoadVencimientos_FiltersTo30Days(t *testing.T) {
+	assets := []map[string]any{
+		{"id": float64(1), "name": "Dentro del plazo", "fecha_expiracion": dateFromNow(15), "fin_garantia": ""},
+		{"id": float64(2), "name": "Fuera del plazo", "fecha_expiracion": dateFromNow(31), "fin_garantia": ""},
+		{"id": float64(3), "name": "Sin fechas", "fecha_expiracion": "", "fin_garantia": ""},
+	}
+	server := mockOLUForDashboard(t, assets)
+	defer server.Close()
+
+	h := newTestHandler(t, server)
+	rows := h.loadVencimientos(context.Background(), nil)
+
+	if len(rows) != 1 {
+		t.Fatalf("expected 1 vencimiento (≤30 days), got %d", len(rows))
+	}
+	if rows[0].AssetName != "Dentro del plazo" {
+		t.Errorf("unexpected asset: %q", rows[0].AssetName)
+	}
+}
+
+func TestLoadVencimientos_SortsByUrgency(t *testing.T) {
+	assets := []map[string]any{
+		{"id": float64(1), "name": "Urgente", "fecha_expiracion": dateFromNow(5), "fin_garantia": ""},
+		{"id": float64(2), "name": "Menos urgente", "fecha_expiracion": dateFromNow(25), "fin_garantia": ""},
+		{"id": float64(3), "name": "Medio", "fecha_expiracion": dateFromNow(10), "fin_garantia": ""},
+	}
+	server := mockOLUForDashboard(t, assets)
+	defer server.Close()
+
+	h := newTestHandler(t, server)
+	rows := h.loadVencimientos(context.Background(), nil)
+
+	if len(rows) != 3 {
+		t.Fatalf("expected 3 rows, got %d", len(rows))
+	}
+	// First row should have the smallest DaysLeft
+	if rows[0].DaysLeft > rows[1].DaysLeft || rows[1].DaysLeft > rows[2].DaysLeft {
+		t.Errorf("rows not sorted by urgency: days = %d, %d, %d",
+			rows[0].DaysLeft, rows[1].DaysLeft, rows[2].DaysLeft)
+	}
+	if rows[0].AssetName != "Urgente" {
+		t.Errorf("expected 'Urgente' first, got %q", rows[0].AssetName)
+	}
+}
+
+func TestLoadVencimientos_SkipsPastDates(t *testing.T) {
+	assets := []map[string]any{
+		{"id": float64(1), "name": "Ya venció", "fecha_expiracion": dateFromNow(-5), "fin_garantia": ""},
+		{"id": float64(2), "name": "Por vencer", "fecha_expiracion": dateFromNow(10), "fin_garantia": ""},
+	}
+	server := mockOLUForDashboard(t, assets)
+	defer server.Close()
+
+	h := newTestHandler(t, server)
+	rows := h.loadVencimientos(context.Background(), nil)
+
+	if len(rows) != 1 {
+		t.Fatalf("expected 1 row (past dates excluded), got %d: %v", len(rows), rows)
+	}
+	if rows[0].AssetName != "Por vencer" {
+		t.Errorf("expected 'Por vencer', got %q", rows[0].AssetName)
+	}
+}
+
+func TestLoadVencimientos_BothFieldsChecked(t *testing.T) {
+	assets := []map[string]any{
+		{
+			"id":               float64(1),
+			"name":             "Con expiración",
+			"fecha_expiracion": dateFromNow(7),
+			"fin_garantia":     "",
+		},
+		{
+			"id":               float64(2),
+			"name":             "Con garantía",
+			"fecha_expiracion": "",
+			"fin_garantia":     dateFromNow(14),
+		},
+		{
+			"id":               float64(3),
+			"name":             "Con ambas",
+			"fecha_expiracion": dateFromNow(5),
+			"fin_garantia":     dateFromNow(20),
+		},
+	}
+	server := mockOLUForDashboard(t, assets)
+	defer server.Close()
+
+	h := newTestHandler(t, server)
+	rows := h.loadVencimientos(context.Background(), nil)
+
+	// Asset 3 contributes 2 rows (one per field), assets 1 and 2 one each = 4 total
+	if len(rows) != 4 {
+		t.Fatalf("expected 4 rows (both fields checked per asset), got %d", len(rows))
+	}
+
+	// Verify correct campo labels
+	campos := map[string]int{}
+	for _, r := range rows {
+		campos[r.Campo]++
+	}
+	if campos["expiration"] != 2 {
+		t.Errorf("expected 2 'expiration' rows, got %d", campos["expiration"])
+	}
+	if campos["warranty_end"] != 2 {
+		t.Errorf("expected 2 'warranty_end' rows, got %d", campos["warranty_end"])
+	}
+}
+
+func TestLoadVencimientos_RespectsMaxRows(t *testing.T) {
+	// Generate 15 assets all expiring within 30 days
+	assets := make([]map[string]any, 15)
+	for i := range assets {
+		assets[i] = map[string]any{
+			"id":               float64(i + 1),
+			"name":             fmt.Sprintf("Activo %d", i+1),
+			"fecha_expiracion": dateFromNow(i + 1),
+			"fin_garantia":     "",
+		}
+	}
+	server := mockOLUForDashboard(t, assets)
+	defer server.Close()
+
+	h := newTestHandler(t, server)
+	rows := h.loadVencimientos(context.Background(), nil)
+
+	if len(rows) > 10 {
+		t.Errorf("expected at most 10 rows, got %d", len(rows))
+	}
+}

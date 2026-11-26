@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "title": "Template name", "x-seam-input": "text" },
+    "blocks": {
+      "type": "array",
+      "title": "Blocks",
+      "x-seam-input": "repeatable",
+      "x-seam-layout": "form",
+      "x-seam-help": "Define the different stages and the individuals responsible for carrying them out. This repeatable uses x-seam-layout: form (each row is a card with labelled fields); Workflow below keeps the default one-line rows.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "title": "Block name", "x-seam-input": "text", "x-seam-placeholder": "Block name (e.g. Preparation)" },
+          "responsible_id": {
+            "type": "integer",
+            "title": "Responsible",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users"
+          },
+          "icon": { "type": "string", "title": "Icon", "x-seam-input": "icon-picker" },
+          "lines": {
+            "type": "array",
+            "title": "Lines",
+            "x-seam-input": "repeatable",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "title": "Tag", "x-seam-input": "text", "x-seam-placeholder": "Tag (e.g. serial_no)" },
+                "type": { "type": "string", "title": "Type", "x-seam-input": "select", "enum": ["Number", "Text"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "workflow_states": {
+      "type": "array",
+      "title": "Workflow",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "Define the states the work order must pass through and the order in which they occur.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "title": "State", "x-seam-input": "text" }
+        }
+      }
+    }
+  }
+}

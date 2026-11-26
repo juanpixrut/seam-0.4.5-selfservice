@@ -1,0 +1,8 @@
+{
+  "x-seam-dashboard": {
+    "id": "documents-dashboard",
+    "title": "nav.module.documents",
+    "layout": "stack",
+    "sections": []
+  }
+}

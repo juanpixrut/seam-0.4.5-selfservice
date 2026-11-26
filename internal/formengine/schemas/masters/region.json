@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "title": "Region",
+  "properties": {
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 200
+    }
+  },
+  "required": [
+    "description"
+  ]
+}

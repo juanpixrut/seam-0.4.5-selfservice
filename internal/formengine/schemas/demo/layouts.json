@@ -1,0 +1,190 @@
+{
+  "type": "object",
+  "properties": {
+    "expenses": {
+      "type": "array",
+      "title": "Expense lines",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-layout: row (the default). Every cell of a line shares one line, like the Document Links of the Assets form. The cost center picker uses a small icon Browse button so the row stays compact.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "What was it for?"
+          },
+          "quantity": {
+            "type": "number",
+            "title": "Quantity",
+            "x-seam-input": "number",
+            "x-seam-placeholder": "Qty"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "x-seam-input": "select",
+            "enum": [
+              "unit",
+              "hour",
+              "day",
+              "km"
+            ]
+          },
+          "cost_center_id": {
+            "type": "integer",
+            "title": "Cost center",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:cost_centers",
+            "x-seam-selector": "cost_centers",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Cost center"
+          }
+        }
+      },
+      "x-seam-layout": "row"
+    },
+    "checklist": {
+      "type": "array",
+      "title": "Checklist",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "Row layout with two cells. Add a few lines and remove one from the middle: the rest keep their order and names.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "title": "Task",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Task"
+          },
+          "owner_id": {
+            "type": "integer",
+            "title": "Owner",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Owner"
+          }
+        }
+      },
+      "x-seam-layout": "row"
+    },
+    "contacts": {
+      "type": "array",
+      "title": "Contacts",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "x-seam-layout: form. Each contact is a card with labelled cells in a responsive grid; the checkbox keeps its own title.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Full name"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role",
+            "x-seam-input": "select",
+            "enum": [
+              "Technician",
+              "Supervisor",
+              "Supplier",
+              "Auditor"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "x-seam-input": "email"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "+598 ..."
+          },
+          "location_id": {
+            "type": "integer",
+            "title": "Location",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:locations",
+            "x-seam-selector": "locations",
+            "x-seam-browse": "button",
+            "x-seam-placeholder": "Location"
+          },
+          "primary": {
+            "type": "boolean",
+            "title": "Primary contact",
+            "x-seam-input": "checkbox"
+          }
+        }
+      },
+      "x-seam-layout": "form"
+    },
+    "phases": {
+      "type": "array",
+      "title": "Phases",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "Nested repeatables: Phases is a form-layout card, Tasks inside it keeps one-line rows. Submit to see the structure the server rebuilds.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Phase name",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Phase name (e.g. Commissioning)"
+          },
+          "owner_id": {
+            "type": "integer",
+            "title": "Owner",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users",
+            "x-seam-browse": "button",
+            "x-seam-placeholder": "Owner"
+          },
+          "tasks": {
+            "type": "array",
+            "title": "Tasks",
+            "x-seam-input": "repeatable",
+            "x-seam-help": "A row-layout repeatable nested in a form-layout one: the cells of each task sit on one line under the phase card.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "string",
+                  "title": "Task",
+                  "x-seam-input": "text",
+                  "x-seam-placeholder": "Task"
+                },
+                "hours": {
+                  "type": "number",
+                  "title": "Hours",
+                  "x-seam-input": "number",
+                  "x-seam-placeholder": "Hours"
+                },
+                "status": {
+                  "type": "string",
+                  "title": "Status",
+                  "x-seam-input": "select",
+                  "enum": [
+                    "Open",
+                    "In progress",
+                    "Done"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-seam-layout": "form"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "blocks": {
+      "type": "array",
+      "title": "Blocks",
+      "x-seam-input": "repeatable",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "title": "Block name", "x-seam-input": "text" },
+          "predecessor_block": {
+            "type": "string",
+            "title": "Predecessor Block",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type_id": { "type": "integer", "title": "Asset Type", "x-seam-input": "asset-type-select", "x-seam-source": "entity:users" }
+              }
+            }
+          },
+          "line": {
+            "type": "object",
+            "title": "Line",
+            "x-seam-input": "repeatable",
+            "line_items": {
+              "name": { "type": "string", "title": "Tag", "x-seam-input": "text" },
+              "type": { "type": "string", "title": "Type", "x-seam-input": "select", "enum": ["Number", "Text"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

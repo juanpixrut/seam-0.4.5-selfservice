@@ -1,0 +1,1014 @@
+/* Seam AMS - Base Styles
+   Built with Tailwind CSS utilities
+   This file provides custom styles and overrides */
+
+/* Import Tailwind base, components, and utilities */
+/* In production, use Tailwind CLI to generate optimized CSS */
+
+/* =============================================================================
+   CSS VARIABLES
+   ============================================================================= */
+
+:root {
+  /* Colors */
+  --color-primary: #4f46e5;
+  --color-primary-dark: #4338ca;
+  --color-secondary: #6b7280;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  
+  /* Spacing */
+  --sidebar-width: 16rem;
+  --header-height: 4rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+}
+
+/* Dark mode variables */
+.dark {
+  --color-primary: #818cf8;
+  --color-primary-dark: #6366f1;
+}
+
+/* =============================================================================
+   BASE STYLES
+   ============================================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus,
+.sr-only.focus\:not-sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* =============================================================================
+   SCROLLBAR STYLES
+   ============================================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* =============================================================================
+   HTMX LOADING STATES
+   ============================================================================= */
+
+/* Loading indicator for HTMX requests */
+.htmx-indicator {
+  display: none;
+}
+
+.htmx-request .htmx-indicator {
+  display: flex;
+}
+
+.htmx-request.htmx-indicator {
+  display: flex;
+}
+
+/* Disable interactions during request */
+.htmx-request {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* =============================================================================
+   ANIMATIONS
+   ============================================================================= */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal) ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn var(--transition-normal) ease-out;
+}
+
+/* =============================================================================
+   TOAST NOTIFICATIONS
+   ============================================================================= */
+
+.toast {
+  animation: slideIn var(--transition-normal) ease-out;
+}
+
+.toast-exit {
+  animation: fadeIn var(--transition-normal) ease-out reverse;
+}
+
+/* =============================================================================
+   FORM STYLES
+   ============================================================================= */
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Number input without spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* =============================================================================
+   TABLE STYLES
+   ============================================================================= */
+
+table {
+  border-collapse: collapse;
+}
+
+/* Sortable column header */
+th[data-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+th[data-sort]:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark th[data-sort]:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* =============================================================================
+   MATERIAL ICONS
+   ============================================================================= */
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'liga';
+}
+
+/* Icon sizes */
+.material-icons.text-sm { font-size: 16px; }
+.material-icons.text-lg { font-size: 20px; }
+.material-icons.text-xl { font-size: 24px; }
+.material-icons.text-2xl { font-size: 28px; }
+.material-icons.text-3xl { font-size: 32px; }
+.material-icons.text-4xl { font-size: 40px; }
+.material-icons.text-5xl { font-size: 48px; }
+.material-icons.text-6xl { font-size: 64px; }
+
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
+@media print {
+  /* Hide navigation and non-essential elements */
+  aside,
+  header,
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Adjust main content */
+  main {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Ensure backgrounds print */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ── Module menu (top bar) ───────────────────────────────────────────────────
+   The panel SeamModuleSelector opens (internal/ui/module_selector.go): a title,
+   a grid of tiles for the application modules and a row of links for the
+   system ones. Its colours are its own, light and dark. */
+.seam-mod-btn {
+  display: flex; align-items: center; gap: 6px; padding: 6px 8px 6px 10px; border-radius: 10px;
+  color: #4b5563; font-size: 0.875rem; font-weight: 500; line-height: 1; cursor: pointer;
+  background: transparent; border: 1px solid transparent; transition: background-color .12s, border-color .12s;
+}
+.seam-mod-btn:hover, .seam-mod-btn[aria-expanded="true"] { background: #f3f4f6; border-color: #e5e7eb; }
+.seam-mod-btn:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+.seam-mod-btn-icon { font-size: 20px; color: #4f46e5; }
+.seam-mod-btn-caret { font-size: 18px; color: #9ca3af; transition: transform .15s; }
+.seam-mod-btn[aria-expanded="true"] .seam-mod-btn-caret { transform: rotate(180deg); }
+@media (max-width: 1279px) { .seam-mod-btn-label { display: none; } }
+
+.seam-mod-panel {
+  position: absolute; right: 0; top: calc(100% + 10px); z-index: 50;
+  width: 35rem; max-width: calc(100vw - 1.5rem); padding: 16px;
+  background: #fff; color: #111827; border: 1px solid #e5e7eb; border-radius: 16px;
+  box-shadow: 0 20px 40px -12px rgba(17, 24, 39, .22), 0 4px 10px -4px rgba(17, 24, 39, .08);
+  animation: seam-mod-in .14s ease-out;
+}
+.seam-mod-panel--narrow { width: 19rem; }
+@keyframes seam-mod-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .seam-mod-panel { animation: none; } }
+.seam-mod-title { padding: 2px 8px 10px; font-size: 0.8125rem; font-weight: 600; color: #6b7280; }
+.seam-mod-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.seam-mod-panel--narrow .seam-mod-grid { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 640px) { .seam-mod-grid { grid-template-columns: minmax(0, 1fr); } }
+.seam-mod-tile {
+  display: flex; align-items: flex-start; gap: 12px; padding: 10px; border-radius: 12px;
+  border: 1px solid transparent; text-decoration: none; color: inherit;
+  transition: background-color .12s, border-color .12s;
+}
+.seam-mod-tile:hover { background: #f5f5ff; border-color: #e0e7ff; }
+.seam-mod-tile:focus-visible, .seam-mod-link:focus-visible { outline: 2px solid #6366f1; outline-offset: 1px; }
+.seam-mod-chip {
+  flex: none; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  background: #eef2ff; color: #4f46e5; transition: background-color .12s, color .12s;
+}
+.seam-mod-chip .material-icons { font-size: 26px; }
+.seam-mod-tile:hover .seam-mod-chip { background: #e0e7ff; }
+.seam-mod-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 2px; }
+.seam-mod-name { font-size: 0.9375rem; font-weight: 600; line-height: 1.25; color: #111827; }
+.seam-mod-desc { font-size: 0.8125rem; line-height: 1.35; color: #6b7280; }
+/* Japanese has no spaces, so a browser may break a line inside a word. In a short
+   label that reads badly: keep the strict rules (no long-vowel mark or small kana at
+   the start of a line) and, where the browser can, break between phrases. A browser
+   that does not know auto-phrase ignores it; the texts are worded to break well anyway. */
+.seam-mod-panel:lang(ja) .seam-mod-name, .seam-mod-panel:lang(ja) .seam-mod-desc, .seam-mod-panel:lang(ja) .seam-mod-link { line-break: strict; word-break: auto-phrase; }
+.seam-mod-tile.is-current { background: #eef2ff; border-color: #c7d2fe; }
+.seam-mod-tile.is-current .seam-mod-chip { background: #4f46e5; color: #fff; }
+.seam-mod-tile.is-current .seam-mod-name { color: #3730a3; }
+.seam-mod-foot {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #e5e7eb;
+}
+.seam-mod-panel > .seam-mod-foot:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.seam-mod-link {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px;
+  font-size: 0.875rem; font-weight: 500; color: #374151; text-decoration: none; transition: background-color .12s;
+}
+.seam-mod-link .material-icons { font-size: 20px; color: #6b7280; }
+.seam-mod-link:hover { background: #f3f4f6; }
+.seam-mod-link.is-current { background: #eef2ff; color: #3730a3; }
+.seam-mod-link.is-current .material-icons { color: #4f46e5; }
+
+.dark .seam-mod-btn { color: #d1d5db; }
+.dark .seam-mod-btn:hover, .dark .seam-mod-btn[aria-expanded="true"] { background: #374151; border-color: #4b5563; }
+.dark .seam-mod-btn-icon { color: #a5b4fc; }
+.dark .seam-mod-panel {
+  background: #1f2937; color: #f9fafb; border-color: #374151;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, .6), 0 4px 10px -4px rgba(0, 0, 0, .4);
+}
+.dark .seam-mod-title { color: #9ca3af; }
+.dark .seam-mod-tile:hover { background: rgba(99, 102, 241, .12); border-color: rgba(129, 140, 248, .3); }
+.dark .seam-mod-chip { background: rgba(99, 102, 241, .2); color: #a5b4fc; }
+.dark .seam-mod-tile:hover .seam-mod-chip { background: rgba(99, 102, 241, .3); }
+.dark .seam-mod-name { color: #f9fafb; }
+.dark .seam-mod-desc { color: #9ca3af; }
+.dark .seam-mod-tile.is-current { background: rgba(99, 102, 241, .16); border-color: rgba(129, 140, 248, .45); }
+.dark .seam-mod-tile.is-current .seam-mod-chip { background: #6366f1; color: #fff; }
+.dark .seam-mod-tile.is-current .seam-mod-name { color: #c7d2fe; }
+.dark .seam-mod-foot { border-top-color: #374151; }
+.dark .seam-mod-link { color: #d1d5db; }
+.dark .seam-mod-link .material-icons { color: #9ca3af; }
+.dark .seam-mod-link:hover { background: #374151; }
+.dark .seam-mod-link.is-current { background: rgba(99, 102, 241, .16); color: #c7d2fe; }
+.dark .seam-mod-link.is-current .material-icons { color: #a5b4fc; }
+
+/* ── FSM Editor ────────────────────────────────────────────────────────────── */
+#fsm-editor-canvas {
+  width: 100%;
+  height: 100%;
+  background: var(--rete-bg, #f9fafb);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Rete node colours driven by CSS variables set by fsm-editor.js */
+#fsm-editor-canvas .rete-node {
+  background: var(--rete-node-bg, #ffffff);
+  border-color: var(--rete-node-border, #e5e7eb);
+}
+#fsm-editor-canvas .rete-node.selected {
+  border-color: var(--rete-node-selected, #6366f1);
+  box-shadow: 0 0 0 2px var(--rete-node-selected, #6366f1);
+}
+#fsm-editor-canvas .rete-node .title {
+  color: var(--rete-node-title, #111827);
+  background: var(--rete-connection-bg, #e0e7ff);
+}
+#fsm-editor-canvas .rete-socket {
+  background: var(--rete-socket-bg, #6366f1);
+}
+#fsm-editor-canvas svg path {
+  stroke: var(--rete-connection, #6366f1);
+}
+
+/* =============================================================================
+   PAGE TRANSITIONS
+   ============================================================================= */
+
+/*
+ * Content-only crossfade — only #main-content participates in View Transitions.
+ *
+ * #main-content → seam-main
+ *   Duration: var(--seam-transition), default 500ms, user-configurable.
+ *   Activated via HTMX hx-swap="innerHTML transition:true" on nav links.
+ *   Same-document startViewTransition(): deterministic, no timing gaps.
+ *   Symmetric in/out keeps combined opacity at 100% throughout.
+ *
+ * Root opted out (view-transition-name: none on :root)
+ *   The sidebar, top bar, and mobile header are never screenshotted, never
+ *   composited as pseudo-elements, and never removed/replaced. They remain
+ *   as live DOM throughout every transition — zero compositor frame gaps.
+ *
+ *   Previous approach (patched200–209) used a 60ms root crossfade to make
+ *   the chrome "fade to itself." This caused a single-frame flash when
+ *   pseudo-elements were removed at the end of the seam-main animation:
+ *   the root screenshots were captured before htmx:afterSwap updated the
+ *   active nav state, so the nav highlight jumped on pseudo-element removal.
+ *   Opting root out eliminates the problem entirely.
+ *
+ * Entrance animation fires on every full-page load in all browsers as fallback.
+ * prefers-reduced-motion: all animations suppressed.
+ */
+
+/* ── Entrance fade (all browsers) ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  #main-content {
+    animation: seam-page-enter 220ms ease-out both;
+  }
+}
+
+@keyframes seam-page-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* ── Cross-document View Transitions (Chrome 126+) ─────────────────────────── */
+
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #main-content {
+    view-transition-name: seam-main;
+  }
+}
+
+/* Transition duration — controlled via --seam-transition CSS custom property.
+   Default 500ms. Override by setting the property on :root from JavaScript.
+   SeamUI.setTransition(ms) in layout.go persists the user preference and
+   applies it immediately without a page reload. */
+:root {
+  --seam-transition: 500ms;
+  view-transition-name: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(seam-main) {
+    animation: var(--seam-transition) ease both seam-vt-out;
+  }
+  ::view-transition-new(seam-main) {
+    animation: var(--seam-transition) ease both seam-vt-in;
+  }
+}
+
+/* Reduced-motion: suppress everything */
+@media (prefers-reduced-motion: reduce) {
+  #main-content { animation: none; }
+  ::view-transition-old(seam-main),
+  ::view-transition-new(seam-main) { animation: none; }
+}
+
+@keyframes seam-vt-out {
+  to { opacity: 0; }
+}
+@keyframes seam-vt-in {
+  from { opacity: 0; }
+}
+
+/* =============================================================================
+   Form engine components: repeatable rows, picker buttons, icon grid, code.
+   Every colour is a variable defined for light and for `.dark` (class on
+   <html>), and every component sets its own text colour from them, so nothing
+   can end up as black text on a dark background by inheriting from an ancestor
+   that sets no colour.
+   ============================================================================= */
+:root {
+  --fe-text: #111827;
+  --fe-text-muted: #6b7280;
+  --fe-border: #d1d5db;
+  --fe-row-bg: rgba(148, 163, 184, 0.12);
+  --fe-row-bg-nested: rgba(99, 102, 241, 0.10);
+  --fe-rule: rgba(99, 102, 241, 0.55);
+  --fe-accent: var(--color-primary, #4f46e5);
+  --fe-accent-bg: rgba(79, 70, 229, 0.08);
+  --fe-hl-bg: rgba(250, 204, 21, 0.45);
+  --fe-remove: #f87171;
+  --fe-remove-hover: #dc2626;
+}
+.dark {
+  --fe-text: #f3f4f6;
+  --fe-text-muted: #9ca3af;
+  --fe-border: #4b5563;
+  --fe-row-bg: rgba(148, 163, 184, 0.14);
+  --fe-row-bg-nested: rgba(129, 140, 248, 0.16);
+  --fe-rule: rgba(129, 140, 248, 0.6);
+  --fe-accent-bg: rgba(129, 140, 248, 0.15);
+  --fe-hl-bg: rgba(250, 204, 21, 0.30);
+  --fe-remove: #f87171;
+  --fe-remove-hover: #fca5a5;
+}
+
+/* Repeatable rows: tinted cards. Default layout "row": every cell on one line
+   (flex, set by the row's own utility classes). Layout "form"
+   (x-seam-layout: "form"): each row is a card with the cells stacked in a
+   responsive grid, each under its label. */
+.repeatable-row {
+  flex-wrap: wrap;
+  background: var(--fe-row-bg);
+  border-radius: 8px;
+  padding: 8px;
+  color: var(--fe-text);
+}
+[data-layout="form"] > .repeatable-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 16px;
+  align-items: start;
+  padding: 12px;
+}
+[data-layout="form"] > .repeatable-row > .fe-cell-wide,
+.repeatable-row > .fe-rep-nested { grid-column: 1 / -1; }
+[data-layout="form"] > .repeatable-row > .fe-remove { grid-column: 1 / -1; justify-self: end; }
+.fe-cell { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.fe-cell-label { font-size: 0.75rem; font-weight: 600; color: var(--fe-text-muted); }
+
+/* Default layout "row": the cells share the line equally. The widgets carry
+   w-full, which inside a wrapping flex row would give every cell a line of
+   its own (the stacked "Lines" rows in the Demo); flex-basis 0 overrides
+   that. A nested repeatable keeps its own full-width line (.fe-rep-nested,
+   flex-basis 100%) and the remove button keeps its natural size. */
+:not([data-layout="form"]) > .repeatable-row > :not(.fe-remove):not(.fe-rep-nested):not(.fe-drag) {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Searchable select (SeamSelect, app.js): a trigger that looks like the other
+   inputs, a panel on <body>, the native select kept hidden beside it. */
+:root {
+  --fe-input-bg: #ffffff;
+  --fe-panel-bg: #ffffff;
+  --fe-panel-shadow: 0 10px 30px rgba(15, 23, 42, 0.16);
+}
+.dark {
+  --fe-input-bg: #374151;
+  --fe-panel-bg: #1f2937;
+  --fe-panel-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.fe-ss { position: relative; display: block; width: 100%; margin-top: 0.25rem; }
+.fe-ss-native {
+  position: absolute; left: 0; bottom: 0; width: 100%; height: 1px;
+  opacity: 0; pointer-events: none;
+  margin: 0 !important; padding: 0 !important; border: 0 !important;
+}
+.fe-ss-trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  width: 100%; min-height: 38px; padding: 0.5rem 0.75rem;
+  font-size: 0.875rem; line-height: 1.25rem; text-align: left;
+  color: var(--fe-text); background: var(--fe-input-bg);
+  border: 1px solid var(--fe-border); border-radius: 8px; cursor: pointer;
+}
+.fe-ss-trigger:focus { outline: none; }
+.fe-ss-trigger:focus-visible, .fe-ss-open .fe-ss-trigger {
+  border-color: #6366f1; box-shadow: 0 0 0 2px #6366f1;
+}
+.fe-ss-error .fe-ss-trigger { border-color: #ef4444; }
+.fe-ss-error .fe-ss-trigger:focus-visible, .fe-ss-error.fe-ss-open .fe-ss-trigger { box-shadow: 0 0 0 2px #ef4444; }
+.fe-ss-trigger:disabled { opacity: 0.6; cursor: not-allowed; }
+.fe-ss-placeholder .fe-ss-label, .fe-ss-trigger.fe-ss-placeholder .fe-ss-label { color: var(--fe-text-muted); }
+.fe-ss-label { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.fe-ss-text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fe-ss-icon { flex: 0 0 auto; font-size: 20px; color: var(--fe-text-muted); }
+.fe-ss-opt-sel .fe-ss-icon { color: var(--fe-accent); }
+.fe-ss-chev { flex: 0 0 auto; font-size: 20px; color: var(--fe-text-muted); transition: transform 120ms ease; }
+.fe-ss-open .fe-ss-chev { transform: rotate(180deg); }
+.fe-ss-panel {
+  position: fixed; z-index: 10000; display: flex; flex-direction: column; overflow: hidden;
+  color: var(--fe-text); font-size: 0.875rem; line-height: 1.25rem;
+  background: var(--fe-panel-bg); border: 1px solid var(--fe-border); border-radius: 8px;
+  box-shadow: var(--fe-panel-shadow);
+}
+.fe-ss-panel:focus { outline: none; }
+.fe-ss-searchwrap { position: relative; padding: 6px; border-bottom: 1px solid var(--fe-border); flex: 0 0 auto; }
+.fe-ss-searchicon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  font-size: 18px; color: var(--fe-text-muted); pointer-events: none;
+}
+.fe-ss-search {
+  width: 100%; padding: 6px 8px 6px 32px; font-size: 0.875rem;
+  color: var(--fe-text); background: var(--fe-input-bg);
+  border: 1px solid var(--fe-border); border-radius: 6px;
+}
+.fe-ss-search:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px #6366f1; }
+.fe-ss-list { flex: 1 1 auto; min-height: 0; margin: 0; padding: 4px; list-style: none; overflow-y: auto; }
+.fe-ss-opt { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+.fe-ss-opt[hidden], .fe-ss-group[hidden] { display: none; }
+.fe-ss-opt-active { background: var(--fe-accent-bg); }
+.fe-ss-opt-sel { font-weight: 600; color: var(--fe-accent); }
+.fe-ss-opt-empty { color: var(--fe-text-muted); }
+.fe-ss-opt-off { opacity: 0.45; cursor: not-allowed; }
+.fe-ss-group {
+  padding: 8px 10px 2px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--fe-text-muted);
+}
+.fe-ss-none { padding: 12px; text-align: center; color: var(--fe-text-muted); }
+.fe-sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Reorderable repeatables (x-seam-reorder; SeamReorder, app.js): a grip at the
+   start of each row, a thin bar across the top of the card in the form layout. */
+.fe-drag {
+  flex: 0 0 auto; align-self: center; display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; padding: 2px; border: 0; border-radius: 6px; background: transparent;
+  color: var(--fe-text-muted); cursor: grab; touch-action: none;
+}
+.fe-drag:hover { color: var(--fe-text); background: var(--fe-accent-bg); }
+.fe-drag:focus { outline: none; }
+.fe-drag:focus-visible { box-shadow: 0 0 0 2px var(--fe-accent); }
+.fe-drag:active { cursor: grabbing; }
+.fe-drag .material-icons { font-size: 20px; }
+[data-layout="form"] > .repeatable-row > .fe-drag {
+  grid-column: 1 / -1; justify-self: center; width: 48px; height: 16px; margin: -6px 0 -6px;
+}
+.fe-row-dragging {
+  position: relative; z-index: 5; user-select: none; cursor: grabbing; transition: none;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.22);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fe-ss-chev { transition: none; }
+}
+
+/* Developer module pages (internal/ui/developer*.go). The pages are built from the
+   shared components and listing primitives; these rules are only what those do not
+   cover: the layouts, the segmented choice, the diff and the designer's rows. */
+.dev-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
+.dev-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); gap: 1rem; }
+.dev-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; align-items: start; }
+@media (max-width: 1100px) { .dev-cols { grid-template-columns: minmax(0, 1fr); } }
+.dev-stat { text-decoration: none; transition: border-color 0.15s, box-shadow 0.15s; }
+.dev-stat:hover { border-color: var(--fe-accent); box-shadow: 0 2px 8px rgba(79, 70, 229, 0.12); }
+.dev-stat:focus-visible { outline: 2px solid var(--fe-accent); outline-offset: 2px; }
+.dev-panel-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.75rem 1rem; }
+.dev-panel-title { flex: 1 1 14rem; min-width: 0; }
+.dev-card { display: flex; flex-direction: column; gap: 0.75rem; }
+.dev-card-desc { margin: 0; flex: 1 1 auto; }
+.dev-wrap { overflow-wrap: anywhere; }
+.dev-pre { white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, monospace; font-size: 0.75rem; }
+.dev-problem { padding: 0.75rem 1rem; font-size: 0.875rem; color: #991b1b; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; }
+.dark .dev-problem { color: #fca5a5; background: rgba(153, 27, 27, 0.3); border-color: rgba(153, 27, 27, 0.6); }
+.dev-warnings { padding: 0.75rem 1rem; font-size: 0.875rem; color: #92400e; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; }
+.dark .dev-warnings { color: #fcd34d; background: rgba(120, 53, 15, 0.3); border-color: rgba(146, 64, 14, 0.6); }
+.dev-notes { margin: 0.25rem 0 0; padding-left: 1.25rem; list-style: disc; }
+.dev-locked { display: flex; align-items: flex-start; gap: 0.375rem; margin: 0; font-size: 0.8125rem; color: #b45309; }
+.dark .dev-locked { color: #fbbf24; }
+.dev-seg { display: inline-flex; overflow: hidden; border: 1px solid var(--fe-border); border-radius: 8px; }
+.dev-seg-btn { padding: 0.375rem 0.875rem; font-size: 0.875rem; color: var(--fe-text); background: transparent; border: 0; cursor: pointer; }
+a.dev-seg-btn { display: inline-block; text-decoration: none; }
+.dev-seg-btn + .dev-seg-btn { border-left: 1px solid var(--fe-border); }
+.dev-seg-btn:hover { background: var(--fe-accent-bg); }
+.dev-seg-btn.is-active, .dev-seg-btn.is-active:hover { color: #fff; background: #4f46e5; }
+.dev-seg-btn.is-active-on, .dev-seg-btn.is-active-on:hover { color: #fff; background: #16a34a; }
+.dev-seg-btn.is-active-off, .dev-seg-btn.is-active-off:hover { color: #fff; background: #6b7280; }
+.dev-seg-btn:focus-visible { outline: 2px solid var(--fe-accent); outline-offset: -2px; }
+.dev-linkbtn { padding: 0; font-size: 0.8125rem; color: var(--fe-accent); text-decoration: underline; background: none; border: 0; cursor: pointer; }
+.dev-num { font-variant-numeric: tabular-nums; }
+a.dev-num-warn { display: inline-block; min-width: 2rem; padding: 0.125rem 0.5rem; font-weight: 600; text-align: center; text-decoration: none; color: #92400e; background: #fef3c7; border-radius: 9999px; }
+a.dev-num-warn:hover { background: #fde68a; }
+.dark a.dev-num-warn { color: #fcd34d; background: rgba(146, 64, 14, 0.45); }
+tr[data-dev-selected] > td { background: var(--fe-accent-bg); }
+tr[data-dev-selected] > td:first-child { box-shadow: inset 3px 0 0 var(--fe-accent); }
+.dev-tab-btn.text-gray-500:hover { color: #374151; }
+.dark .dev-tab-btn.text-gray-500 { color: #9ca3af; }
+.dark .dev-tab-btn.text-gray-500:hover { color: #d1d5db; }
+.dark .dev-tab-btn.text-indigo-600 { color: #818cf8; border-color: #818cf8; }
+.dev-code { max-height: 32rem; overflow: auto; padding: 0.75rem 1rem; font-family: ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.45; white-space: pre; color: var(--fe-text); background: var(--fe-accent-bg); border: 1px solid var(--fe-border); border-radius: 8px; }
+.dev-labelkeys { padding: 0.75rem 1rem; font-size: 0.875rem; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; }
+.dark .dev-labelkeys { color: #93c5fd; background: rgba(30, 64, 175, 0.25); border-color: rgba(30, 64, 175, 0.6); }
+.dev-keylink { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.125rem 0.5rem; font-size: 0.75rem; color: inherit; text-decoration: none; background: rgba(255, 255, 255, 0.6); border: 1px solid currentColor; border-radius: 9999px; }
+.dark .dev-keylink { background: transparent; }
+.dev-keylink:hover { text-decoration: underline; }
+.dev-lang { text-decoration: none; }
+.dev-lang:hover > span { filter: brightness(0.95); }
+.dev-uses { margin-top: 0.125rem; }
+.dev-lt-tab { padding: 0.75rem; border: 1px solid var(--fe-border); border-radius: 8px; display: grid; gap: 0.75rem; }
+.dev-lt-head, .dev-lt-add { display: flex; flex-wrap: wrap; align-items: center; gap: 0.375rem; }
+.dev-lt-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0.5rem; }
+@media (max-width: 1100px) { .dev-lt-row { grid-auto-flow: row; } }
+.dev-lt-sec { padding: 0.5rem; background: var(--fe-accent-bg); border: 1px dashed var(--fe-border); border-radius: 8px; display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+.dev-lt-fields { display: grid; gap: 0.25rem; min-height: 2.25rem; padding: 0.25rem; border-radius: 6px; }
+.dev-lt-fields.is-drop, .dev-lt-field.is-drop { outline: 2px dashed #4f46e5; outline-offset: 1px; }
+.dev-lt-field { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; padding: 0.125rem 0.375rem; background: var(--fe-bg, #fff); border: 1px solid var(--fe-border); border-radius: 6px; cursor: grab; }
+.dark .dev-lt-field { background: rgba(17, 24, 39, 0.6); }
+.dev-lt-field.is-selected { border-color: #4f46e5; }
+.dev-lt-name { display: inline-flex; align-items: center; gap: 0.25rem; margin-right: auto; color: inherit; background: none; border: 0; cursor: pointer; }
+.dev-lt-name:hover { text-decoration: underline; }
+.dev-lt-extras > summary { cursor: pointer; font-size: 0.875rem; color: var(--fe-text); }
+.dev-lt-extras[open] > summary { margin-bottom: 0.5rem; }
+.dev-json textarea { font-family: ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.45; tab-size: 2; }
+.dev-preview { padding: 1rem; border: 1px dashed var(--fe-border); border-radius: 8px; }
+.dev-diff { overflow-x: auto; font-family: ui-monospace, monospace; font-size: 0.75rem; white-space: pre; border: 1px solid var(--fe-border); border-radius: 8px; }
+.dev-diff-line { padding: 0 0.5rem; color: var(--fe-text); }
+.dev-diff-add { color: #166534; background: rgba(22, 163, 74, 0.14); }
+.dev-diff-del { color: #991b1b; background: rgba(220, 38, 38, 0.12); }
+.dev-diff-sep { color: var(--fe-text-muted); background: var(--fe-accent-bg); font-style: italic; }
+.dark .dev-diff-add { color: #86efac; background: rgba(22, 163, 74, 0.22); }
+.dark .dev-diff-del { color: #fca5a5; background: rgba(220, 38, 38, 0.2); }
+.dev-designer { display: grid; grid-template-columns: minmax(20rem, 26rem) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+@media (max-width: 1100px) { .dev-designer { grid-template-columns: minmax(0, 1fr); } }
+.dev-field-list { display: flex; flex-direction: column; }
+.dev-field-row { display: flex; align-items: center; gap: 0.625rem; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--fe-border); }
+.dev-field-row:hover { background: var(--fe-accent-bg); }
+.dev-field-row.is-selected { background: var(--fe-accent-bg); box-shadow: inset 3px 0 0 var(--fe-accent); }
+.dev-field-actions { display: inline-flex; flex-shrink: 0; gap: 0.125rem; }
+.dev-field-actions button { display: inline-flex; background: none; border: 0; cursor: pointer; }
+.dev-field-add { display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem; }
+.dev-field { display: flex; flex-direction: column; gap: 0.25rem; }
+.dev-check { display: flex; align-items: center; gap: 0.5rem; }
+.dev-props { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; align-items: start; }
+.dev-rename { display: flex; align-items: flex-end; gap: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--fe-border); }
+.dev-banner { display: flex; align-items: center; gap: 0.5rem; padding: 0.375rem 1rem; font-size: 0.8125rem; color: #92400e; background: #fffbeb; border-bottom: 1px solid #fcd34d; }
+.dark .dev-banner { color: #fcd34d; background: rgba(120, 53, 15, 0.35); border-bottom-color: #92400e; }
+.dev-banner .material-icons { font-size: 18px; }
+.dev-banner-viewas { color: #3730a3; background: #eef2ff; border-bottom-color: #a5b4fc; }
+.dark .dev-banner-viewas { color: #c7d2fe; background: rgba(55, 48, 163, 0.35); border-bottom-color: #4338ca; }
+
+/* A repeatable at a bound: remove at its minimum, add at its maximum (minItems, maxItems). */
+.fe-remove[disabled], .fe-add[disabled] { opacity: 0.35; cursor: not-allowed; }
+.fe-remove[disabled]:hover { color: var(--fe-remove); }
+.fe-btn[disabled]:hover { background: transparent; }
+.fe-btn--filled[disabled]:hover { filter: none; }
+
+/* A repeatable nested in another: indented under a rule, with a heading. */
+.fe-rep-nested {
+  flex: 1 1 100%;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 3px solid var(--fe-rule);
+}
+.fe-rep-nested .repeatable-row { background: var(--fe-row-bg-nested); }
+.fe-rep-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fe-text-muted);
+  margin-bottom: 4px;
+}
+
+/* Buttons: the outlined "Add Field" look of the Identity Fields, theme-aware. */
+.fe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border: 1px solid var(--fe-rule);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fe-accent);
+  cursor: pointer;
+}
+.fe-btn:hover { background: var(--fe-accent-bg); }
+.fe-btn .material-icons { font-size: 1.125rem; }
+.fe-btn--icon { padding: 6px; }
+.fe-btn--icon .material-icons { font-size: 1.25rem; }
+.fe-add { margin-top: 4px; }
+.fe-remove {
+  display: inline-flex;
+  background: none;
+  border: 0;
+  padding: 2px 4px;
+  line-height: 1;
+  flex: none;
+  cursor: pointer;
+  color: var(--fe-remove);
+}
+.fe-remove:hover { color: var(--fe-remove-hover); }
+.fe-remove .material-icons { font-size: 1.5rem; }
+
+/* Repeatable variants (x-seam-add-style, x-seam-remove-label, x-seam-accent,
+   x-seam-remove-color). The accent is a --fe-accent value set inline on the
+   repeatable's wrapper (data-fe-accent); everything below reads it. */
+.fe-btn--filled { background: var(--fe-accent); border-color: var(--fe-accent); color: #fff; }
+.fe-btn--filled:hover { background: var(--fe-accent); filter: brightness(0.92); }
+.fe-btn--link { border-color: transparent; padding-left: 0; padding-right: 0; }
+.fe-btn--link:hover { background: transparent; text-decoration: underline; }
+.fe-remove--text { align-items: center; gap: 2px; font-size: 0.875rem; }
+.fe-remove--text .material-icons { font-size: 1.25rem; }
+.fe-remove[style]:hover { filter: brightness(0.85); }
+[data-fe-accent] .repeatable-row { background: color-mix(in srgb, var(--fe-accent) 14%, transparent); }
+[data-fe-accent] .fe-rep-nested { border-left-color: var(--fe-accent); }
+[data-fe-accent] .fe-rep-heading { color: var(--fe-accent); }
+[data-fe-accent] .fe-btn { color: var(--fe-accent); border-color: color-mix(in srgb, var(--fe-accent) 45%, transparent); }
+[data-fe-accent] .fe-btn:hover { background: color-mix(in srgb, var(--fe-accent) 12%, transparent); }
+[data-fe-accent] .fe-btn--filled { background: var(--fe-accent); border-color: var(--fe-accent); color: #fff; }
+[data-fe-accent] .fe-btn--filled:hover { background: var(--fe-accent); filter: brightness(0.92); }
+
+/* Row effects (SeamRowFx, only inside [data-fe-fx]): a row grows in when it is
+   added and shrinks out before it is removed. 150ms; the JS uses the same. */
+@keyframes fe-row-grow {
+  from { opacity: 0; transform: scale(0.94); max-height: 0; }
+  to   { opacity: 1; transform: scale(1);    max-height: 100rem; }
+}
+@keyframes fe-row-shrink {
+  from { opacity: 1; transform: scale(1);    max-height: 100rem; }
+  to   { opacity: 0; transform: scale(0.94); max-height: 0; margin-top: 0; padding-top: 0; padding-bottom: 0; }
+}
+.fe-row-in  { animation: fe-row-grow 150ms ease-out; overflow: hidden; }
+.fe-row-out { animation: fe-row-shrink 150ms ease-in forwards; overflow: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .fe-row-in, .fe-row-out { animation: none; } }
+
+/* Pickers (any-picker, icon-picker). */
+[data-seam-picker] { color: var(--fe-text); }
+.fe-picker-row { display: flex; align-items: center; gap: 8px; }
+.fe-picker-row .autoComplete_wrapper { flex: 1 1 auto; min-width: 0; }
+.fe-icon-preview { font-size: 28px; width: 28px; height: 28px; flex: none; color: var(--fe-text); }
+/* No icon chosen yet: the place where it will appear is drawn as an empty slot,
+   a dashed outline with a muted ellipsis. Pure CSS on :empty, so it follows the
+   value wherever it is set or cleared (server, search, grid, rows added later). */
+.fe-icon-preview:empty {
+  box-sizing: border-box; border: 1px dashed var(--fe-border); border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.fe-icon-preview:empty::before { content: "more_horiz"; font-size: 18px; line-height: 1; color: var(--fe-text-muted); opacity: 0.7; }
+.fe-result-icon { vertical-align: middle; margin-right: 8px; }
+/* query-picker (docs/QUERY_PICKER.md): a search box whose dropdown lists the
+   rows of the field's own query, as a small table or as two-line rows. The
+   panel is appended to <body> and positioned by script, like the select's. */
+.fe-qp { color: var(--fe-text); }
+.fe-qp .fe-picker-row > input[type="text"] { flex: 1 1 auto; min-width: 0; margin-top: 0; }
+.fe-qp-panel {
+  position: fixed; z-index: 10000; display: flex; flex-direction: column; overflow: hidden;
+  color: var(--fe-text); font-size: 0.875rem; line-height: 1.25rem;
+  background: var(--fe-panel-bg); border: 1px solid var(--fe-border); border-radius: 8px;
+  box-shadow: var(--fe-panel-shadow);
+}
+.fe-qp-scroll { flex: 1 1 auto; min-height: 0; overflow: auto; }
+.fe-qp-table { width: 100%; border-collapse: collapse; }
+.fe-qp-table th {
+  position: sticky; top: 0; padding: 6px 12px; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase; text-align: left; white-space: nowrap; color: var(--fe-text-muted);
+  background: var(--fe-panel-bg); box-shadow: inset 0 -1px 0 var(--fe-border);
+}
+.fe-qp-table td { padding: 7px 12px; white-space: nowrap; }
+.fe-qp-row, .fe-qp-item { cursor: pointer; }
+.fe-qp-table tbody tr:nth-child(even) { background: var(--fe-row-bg); }
+.fe-qp-table tbody tr.fe-qp-active { background: var(--fe-accent-bg); box-shadow: inset 3px 0 0 var(--fe-accent); }
+.fe-qp-table th.fe-qp-num, .fe-qp-table td.fe-qp-num { text-align: right; font-variant-numeric: tabular-nums; }
+.fe-qp-muted { color: var(--fe-text-muted); }
+.fe-qp-key { font-weight: 600; }
+.fe-qp-glyph { font-size: 18px; vertical-align: middle; color: var(--fe-text-muted); }
+.fe-qp-panel mark.seam-hl { background: transparent; color: var(--fe-accent); font-weight: 700; padding: 0; }
+.fe-qp-panel[data-hl="background"] mark.seam-hl { background: var(--fe-hl-bg); color: inherit; font-weight: inherit; border-radius: 2px; }
+.fe-qp-list { flex: 1 1 auto; min-height: 0; margin: 0; padding: 4px; list-style: none; overflow-y: auto; }
+.fe-qp-item { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 6px; }
+.fe-qp-item.fe-qp-active { background: var(--fe-accent-bg); }
+.fe-qp-item-main { flex: 1 1 auto; min-width: 0; }
+.fe-qp-item-title, .fe-qp-item-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fe-qp-item-sub { font-size: 0.75rem; color: var(--fe-text-muted); }
+.fe-qp-item-side { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 0.75rem; font-variant-numeric: tabular-nums; }
+.fe-qp-foot {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 6px 12px;
+  font-size: 0.75rem; color: var(--fe-text-muted); border-top: 1px solid var(--fe-border);
+}
+.fe-qp-keys { white-space: nowrap; }
+@media (max-width: 640px) { .fe-qp-keys { display: none; } }
+.fe-qp-detail > span { vertical-align: middle; }
+/* The Selector dialog: a list wider than the dialog scrolls sideways instead of losing its last columns. */
+#seam-selector-results { overflow-x: auto; }
+
+.fe-icon-grid {
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid var(--fe-border);
+  border-radius: 8px;
+  padding: 8px;
+  display: grid;
+  gap: 4px;
+  margin-top: 4px;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+}
+.fe-icon-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--fe-text);
+}
+.fe-icon-cell:hover { background: var(--fe-accent-bg); }
+.fe-icon-cell[aria-pressed="true"] { outline: 2px solid var(--fe-accent); }
+
+/* Image widget in create mode: a notice, not a grey line. */
+.fe-photo-note {
+  display: flex; gap: 12px; align-items: flex-start; padding: 12px;
+  border: 1px dashed var(--fe-border); border-radius: 8px;
+  background: var(--fe-accent-bg); color: var(--fe-text);
+}
+.fe-photo-note .material-icons { color: var(--fe-accent); font-size: 28px; flex: none; }
+.fe-photo-note-title { margin: 0; font-weight: 600; font-size: 0.875rem; }
+.fe-photo-note-text { margin: 2px 0 0; font-size: 0.8125rem; opacity: 0.8; }
+
+/* GPS widget: the map lives in a dropdown panel under the input row, built when first opened. */
+.fe-gps { position: relative; }
+/* Icon-only buttons, so the coordinates keep as much of the row as possible. */
+.fe-gps .fe-picker-row { gap: 4px; }
+.fe-gps .fe-btn--icon { padding: 4px; }
+.fe-gps-panel {
+  position: absolute;
+  z-index: 40;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  width: min(24rem, calc(100vw - 2rem));
+  padding: 8px;
+  border: 1px solid var(--fe-border);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.dark .fe-gps-panel { background: #1f2937; }
+.fe-gps-panel[hidden] { display: none; }
+.fe-gps-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; margin-bottom: 8px; }
+.fe-gps-map { height: 250px; width: 100%; border-radius: 6px; overflow: hidden; }
+/* Default: under the pin button, aligned to its right edge. If that would leave the screen on the
+   left, SeamWidgets anchors it to the left instead. Wide: the full width of the field, in the page
+   flow (it pushes what follows down), like the icon-picker's grid. */
+.fe-gps-panel--left { right: auto; left: 0; }
+.fe-gps-panel--wide { position: static; width: auto; box-shadow: none; }
+.fe-gps-panel--wide .fe-gps-map { height: 340px; }
+/* A wide panel inside a repeatable's row: the field's cell takes the whole row while it is open. */
+[data-layout="form"] > .repeatable-row > .fe-gps-span { grid-column: 1 / -1; }
+:not([data-layout="form"]) > .repeatable-row > .fe-gps-span { flex: 1 0 100% !important; }
+.seam-pin { background: none; border: 0; }
+
+/* Barcode: an invalid value shows a red border whatever the theme or the focus state. */
+input[aria-invalid="true"] { border-color: #ef4444 !important; box-shadow: 0 0 0 1px #ef4444; }
+/* An empty <svg> still takes the browser's default 300x150: a barcode field with no code yet must take no room. */
+[data-seam-widget="barcode"] svg:empty { display: none; }
+
+/* Code/JSON blocks (Demo module). */
+.fe-code {
+  white-space: pre;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--fe-border);
+  color: var(--fe-text);
+}
+
+/* List rows that open a detail page when clicked (SeamList in app.js). */
+tr:has(a[data-row-link]) { cursor: pointer; }
+
+/* Accounting & Admin: utilities the precompiled tailwind.css does not carry.
+   (The stylesheet cannot be rebuilt in every environment; a test lists the
+   classes the accounting screens use and fails when one is in neither file.) */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+.align-middle { vertical-align: middle; }
+.max-w-xl { max-width: 36rem; }
+.mr-1 { margin-right: 0.25rem; }
+.pb-4 { padding-bottom: 1rem; }
+.py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+.dark\:border-red-700:is(.dark *) { border-color: #b91c1c; }
+.hover\:border-indigo-400:hover { border-color: #818cf8; }
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.w-40 { width: 10rem; }
+@media (min-width: 768px) {
+  .md\:col-span-2 { grid-column: span 2 / span 2; }
+}
+.space-y-3 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.75rem; }
+

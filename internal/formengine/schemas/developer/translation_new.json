@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "required": ["key", "value"],
+  "properties": {
+    "key": {
+      "type": "string",
+      "title": "Key",
+      "x-seam-input": "text",
+      "maxLength": 200,
+      "x-seam-placeholder": "module.section.name",
+      "x-seam-help": "Lower-case words joined by dots. It must not exist yet."
+    },
+    "value": {
+      "type": "string",
+      "title": "Text",
+      "x-seam-input": "textarea",
+      "x-seam-rows": 3,
+      "x-seam-help": "The text in the reference language. The other languages fall back to it until they are translated."
+    },
+    "value_locale": {
+      "type": "string",
+      "title": "Text in another language (optional)",
+      "x-seam-input": "textarea",
+      "x-seam-rows": 2
+    }
+  }
+}

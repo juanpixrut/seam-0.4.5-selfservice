@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required": ["value"],
+  "properties": {
+    "locale": {
+      "type": "string",
+      "title": "Locale",
+      "x-seam-input": "text"
+    },
+    "key": {
+      "type": "string",
+      "title": "Key",
+      "x-seam-input": "text"
+    },
+    "value": {
+      "type": "string",
+      "title": "Override",
+      "x-seam-input": "textarea",
+      "x-seam-rows": 4,
+      "x-seam-help": "Keep the same %s and %d placeholders as the original text, in the same order."
+    }
+  }
+}

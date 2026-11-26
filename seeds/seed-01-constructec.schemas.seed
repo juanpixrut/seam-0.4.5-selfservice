@@ -1,0 +1,211 @@
+# Entity schemas for the seed 01-constructec: one per entity type, so that xolu validates every record against it.
+# Loaded together with the seed by: python3 seeds/seed-01-constructec.py --schemas
+{"seed": 2,
+  "name": "01-constructec-schemas",
+  "description": "Entity schemas for the seed 01-constructec",
+  "version": "1",
+  "entities": [
+    "alert_types",
+    "alerts",
+    "asset_types",
+    "assets",
+    "brands",
+    "cost_centers",
+    "currencies",
+    "custodians",
+    "events",
+    "fsm_machines",
+    "locations",
+    "models",
+    "prop_associations",
+    "prop_definitions",
+    "regions",
+    "rules",
+    "sensor_bindings",
+    "sensors",
+    "tenant_settings",
+    "users"
+  ]
+  }
+
+{"kind": "schema", "entity": "alert_types", "schema": {
+  "type": "object",
+  "properties": {"criticality": {"type": "string"}, "description": {"type": "string"}, "type": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "alerts", "schema": {
+  "type": "object",
+  "properties": {
+    "acknowledged_at": {"type": "string"},
+    "acknowledged_by": {"type": "string"},
+    "alerta_id": {"type": "integer"},
+    "asset_id": {"type": "integer"},
+    "asset_name": {"type": "string"},
+    "message": {"type": "string"},
+    "severity": {"type": "string"},
+    "source": {"type": "string"},
+    "status": {"type": "string"},
+    "title": {"type": "string"}
+  }
+  }}
+{"kind": "schema", "entity": "asset_types", "schema": {
+  "type": "object",
+  "properties": {
+    "color": {"type": "string"},
+    "connectivity_tiers": {"type": "array"},
+    "default_alerta_id": {"type": "integer"},
+    "description": {"type": "string"},
+    "fsm_id": {"type": "integer"},
+    "identity_template": {"type": "object"},
+    "name": {"type": "string"},
+    "slug": {"type": "string"},
+    "state_template": {"type": "object"}
+  }
+  }}
+{"kind": "schema", "entity": "assets", "schema": {
+  "type": "object",
+  "properties": {
+    "arrival_date": {"type": "string"},
+    "brand_id": {"type": "integer"},
+    "codigo_barras_rfid": {"type": "string"},
+    "connectivity_tier": {"type": "string"},
+    "cost_center_id": {"type": "integer"},
+    "criticality": {"type": "string"},
+    "currency_id": {"type": "integer"},
+    "custodian_id": {"type": "integer"},
+    "loan_expiry": {"type": "string"},
+    "location_id": {"type": "integer"},
+    "model_id": {"type": "integer"},
+    "name": {"type": "string"},
+    "purchase_date": {"type": "string"},
+    "purchase_price": {"type": "string"},
+    "refrigerant": {"type": "string"},
+    "region_id": {"type": "integer"},
+    "serial_1": {"type": "string"},
+    "serial_2": {"type": "string"},
+    "service_configs": {"type": "array"},
+    "status": {"type": "string"},
+    "tag_tecnico": {"type": "string"},
+    "temp_max": {"type": "string"},
+    "temp_min": {"type": "string"},
+    "tenure_type": {"type": "string"},
+    "type_id": {"type": "integer"},
+    "warranty_end": {"type": "string"}
+  }
+  }}
+{"kind": "schema", "entity": "brands", "schema": {
+  "type": "object",
+  "properties": {"code": {"type": "string"}, "name": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "cost_centers", "schema": {
+  "type": "object",
+  "properties": {"accounting_code": {"type": "string"}, "name": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "currencies", "schema": {
+  "type": "object",
+  "properties": {"iso_code": {"type": "string"}, "symbol": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "custodians", "schema": {
+  "type": "object",
+  "properties": {
+    "active": {"type": "boolean"},
+    "address": {"type": "string"},
+    "alias": {"type": "string"},
+    "email": {"type": "string"},
+    "legal_name": {"type": "string"},
+    "phone": {"type": "string"},
+    "subject_type": {"type": "string"},
+    "tax_id": {"type": "string"}
+  }
+  }}
+{"kind": "schema", "entity": "events", "schema": {
+  "type": "object",
+  "properties": {
+    "location": {"type": "object"},
+    "sensor_id": {"type": "integer"},
+    "timestamp": {"type": "string"},
+    "trigger_type": {"type": "string"},
+    "unit": {"type": "string"},
+    "value": {"type": "object"}
+  }
+  }}
+{"kind": "schema", "entity": "fsm_machines", "schema": {
+  "type": "object",
+  "properties": {"description": {"type": "string"}, "name": {"type": "string"}, "states": {"type": "array"}}
+  }}
+{"kind": "schema", "entity": "locations", "schema": {
+  "type": "object",
+  "properties": {"description": {"type": "string"}, "region_id": {"type": "integer"}, "short_name": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "models", "schema": {
+  "type": "object",
+  "properties": {"brand_id": {"type": "integer"}, "name": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "prop_associations", "schema": {
+  "type": "object",
+  "properties": {
+    "entity_id": {"type": "integer"},
+    "prop_definition_id": {"type": "integer"},
+    "requirement": {"type": "string"},
+    "target_entity": {"type": "string"}
+  }
+  }}
+{"kind": "schema", "entity": "prop_definitions", "schema": {
+  "type": "object",
+  "properties": {"data_type": {"type": "string"}, "default_value": {"type": "string"}, "short_name": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "regions", "schema": {
+  "type": "object",
+  "properties": {"description": {"type": "string"}}
+  }}
+{"kind": "schema", "entity": "rules", "schema": {
+  "type": "object",
+  "properties": {
+    "action_config": {"type": "string"},
+    "action_type": {"type": "string"},
+    "asset_type_id": {"type": "string"},
+    "condition_type": {"type": "string"},
+    "description": {"type": "string"},
+    "duration": {"type": "integer"},
+    "enabled": {"type": "boolean"},
+    "name": {"type": "string"},
+    "priority": {"type": "integer"},
+    "threshold": {"type": "integer"},
+    "trigger_type": {"type": "string"}
+  }
+  }}
+{"kind": "schema", "entity": "sensor_bindings", "schema": {
+  "type": "object",
+  "properties": {"asset_id": {"type": "integer"}, "binding_metadata": {"type": "object"}, "sensor_id": {"type": "integer"}}
+  }}
+{"kind": "schema", "entity": "sensors", "schema": {
+  "type": "object",
+  "properties": {
+    "driver": {"type": "string"},
+    "external_id": {"type": "string"},
+    "metadata": {"type": "object"},
+    "name": {"type": "string"},
+    "type": {"type": "string"}
+  }
+  }}
+{"kind": "schema", "entity": "tenant_settings", "schema": {
+  "type": "object",
+  "properties": {
+    "email_alerts": {"type": "boolean"},
+    "key": {"type": "string"},
+    "locale": {"type": "string"},
+    "slack_enabled": {"type": "boolean"},
+    "tenant_name": {"type": "string"},
+    "webhooks_enabled": {"type": "boolean"}
+  }
+  }}
+{"kind": "schema", "entity": "users", "schema": {
+  "type": "object",
+  "properties": {
+    "active": {"type": "boolean"},
+    "email": {"type": "string"},
+    "name": {"type": "string"},
+    "password_hash": {"type": "string"},
+    "role": {"type": "string"},
+    "tenant_id": {"type": "integer"}
+  }
+  }}

@@ -1,0 +1,60 @@
+{
+  "x-seam-dashboard": {
+    "id": "assets-dashboard",
+    "title": "nav.dashboard",
+    "layout": "stack",
+    "sections": [
+      {
+        "id": "top-stats", "grid": "3col",
+        "widgets": [
+          { "type": "stat_card", "label": "dashboard.open_alerts", "icon": "crisis_alert", "href": "/alerts?status=open", "urgent": true,
+            "source": { "type": "entity", "entity": "alerts", "aggregate": "count", "filter": "status = 'open'" } },
+          { "type": "stat_card", "label": "dashboard.maintenance", "icon": "engineering", "href": "/assets?status=maintenance", "urgent": false,
+            "source": { "type": "entity", "entity": "assets", "aggregate": "count", "filter": "status = 'maintenance'" } },
+          { "type": "stat_card", "label": "dashboard.high_criticality", "icon": "dangerous", "href": "/assets?criticidad=Alta", "urgent": true,
+            "source": { "type": "entity", "entity": "assets", "aggregate": "count", "filter": "criticidad = 'Alta'" } }
+        ]
+      },
+      {
+        "id": "recent-alerts", "grid": "1col",
+        "widgets": [
+          { "type": "recent_list", "title": "dashboard.recent_alerts", "view_all_href": "/alerts?status=open", "item_href_prefix": "/alerts",
+            "empty_icon": "check_circle", "empty_message": "dashboard.no_open_alerts", "item_icon": "warning",
+            "primary_field": "asset_name", "secondary_field": "title", "secondary_fallback_field": "alert_type", "timestamp_field": "created_at",
+            "badge_field": "criticality", "badge_colors": { "Alta": "danger", "Media": "warning", "Baja": "success" },
+            "source": { "type": "entity", "entity": "alerts", "filter": "status = 'open'", "sort": "-created_at", "limit": 5,
+              "enrich": [
+                { "on": "asset_id", "from": "assets", "fields": { "name": "asset_name" } },
+                { "on": "alerta_id", "from": "alert_types", "fields": { "type": "alert_type", "criticality": "criticality" } }
+              ] } }
+        ]
+      },
+      {
+        "id": "upcoming-expirations", "grid": "1col",
+        "widgets": [
+          { "type": "urgency_list", "title": "dashboard.upcoming_expirations", "subtitle": "dashboard.next_30_days",
+            "empty_message": "dashboard.no_upcoming_expirations", "item_icon": "event", "item_href_prefix": "/assets",
+            "thresholds": [
+              { "max_days": 7, "class": "urgent", "label": "dashboard.days_urgent" },
+              { "max_days": 14, "class": "warning", "label": "dashboard.days" },
+              { "max_days": null, "class": "normal", "label": "dashboard.days" }
+            ],
+            "source": { "type": "entity", "entity": "assets", "date_fields": ["expiration_date", "warranty_end"],
+              "date_field_labels": { "expiration_date": "expiration", "warranty_end": "warranty_end" },
+              "within_days": 30, "limit": 10 } }
+        ]
+      },
+      {
+        "id": "totals", "grid": "2col",
+        "widgets": [
+          { "type": "total_card", "label": "dashboard.total_assets", "icon": "inventory_2", "href": "/assets", "view_link_label": "dashboard.view_list",
+            "source": { "type": "entity", "entity": "assets", "aggregate": "count" } },
+          { "type": "breakdown_list", "title": "dashboard.by_status", "empty_message": "dashboard.no_status_data",
+            "labels": { "active": "dashboard.status.active", "inactive": "dashboard.status.inactive", "maintenance": "dashboard.status.maintenance", "lost": "dashboard.status.lost" },
+            "colors": { "active": "green-500", "inactive": "gray-400", "maintenance": "yellow-500", "lost": "red-500" },
+            "source": { "type": "entity", "entity": "assets", "aggregate": "group_count", "group_by": "status" } }
+        ]
+      }
+    ]
+  }
+}

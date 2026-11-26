@@ -1,0 +1,152 @@
+{
+    "type": "object",
+    "title": "Work Orders Templates",
+    "x-seam-form": {
+        "module": "workorders-templates",
+        "name": "workorders-template-step-two",
+        "width": "2xl",
+        "tabs": [
+            {
+                "id": "tab-step2-rules",
+                "label": "workorders-templates.forms.tab.rules",
+                "sections": [
+                    {
+                        "id": "rules",
+                        "label": "workorders-templates.forms.workorders-template.section.rules",
+                        "fields": [
+                            "rule_item"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "properties": {
+        "rule_item": {
+            "type": "array",
+            "title": "Business Rules",
+            "x-seam-input": "repeatable",
+            "x-seam-help": "Defining logical conditions to control the dynamics of the form at runtime.",
+            "x-seam-layout": "form",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "x-seam-input": "text",
+                        "x-seam-help": "Identifiable name"
+                    },
+                    "trigger": {
+                        "type": "string",
+                        "title": "Execution Trigger",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "on_evaluate_field",
+                            "on_evaluate_header",
+                            "on_evaluate_block",
+                            "on_evaluate_workflow"
+                        ]
+                    },
+                    "trigger_reference": {
+                        "type": "string",
+                        "title": "Trigger reference",
+                        "x-seam-input": "select",
+                        "x-seam-source": "request:template-rule-trigger-references"
+                    },
+                    "conditions": {
+                        "type": "array",
+                        "title": "Conditions",
+                        "x-seam-input": "repeatable",
+                        "minItems": 1,
+                        "x-seam-help": "Rule Conditions.",
+                        "x-seam-layout": "form",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "field": {
+                                    "type": "string",
+                                    "title": "Fields",
+                                    "x-seam-input": "select",
+                                    "x-seam-source": "request:template-fields"
+                                },
+                                "operator": {
+                                    "type": "string",
+                                    "title": "Condition",
+                                    "x-seam-input": "select",
+                                    "enum": [
+                                        "equals",
+                                        "not_equals",
+                                        "greater_than",
+                                        "less_than",
+                                        "contains",
+                                        "is_empty",
+                                        "is_not_empty"
+                                    ]
+                                },
+                                "comparison_value": {
+                                    "type": "string",
+                                    "title": "Value",
+                                    "x-seam-input": "text",
+                                    "x-seam-help": "Comparison value"
+                                },
+                                "logical_operator_next": {
+                                    "type": "string",
+                                    "title": "Logical Operator",
+                                    "x-seam-input": "select",
+                                    "x-seam-help": "If no other condition will be set, leave empty",
+                                    "enum": [
+                                        "None",
+                                        "And",
+                                        "Or"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "action_type": {
+                        "type": "string",
+                        "title": "Action",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "show_field",
+                            "hide_field",
+                            "show_block",
+                            "hide_block",
+                            "set_mandatory",
+                            "set_optional"
+                        ]
+                    },
+                    "target_field": {
+                        "type": "string",
+                        "title": "Target Field/Block",
+                        "x-seam-input": "select",
+                        "x-seam-source": "request:template-targets"
+                    },
+                    "stop_execution": {
+                        "type": "boolean",
+                        "title": "Block Execution",
+                        "x-seam-input": "checkbox"
+                    },
+                    "message_type": {
+                        "type": "string",
+                        "title": "Message Severity",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "INFO",
+                            "WARNING",
+                            "ERROR"
+                        ]
+                    },
+                    "message_text": {
+                        "type": "string",
+                        "title": "Alert Message",
+                        "x-seam-input": "textarea",
+                        "x-seam-rows": 2
+                    }
+                }
+            }
+        }
+    },
+    "required": []
+}

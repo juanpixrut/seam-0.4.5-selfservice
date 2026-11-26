@@ -1,0 +1,15 @@
+{
+  "id_prefix": "T",
+  "id_separator": "-",
+  "tracking": "docs/TRACKING.md",
+  "resolved": "docs/RESOLVED.md",
+  "known_issues": "docs/KNOWN_ISSUES.md",
+  "changelog": "CHANGELOG.md",
+  "version_file": "VERSION",
+  "version_targets": [
+    {"file": "docs/TRACKING.md", "match": "(?m)^Version: ([^\\n]+)$"},
+    {"file": "docs/KNOWN_ISSUES.md", "match": "(?m)^Version: ([^\\n]+)$"},
+    {"file": "docs/formengine/TRACKING.md", "match": "(?m)^Version: ([^\\n]+)$"},
+    {"file": "docs/modules/TRACKING.md", "match": "(?m)^Version: ([^\\n]+)$"}
+  ]
+}

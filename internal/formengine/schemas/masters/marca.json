@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "title": "Brand",
+  "properties": {
+    "code": {
+      "type": "string",
+      "title": "Code",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 100
+    }
+  },
+  "required": [
+    "code",
+    "name"
+  ]
+}

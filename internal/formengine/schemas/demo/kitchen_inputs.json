@@ -1,0 +1,139 @@
+{
+  "type": "object",
+  "properties": {
+    "tag_code": {
+      "type": "string",
+      "title": "Tag code",
+      "x-seam-input": "text",
+      "x-seam-input-mask": "AA-9999",
+      "x-seam-help": "x-seam-input-mask: AA-9999. Letters are upper-cased, digits only where a 9 is, and the dash is inserted for you. The mask is also the placeholder, and its length is the maxlength."
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone",
+      "x-seam-input": "tel",
+      "x-seam-input-mask": "999-999-9999",
+      "x-seam-help": "The tel widget (numeric keyboard on phones) with a digits-only mask."
+    },
+    "contact_email": {
+      "type": "string",
+      "title": "Contact email",
+      "format": "email",
+      "x-seam-input": "email",
+      "x-seam-placeholder": "name@company.com",
+      "x-seam-help": "The email widget: native syntax validation in the browser, checked again on the server."
+    },
+    "website": {
+      "type": "string",
+      "title": "Website",
+      "format": "uri",
+      "x-seam-input": "url",
+      "x-seam-placeholder": "https://",
+      "x-seam-help": "The url widget."
+    },
+    "new_password": {
+      "type": "string",
+      "title": "Password",
+      "x-seam-input": "password",
+      "x-seam-autocomplete": "new-password",
+      "x-seam-help": "x-seam-autocomplete: new-password. The widget never writes a stored value into the page, so the field always renders empty."
+    },
+    "inspection_date": {
+      "type": "string",
+      "title": "Inspection date",
+      "format": "date",
+      "x-seam-input": "date",
+      "x-seam-help": "ISO YYYY-MM-DD."
+    },
+    "next_service": {
+      "type": "string",
+      "title": "Next service",
+      "format": "date-time",
+      "x-seam-input": "datetime-local",
+      "x-seam-help": "Local date and time in one control."
+    },
+    "shift_start": {
+      "type": "string",
+      "title": "Shift start",
+      "format": "time",
+      "x-seam-input": "time",
+      "x-seam-help": "HH:MM, or HH:MM:SS."
+    },
+    "load_capacity": {
+      "type": "number",
+      "title": "Load capacity",
+      "x-seam-input": "number",
+      "x-seam-unit": "kg",
+      "x-seam-help": "x-seam-unit: kg. The unit is a fixed suffix after the field; it is not part of the posted value."
+    },
+    "operating_temp": {
+      "type": "number",
+      "title": "Operating temperature",
+      "x-seam-input": "number",
+      "x-seam-unit": "\u00b0C",
+      "x-seam-help": "The same modifier with another unit."
+    },
+    "unit_price": {
+      "type": "string",
+      "title": "Unit price",
+      "format": "decimal",
+      "decimalPrecision": 12,
+      "decimalScale": 2,
+      "x-seam-input": "decimal",
+      "x-seam-unit": "USD",
+      "x-seam-help": "decimalScale 2: the browser pattern allows at most two decimals, and the value travels as text, byte for byte, so nothing is lost to floating point."
+    },
+    "exchange_rate": {
+      "type": "string",
+      "title": "Exchange rate",
+      "format": "decimal",
+      "decimalPrecision": 12,
+      "decimalScale": 6,
+      "x-seam-input": "decimal",
+      "x-seam-help": "The same widget at decimalScale 6."
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "x-seam-input": "textarea",
+      "x-seam-rows": 5,
+      "x-seam-help": "x-seam-rows: 5 (the default is 3)."
+    },
+    "accent": {
+      "type": "string",
+      "title": "Accent colour",
+      "x-seam-input": "color",
+      "x-seam-help": "The native colour picker; it posts a hex code and starts at #6366f1."
+    },
+    "cert_required": {
+      "type": "boolean",
+      "title": "Certificate required",
+      "x-seam-input": "checkbox",
+      "x-seam-help": "The checkbox widget: a ticked box posts a value, an unticked one posts nothing. Tick it to reveal Certificate number."
+    },
+    "cert_number": {
+      "type": "string",
+      "title": "Certificate number",
+      "x-seam-input": "text",
+      "x-seam-visible-when": {
+        "field": "cert_required",
+        "op": "eq",
+        "value": true
+      },
+      "x-seam-help": "x-seam-visible-when on a boolean: shown only while the checkbox above is ticked."
+    },
+    "notify_owner": {
+      "type": "boolean",
+      "title": "Notify the owner",
+      "x-seam-input": "toggle",
+      "x-seam-help": "The toggle widget: it posts exactly like a checkbox, drawn as a switch."
+    },
+    "inspector_note": {
+      "type": "string",
+      "title": "Inspector note (tooltip help)",
+      "x-seam-input": "text",
+      "x-seam-help": "x-seam-help-style: tooltip puts this text behind a small help icon instead of under the field.",
+      "x-seam-help-style": "tooltip"
+    }
+  }
+}

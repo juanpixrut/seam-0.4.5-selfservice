@@ -1,0 +1,13 @@
+/*
+ * Material Icons — @font-face only.
+ * The .material-icons class rules live in web/static/css/app.css.
+ * Source: @fontsource/material-icons v5.2.7 (npm)
+ * License: SIL OFL 1.1
+ */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/static/vendor/fonts/MaterialIcons-Regular.woff2') format('woff2');
+}

@@ -1,0 +1,379 @@
+{
+ "issue_qr_codes": {
+  "1": {
+   "active": true,
+   "asset_category": "critico",
+   "asset_id": 1,
+   "code": "F3ULXUC54MFM6KZH",
+   "created_at": "2027-01-25T13:17:00Z",
+   "created_by": 1
+  },
+  "2": {
+   "active": true,
+   "asset_category": "critico",
+   "asset_id": 11,
+   "code": "BZKVHEQI3IHQJ2QN",
+   "created_at": "2027-01-25T13:17:00Z",
+   "created_by": 1
+  },
+  "3": {
+   "active": false,
+   "asset_category": "critico",
+   "asset_id": 15,
+   "code": "L5IUAKMWCD2QY4IQ",
+   "created_at": "2027-01-25T13:17:00Z",
+   "created_by": 1,
+   "revoked_at": "2027-02-08T13:17:00Z"
+  },
+  "4": {
+   "active": true,
+   "asset_category": "critico",
+   "asset_id": 15,
+   "code": "LFCSZYNAODMF7M65",
+   "created_at": "2027-02-08T13:17:00Z",
+   "created_by": 1
+  }
+ },
+ "issue_template_assignments": {
+  "1": {
+   "asset_type_id": 1,
+   "template_key": "falla_de_maquinaria_pesada",
+   "updated_at": "2027-02-02T13:17:00Z"
+  },
+  "2": {
+   "asset_type_id": 3,
+   "template_key": "falla_de_grupo_electrogeno",
+   "updated_at": "2027-02-02T13:17:00Z"
+  }
+ },
+ "issue_templates": {
+  "1": {
+   "created_at": "2027-01-15T13:17:00Z",
+   "deleted": 0,
+   "description": "Datos que se piden al reportar una falla en excavadoras y bulldozers.",
+   "fields": [
+    {
+     "key": "horometro",
+     "label": "Horómetro (h)",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "key": "codigo_de_error",
+     "label": "Código de error en el tablero",
+     "required": false,
+     "type": "text"
+    },
+    {
+     "key": "equipo_detenido",
+     "label": "¿El equipo quedó detenido?",
+     "required": false,
+     "type": "boolean"
+    }
+   ],
+   "is_current": 1,
+   "key": "falla_de_maquinaria_pesada",
+   "name": "Falla de maquinaria pesada",
+   "sla_config": {
+    "first_response": {
+     "critical": 30,
+     "high": 60,
+     "low": 480,
+     "medium": 240
+    },
+    "resolution": {
+     "critical": 240,
+     "high": 480,
+     "low": 2880,
+     "medium": 1440
+    }
+   },
+   "version": 1
+  },
+  "2": {
+   "created_at": "2027-01-15T13:17:00Z",
+   "deleted": 0,
+   "description": "Datos que se piden al reportar una falla en un generador.",
+   "fields": [
+    {
+     "key": "horas_de_marcha",
+     "label": "Horas de marcha",
+     "required": true,
+     "type": "number"
+    }
+   ],
+   "is_current": 0,
+   "key": "falla_de_grupo_electrogeno",
+   "name": "Falla de grupo electrógeno",
+   "version": 1
+  },
+  "3": {
+   "created_at": "2027-02-02T13:17:00Z",
+   "deleted": 0,
+   "description": "Datos que se piden al reportar una falla en un generador.",
+   "fields": [
+    {
+     "key": "horas_de_marcha",
+     "label": "Horas de marcha",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "key": "nivel_de_combustible",
+     "label": "Nivel de combustible (%)",
+     "required": false,
+     "type": "number"
+    },
+    {
+     "key": "arranco",
+     "label": "¿Arrancó?",
+     "required": false,
+     "type": "boolean"
+    }
+   ],
+   "is_current": 1,
+   "key": "falla_de_grupo_electrogeno",
+   "name": "Falla de grupo electrógeno",
+   "version": 2
+  }
+ },
+ "issues": {
+  "1": {
+   "asset_category": "critico",
+   "asset_id": 1,
+   "channel": "qr",
+   "created_at": "2027-02-14T11:17:00Z",
+   "description": "Se ve aceite goteando por el cilindro del brazo. Reportado desde el código QR del equipo.",
+   "machine_id": 1,
+   "priority": "medium",
+   "seed_code": "ISS-01",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T15:17:00Z",
+   "sla_resolution_deadline": "2027-02-15T11:17:00Z",
+   "state": "reported",
+   "title": "Fuga de aceite hidráulico en el brazo"
+  },
+  "10": {
+   "asset_category": "critico",
+   "asset_id": 14,
+   "assignee": 5,
+   "channel": "app",
+   "created_at": "2027-02-13T17:17:00Z",
+   "description": "La UPS pasó a baterías tras un corte en la acometida. Este caso agrupa los reportes de la sala.",
+   "first_responded_by": 5,
+   "first_response_at": "2027-02-13T18:17:00Z",
+   "machine_id": 10,
+   "priority": "high",
+   "reported_by": 3,
+   "seed_code": "ISS-10",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T19:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T17:17:00Z",
+   "state": "in_progress",
+   "title": "Corte de energía en la sala de servidores",
+   "updated_at": "2027-02-14T06:37:00Z"
+  },
+  "11": {
+   "asset_category": "critico",
+   "asset_id": 12,
+   "assignee": 5,
+   "channel": "app",
+   "created_at": "2027-02-13T18:17:00Z",
+   "description": "El servidor se reinició durante el corte de energía.",
+   "machine_id": 11,
+   "master_id": 10,
+   "priority": "high",
+   "reported_by": 7,
+   "seed_code": "ISS-11",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T20:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T18:17:00Z",
+   "state": "in_progress",
+   "title": "El servidor se reinició solo",
+   "updated_at": "2027-02-14T06:57:00Z"
+  },
+  "12": {
+   "asset_category": "critico",
+   "asset_id": 15,
+   "assignee": 5,
+   "channel": "qr",
+   "created_at": "2027-02-13T18:17:00Z",
+   "description": "La UPS suena de forma continua. Reportado desde el código QR del equipo.",
+   "machine_id": 12,
+   "master_id": 10,
+   "priority": "medium",
+   "seed_code": "ISS-12",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-13T22:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T18:17:00Z",
+   "state": "in_progress",
+   "title": "UPS con alarma sonora",
+   "updated_at": "2027-02-14T06:57:00Z"
+  },
+  "2": {
+   "asset_category": "normal",
+   "asset_id": 4,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-14T08:17:00Z",
+   "description": "La luz de freno izquierda no enciende. La camioneta sigue en uso.",
+   "machine_id": 2,
+   "priority": "medium",
+   "reported_by": 6,
+   "seed_code": "ISS-02",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T16:17:00Z",
+   "sla_resolution_deadline": "2027-02-17T08:17:00Z",
+   "state": "reported",
+   "title": "Luz de freno trasera quemada"
+  },
+  "3": {
+   "asset_category": "critico",
+   "asset_id": 9,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-13T11:17:00Z",
+   "description": "El chiller muestra alarma de alta presión de condensación desde la mañana.",
+   "machine_id": 3,
+   "priority": "high",
+   "reported_by": 5,
+   "seed_code": "ISS-03",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T13:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T11:17:00Z",
+   "state": "triaged",
+   "title": "Chiller con alarma de alta presión",
+   "updated_at": "2027-02-14T00:17:00Z"
+  },
+  "4": {
+   "asset_category": "critico",
+   "asset_id": 3,
+   "assignee": 5,
+   "channel": "app",
+   "created_at": "2027-02-13T07:17:00Z",
+   "description": "Al empujar material el motor cae de vueltas y sale humo negro.",
+   "first_responded_by": 5,
+   "first_response_at": "2027-02-13T08:17:00Z",
+   "form_data": {
+    "codigo_de_error": "E361-2",
+    "equipo_detenido": "false",
+    "horometro": "4820"
+   },
+   "machine_id": 4,
+   "priority": "high",
+   "reported_by": 7,
+   "seed_code": "ISS-04",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T08:17:00Z",
+   "sla_resolution_deadline": "2027-02-13T15:17:00Z",
+   "state": "in_progress",
+   "template_id": 1,
+   "title": "Bulldozer pierde potencia bajo carga",
+   "updated_at": "2027-02-14T03:17:00Z"
+  },
+  "5": {
+   "asset_category": "critico",
+   "asset_id": 11,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-11T13:17:00Z",
+   "description": "El servidor de producción dejó de responder. Los sistemas de obra están sin servicio.",
+   "first_responded_by": 6,
+   "first_response_at": "2027-02-11T16:17:00Z",
+   "machine_id": 5,
+   "priority": "critical",
+   "reported_by": 3,
+   "seed_code": "ISS-05",
+   "severity": "critical",
+   "sla_first_response_deadline": "2027-02-11T14:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T17:17:00Z",
+   "state": "in_progress",
+   "title": "Servidor principal no responde",
+   "updated_at": "2027-02-13T13:17:00Z"
+  },
+  "6": {
+   "asset_category": "critico",
+   "asset_id": 7,
+   "assignee": 8,
+   "channel": "app",
+   "created_at": "2027-02-10T13:17:00Z",
+   "description": "En la prueba semanal el generador no arrancó. Se espera la batería de reemplazo.",
+   "first_responded_by": 8,
+   "first_response_at": "2027-02-10T15:17:00Z",
+   "form_data": {
+    "arranco": "false",
+    "horas_de_marcha": "1260",
+    "nivel_de_combustible": "78"
+   },
+   "machine_id": 6,
+   "priority": "medium",
+   "reported_by": 8,
+   "seed_code": "ISS-06",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-10T17:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T13:17:00Z",
+   "state": "on_hold",
+   "template_id": 3,
+   "title": "Generador no arranca en la prueba semanal",
+   "updated_at": "2027-02-13T05:17:00Z"
+  },
+  "7": {
+   "asset_category": "normal",
+   "asset_id": 16,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-08T13:17:00Z",
+   "description": "El neumático trasero derecho pierde presión de un día para otro. Se reparó la válvula.",
+   "first_responded_by": 7,
+   "first_response_at": "2027-02-08T17:17:00Z",
+   "machine_id": 7,
+   "priority": "medium",
+   "reported_by": 5,
+   "seed_code": "ISS-07",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-08T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T13:17:00Z",
+   "state": "resolved",
+   "title": "Pérdida de presión en neumático trasero",
+   "updated_at": "2027-02-13T01:17:00Z"
+  },
+  "8": {
+   "asset_category": "normal",
+   "asset_id": 4,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-02T13:17:00Z",
+   "description": "Las escobillas dejan marcas. Se cambiaron las dos.",
+   "first_responded_by": 6,
+   "first_response_at": "2027-02-02T19:17:00Z",
+   "machine_id": 8,
+   "priority": "low",
+   "reported_by": 6,
+   "seed_code": "ISS-08",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-02T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-09T13:17:00Z",
+   "state": "closed",
+   "title": "Cambio de escobillas del limpiaparabrisas",
+   "updated_at": "2027-02-11T13:17:00Z"
+  },
+  "9": {
+   "asset_category": "normal",
+   "assignee": 3,
+   "channel": "app",
+   "created_at": "2027-02-06T13:17:00Z",
+   "description": "El portón corredizo hace ruido al abrir.",
+   "machine_id": 9,
+   "priority": "low",
+   "reject_reason": "El portón no es un activo gestionado en Seam. Se derivó a mantenimiento edilicio.",
+   "reported_by": 8,
+   "seed_code": "ISS-09",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-06T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-13T13:17:00Z",
+   "state": "rejected",
+   "title": "Ruido en el portón del depósito",
+   "updated_at": "2027-02-11T21:17:00Z"
+  }
+ }
+}

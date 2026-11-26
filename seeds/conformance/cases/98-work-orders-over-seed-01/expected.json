@@ -1,0 +1,1370 @@
+{
+ "asset_types": {
+  "1": {
+   "color": "#f59e0b",
+   "connectivity_tiers": [
+    "qr",
+    "gps"
+   ],
+   "default_alerta_id": 1,
+   "description": "Excavadoras, bulldozers y equipos de movimiento de tierra",
+   "fsm_id": 2,
+   "identity_template": {
+    "engine_model": {
+     "label": "Modelo de motor",
+     "required": false,
+     "type": "text"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "year_built": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Maquinaria Pesada",
+   "slug": "maquinaria-pesada",
+   "state_template": {
+    "engine_hours": {
+     "label": "Horas de motor",
+     "required": false,
+     "type": "number"
+    },
+    "fuel_type": {
+     "label": "Combustible (%)",
+     "required": false,
+     "type": "number"
+    },
+    "gps_location": {
+     "label": "Ubicación GPS",
+     "required": false,
+     "type": "text"
+    }
+   }
+  },
+  "10": {
+   "color": "#6366f1",
+   "connectivity_tiers": [
+    "qr",
+    "gps"
+   ],
+   "description": "Activos exclusivos para probar las plantillas WO.",
+   "identity_template": {},
+   "name": "Equipos de prueba WO",
+   "slug": "seed-wo-demo-equipment",
+   "state_template": {}
+  },
+  "2": {
+   "color": "#3b82f6",
+   "connectivity_tiers": [
+    "qr",
+    "gps"
+   ],
+   "default_alerta_id": 1,
+   "description": "Camionetas y utilitarios de flota",
+   "fsm_id": 1,
+   "identity_template": {
+    "color": {
+     "label": "Color",
+     "required": false,
+     "type": "text"
+    },
+    "license_plate": {
+     "label": "Patente",
+     "required": true,
+     "type": "text"
+    },
+    "vin": {
+     "label": "VIN",
+     "required": true,
+     "type": "text"
+    },
+    "year_built": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Vehículo Liviano",
+   "slug": "vehiculo-liviano",
+   "state_template": {
+    "fuel_type": {
+     "label": "Combustible (%)",
+     "required": false,
+     "type": "number"
+    },
+    "mileage_km": {
+     "label": "Kilometraje (km)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "3": {
+   "color": "#eab308",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 1,
+   "description": "Generadores de energía eléctrica",
+   "identity_template": {
+    "phase": {
+     "label": "Fase",
+     "required": false,
+     "type": "text"
+    },
+    "power_kva": {
+     "label": "Potencia (kVA)",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Grupo Electrógeno",
+   "slug": "grupo-electrogeno",
+   "state_template": {
+    "engine_hours": {
+     "label": "Horas de motor",
+     "required": false,
+     "type": "number"
+    },
+    "frequency_hz": {
+     "label": "Frecuencia (Hz)",
+     "required": false,
+     "type": "number"
+    },
+    "voltage_v": {
+     "label": "Voltaje (V)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "4": {
+   "color": "#06b6d4",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 4,
+   "description": "Chillers, fan-coils y equipos HVAC",
+   "identity_template": {
+    "capacity_tons": {
+     "label": "Capacidad (ton FR)",
+     "required": true,
+     "type": "number"
+    },
+    "refrigerant": {
+     "label": "Refrigerante",
+     "required": false,
+     "type": "text"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Climatización",
+   "slug": "climatizacion",
+   "state_template": {
+    "inlet_temp": {
+     "label": "Temp. entrada (°C)",
+     "required": false,
+     "type": "number"
+    },
+    "outlet_temp": {
+     "label": "Temp. salida (°C)",
+     "required": false,
+     "type": "number"
+    },
+    "pressure_bar": {
+     "label": "Presión (bar)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "5": {
+   "color": "#8b5cf6",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "description": "Servidores físicos en rack",
+   "identity_template": {
+    "rack_slot": {
+     "label": "Posición en rack",
+     "required": false,
+     "type": "text"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "service_tag": {
+     "label": "Service Tag",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Servidor",
+   "slug": "servidor",
+   "state_template": {
+    "cpu_usage_pct": {
+     "label": "Uso CPU (%)",
+     "required": false,
+     "type": "number"
+    },
+    "ip_address": {
+     "label": "Dirección IP",
+     "required": false,
+     "type": "text"
+    },
+    "ram_usage_pct": {
+     "label": "Uso RAM (%)",
+     "required": false,
+     "type": "number"
+    },
+    "temp_c": {
+     "label": "Temperatura (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "6": {
+   "color": "#10b981",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 5,
+   "description": "Sistemas de alimentación ininterrumpida",
+   "identity_template": {
+    "power_kva": {
+     "label": "Potencia (kVA)",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "UPS",
+   "slug": "ups",
+   "state_template": {
+    "autonomy_min": {
+     "label": "Autonomía (min)",
+     "required": false,
+     "type": "number"
+    },
+    "battery_pct": {
+     "label": "Batería (%)",
+     "required": false,
+     "type": "number"
+    },
+    "charge_pct": {
+     "label": "Carga (%)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "7": {
+   "color": "#84cc16",
+   "connectivity_tiers": [
+    "qr",
+    "gps"
+   ],
+   "default_alerta_id": 1,
+   "description": "Tractores y equipos agrícolas",
+   "fsm_id": 2,
+   "identity_template": {
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "year_built": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Maquinaria Agrícola",
+   "slug": "maquinaria-agricola",
+   "state_template": {
+    "engine_hours": {
+     "label": "Horas de motor",
+     "required": false,
+     "type": "number"
+    },
+    "fuel_type": {
+     "label": "Combustible (%)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  }
+ },
+ "assets": {
+  "1": {
+   "arrival_date": "2021-03-20",
+   "brand_id": 1,
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 2,
+   "loan_expiry": "2026-11-28",
+   "location_id": 7,
+   "model_id": 1,
+   "name": "Excavadora CAT 320 GC — EXC-001",
+   "purchase_date": "2021-03-15",
+   "purchase_price": "185000",
+   "region_id": 2,
+   "serial_1": "CAT0320GCABCD0001",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 250
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "EXC-001",
+   "tenure_type": "Comodato",
+   "type_id": 1,
+   "warranty_end": "2026-03-15"
+  },
+  "10": {
+   "arrival_date": "2020-09-15",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 7,
+   "name": "Chiller Carrier 30XA — HVAC-002",
+   "purchase_date": "2020-08-01",
+   "purchase_price": "120000",
+   "refrigerant": "R134a",
+   "region_id": 1,
+   "serial_1": "CAR30XA0001235",
+   "status": "maintenance",
+   "tag_tecnico": "HVAC-002",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "11": {
+   "arrival_date": "2022-07-10",
+   "brand_id": 4,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 9,
+   "name": "Servidor Dell R750 — SRV-001",
+   "purchase_date": "2022-07-01",
+   "purchase_price": "18500",
+   "region_id": 1,
+   "serial_1": "CNRK0004S",
+   "serial_2": "7JVHMN3",
+   "status": "active",
+   "tag_tecnico": "SRV-001",
+   "temp_max": "35",
+   "temp_min": "10",
+   "tenure_type": "Propiedad",
+   "type_id": 5,
+   "warranty_end": "2025-07-01"
+  },
+  "12": {
+   "arrival_date": "2022-07-10",
+   "brand_id": 4,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 9,
+   "name": "Servidor Dell R750 — SRV-002",
+   "purchase_date": "2022-07-01",
+   "purchase_price": "18500",
+   "region_id": 1,
+   "serial_1": "CNRK0004T",
+   "serial_2": "8KVHMN4",
+   "status": "active",
+   "tag_tecnico": "SRV-002",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "13": {
+   "arrival_date": "2023-03-01",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 10,
+   "name": "Servidor Dell R450 — SRV-003",
+   "purchase_date": "2023-02-15",
+   "purchase_price": "9800",
+   "region_id": 1,
+   "serial_1": "CNRK0009A",
+   "status": "active",
+   "tag_tecnico": "SRV-003",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "14": {
+   "arrival_date": "2021-06-10",
+   "brand_id": 5,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 11,
+   "name": "UPS APC SRT 10kVA — UPS-001",
+   "purchase_date": "2021-06-01",
+   "purchase_price": "8200",
+   "region_id": 1,
+   "serial_1": "AS1830450296",
+   "status": "active",
+   "tag_tecnico": "UPS-001",
+   "tenure_type": "Propiedad",
+   "type_id": 6,
+   "warranty_end": "2024-06-01"
+  },
+  "15": {
+   "arrival_date": "2021-06-10",
+   "brand_id": 5,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 12,
+   "name": "UPS APC Symmetra — UPS-002",
+   "purchase_date": "2021-06-01",
+   "purchase_price": "14500",
+   "region_id": 1,
+   "serial_1": "AS1830450297",
+   "status": "active",
+   "tag_tecnico": "UPS-002",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "16": {
+   "arrival_date": "2020-10-15",
+   "brand_id": 7,
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 6,
+   "model_id": 14,
+   "name": "Tractor John Deere 6130M — TRAC-001",
+   "purchase_date": "2020-10-01",
+   "purchase_price": "85000",
+   "region_id": 5,
+   "serial_1": "JD6130M001234",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 250
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "TRAC-001",
+   "tenure_type": "Propiedad",
+   "type_id": 7,
+   "warranty_end": "2023-10-01"
+  },
+  "19": {
+   "connectivity_tier": "qr",
+   "name": "Equipo de prueba WO 1",
+   "status": "active",
+   "tag_tecnico": "SEED-WO-001",
+   "type_id": 10
+  },
+  "2": {
+   "arrival_date": "2020-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 3,
+   "model_id": 1,
+   "name": "Excavadora CAT 320 GC — EXC-002",
+   "purchase_date": "2020-06-01",
+   "purchase_price": "175000",
+   "region_id": 2,
+   "serial_1": "CAT0320GCABCD0002",
+   "status": "maintenance",
+   "tag_tecnico": "EXC-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "20": {
+   "connectivity_tier": "qr",
+   "name": "Equipo de prueba WO 2",
+   "status": "active",
+   "tag_tecnico": "SEED-WO-002",
+   "type_id": 10
+  },
+  "21": {
+   "connectivity_tier": "qr",
+   "name": "Equipo de prueba WO 3",
+   "status": "active",
+   "tag_tecnico": "SEED-WO-003",
+   "type_id": 10
+  },
+  "3": {
+   "arrival_date": "2022-01-20",
+   "brand_id": 1,
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 6,
+   "model_id": 2,
+   "name": "Bulldozer CAT D6N — BULL-001",
+   "purchase_date": "2022-01-10",
+   "purchase_price": "240000",
+   "region_id": 5,
+   "serial_1": "CAT00D6NXYZ00001",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 250
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "BULL-001",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-01-10"
+  },
+  "4": {
+   "arrival_date": "2023-05-18",
+   "brand_id": 2,
+   "codigo_barras_rfid": "RFID-VH-001",
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 2,
+   "custodian_id": 3,
+   "location_id": 1,
+   "model_id": 4,
+   "name": "Toyota Hilux SR — VH-001",
+   "purchase_date": "2023-05-12",
+   "purchase_price": "42000",
+   "region_id": 1,
+   "serial_1": "8AFCF4BN0P0123456",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "distance_kilometers",
+     "threshold": 5000
+    },
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 200
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VH-001",
+   "tenure_type": "Propiedad",
+   "type_id": 2,
+   "warranty_end": "2026-05-12"
+  },
+  "5": {
+   "arrival_date": "2022-11-08",
+   "brand_id": 2,
+   "codigo_barras_rfid": "RFID-VH-002",
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 5,
+   "criticality": "Media",
+   "currency_id": 2,
+   "custodian_id": 5,
+   "location_id": 3,
+   "model_id": 4,
+   "name": "Toyota Hilux SR — VH-002",
+   "purchase_date": "2022-11-01",
+   "purchase_price": "39000",
+   "region_id": 2,
+   "serial_1": "8AFCF4BN0P0234567",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "distance_kilometers",
+     "threshold": 5000
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VH-002",
+   "tenure_type": "Alquiler",
+   "type_id": 2
+  },
+  "6": {
+   "arrival_date": "2021-09-01",
+   "brand_id": 2,
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 2,
+   "custodian_id": 4,
+   "location_id": 1,
+   "model_id": 5,
+   "name": "Toyota Land Cruiser — VH-003",
+   "purchase_date": "2021-08-20",
+   "purchase_price": "75000",
+   "region_id": 1,
+   "serial_1": "JTMHX05J804123789",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "distance_kilometers",
+     "threshold": 8000
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VH-003",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "7": {
+   "arrival_date": "2020-01-05",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 3,
+   "name": "Generador CAT C18 — GEN-001",
+   "purchase_date": "2019-11-10",
+   "purchase_price": "95000",
+   "region_id": 1,
+   "serial_1": "C180000X001234",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 500
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "GEN-001",
+   "temp_max": "50",
+   "temp_min": "-10",
+   "tenure_type": "Propiedad",
+   "type_id": 3,
+   "warranty_end": "2024-11-10"
+  },
+  "8": {
+   "arrival_date": "2020-04-01",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 4,
+   "model_id": 3,
+   "name": "Generador CAT C18 — GEN-002",
+   "purchase_date": "2020-03-15",
+   "purchase_price": "95000",
+   "region_id": 3,
+   "serial_1": "C180000X001235",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 500
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "GEN-002",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "9": {
+   "arrival_date": "2020-09-15",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 2,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 7,
+   "name": "Chiller Carrier 30XA — HVAC-001",
+   "purchase_date": "2020-08-01",
+   "purchase_price": "120000",
+   "refrigerant": "R134a",
+   "region_id": 1,
+   "serial_1": "CAR30XA0001234",
+   "status": "active",
+   "tag_tecnico": "HVAC-001",
+   "temp_max": "15",
+   "temp_min": "5",
+   "tenure_type": "Propiedad",
+   "type_id": 4,
+   "warranty_end": "2025-08-01"
+  }
+ },
+ "consumable": {
+  "1": {
+   "consumable_type_id": 1,
+   "consumable_unit": 1,
+   "description": "Insumo de catálogo sin existencias iniciales.",
+   "enabled": true,
+   "name": "Filtro de prueba WO",
+   "stock_min": 0
+  },
+  "2": {
+   "consumable_type_id": 1,
+   "consumable_unit": 1,
+   "description": "Insumo de catálogo sin existencias iniciales.",
+   "enabled": true,
+   "name": "Kit de limpieza de prueba WO",
+   "stock_min": 0
+  },
+  "3": {
+   "consumable_type_id": 1,
+   "consumable_unit": 1,
+   "description": "Insumo de catálogo sin existencias iniciales.",
+   "enabled": true,
+   "name": "Precinto de prueba WO",
+   "stock_min": 0
+  }
+ },
+ "consumable_types": {
+  "1": {
+   "description": "Catálogo de prueba para plantillas WO.",
+   "name": "Insumos de prueba WO"
+  }
+ },
+ "unit": {
+  "1": {
+   "iso_code": "WOU",
+   "name": "Unidad de prueba WO",
+   "symbol": "uWO"
+  }
+ },
+ "wo_actions": {
+  "1": {
+   "code": "update_asset_location",
+   "description": "Acción de catálogo para actualizar la ubicación GPS de una lista de activos. Define sus parámetros; no implementa su ejecución.",
+   "enabled": true,
+   "name": "Actualizar ubicación de activos",
+   "parameters": [
+    {
+     "entity": "assets",
+     "key": "assets",
+     "multiple": true,
+     "name": "Activos",
+     "required": true,
+     "type": "asset"
+    },
+    {
+     "entity": "",
+     "key": "location",
+     "multiple": false,
+     "name": "Ubicación de destino",
+     "required": true,
+     "type": "gps"
+    }
+   ]
+  },
+  "2": {
+   "code": "register_inspection",
+   "description": "Acción de prueba para mapear parámetros individuales de tipo activo, booleano, número, fecha y texto. Permite comprobar valores false y 0, parámetros obligatorios y observaciones opcionales.",
+   "enabled": true,
+   "name": "Registrar inspección",
+   "parameters": [
+    {
+     "entity": "assets",
+     "key": "asset",
+     "multiple": false,
+     "name": "Activo inspeccionado",
+     "required": true,
+     "type": "asset"
+    },
+    {
+     "entity": "",
+     "key": "approved",
+     "multiple": false,
+     "name": "Inspección aprobada",
+     "required": true,
+     "type": "boolean"
+    },
+    {
+     "entity": "",
+     "key": "reading",
+     "multiple": false,
+     "name": "Lectura registrada",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "entity": "",
+     "key": "inspection_date",
+     "multiple": false,
+     "name": "Fecha de inspección",
+     "required": true,
+     "type": "date"
+    },
+    {
+     "entity": "",
+     "key": "notes",
+     "multiple": false,
+     "name": "Observaciones",
+     "required": false,
+     "type": "text"
+    }
+   ]
+  },
+  "3": {
+   "code": "register_measurement_series",
+   "description": "Acción de prueba para mapear listas de números, booleanos, fechas y textos. Permite comprobar listas fijas, listas de un elemento y la conversión de un campo individual a un parámetro múltiple.",
+   "enabled": true,
+   "name": "Registrar serie de mediciones",
+   "parameters": [
+    {
+     "entity": "",
+     "key": "readings",
+     "multiple": true,
+     "name": "Lecturas",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "entity": "",
+     "key": "results",
+     "multiple": true,
+     "name": "Resultados",
+     "required": true,
+     "type": "boolean"
+    },
+    {
+     "entity": "",
+     "key": "dates",
+     "multiple": true,
+     "name": "Fechas",
+     "required": false,
+     "type": "date"
+    },
+    {
+     "entity": "",
+     "key": "labels",
+     "multiple": true,
+     "name": "Etiquetas",
+     "required": false,
+     "type": "text"
+    }
+   ]
+  },
+  "4": {
+   "code": "register_route_points",
+   "description": "Acción de prueba para mapear puntos GPS y activos múltiples, con una descripción obligatoria. Permite comprobar widgets GPS y pickers dentro de repetibles, y valores individuales como listas.",
+   "enabled": true,
+   "name": "Registrar puntos de recorrido",
+   "parameters": [
+    {
+     "entity": "",
+     "key": "points",
+     "multiple": true,
+     "name": "Puntos del recorrido",
+     "required": true,
+     "type": "gps"
+    },
+    {
+     "entity": "assets",
+     "key": "assets",
+     "multiple": true,
+     "name": "Activos involucrados",
+     "required": false,
+     "type": "asset"
+    },
+    {
+     "entity": "",
+     "key": "description",
+     "multiple": false,
+     "name": "Descripción",
+     "required": true,
+     "type": "text"
+    }
+   ]
+  }
+ },
+ "work_order_templates": {
+  "1": {
+   "actions": [],
+   "add_any_consumables_allowed": false,
+   "asset_type_id": 10,
+   "blocks": [
+    {
+     "lines": [
+      {
+       "name": "equipo_aislado",
+       "type": "boolean"
+      }
+     ],
+     "name": "Preparacion",
+     "predecessor": "",
+     "responsible_type": "user"
+    },
+    {
+     "lines": [
+      {
+       "name": "filtro_cambiado",
+       "type": "boolean"
+      },
+      {
+       "name": "horas_trabajo",
+       "type": "number"
+      }
+     ],
+     "name": "Mantenimiento",
+     "predecessor": "Preparacion",
+     "responsible_type": "crew"
+    }
+   ],
+   "color": "#f59e0b",
+   "consumables": [
+    {
+     "consumable_id": 1,
+     "quantity": 1
+    },
+    {
+     "consumable_id": 2,
+     "quantity": 0.5
+    }
+   ],
+   "consumables_allowed": true,
+   "description": "Consumibles fijos y reglas, sin acciones. Probar prioridad mayor que 3 y repuesto requerido.",
+   "header_items": [
+    {
+     "default_value": "1",
+     "required": true,
+     "tag": "prioridad",
+     "to_fill_out": "upon_creating",
+     "type": "number"
+    },
+    {
+     "default_value": "false",
+     "required": true,
+     "tag": "requiere_repuesto",
+     "to_fill_out": "upon_creating",
+     "type": "boolean"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "justificacion",
+     "to_fill_out": "upon_creating",
+     "type": "text"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "fecha_programada",
+     "to_fill_out": "upon_creating",
+     "type": "date"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "observaciones",
+     "to_fill_out": "upon_executing",
+     "type": "text"
+    }
+   ],
+   "icon": "build",
+   "latest": true,
+   "max_assets": 1,
+   "min_assets": 1,
+   "name": "Demo WO - Mantenimiento preventivo",
+   "prefix": "MANT",
+   "reset_policy": "annual",
+   "rule_item": [
+    {
+     "action_type": "set_mandatory",
+     "conditions": [
+      {
+       "comparison_value": "3",
+       "field": "header:prioridad",
+       "logical_operator_next": "None",
+       "operator": "greater_than"
+      }
+     ],
+     "message_text": "Ingresar una justificación para prioridad alta.",
+     "message_type": "WARNING",
+     "name": "Justificar prioridad alta",
+     "stop_execution": false,
+     "target_field": "header:justificacion",
+     "trigger": "on_evaluate_header"
+    },
+    {
+     "action_type": "set_mandatory",
+     "conditions": [
+      {
+       "comparison_value": "true",
+       "field": "header:requiere_repuesto",
+       "logical_operator_next": "None",
+       "operator": "equals"
+      }
+     ],
+     "message_text": "Detallar el repuesto utilizado.",
+     "message_type": "WARNING",
+     "name": "Registrar repuesto",
+     "stop_execution": false,
+     "target_field": "header:observaciones",
+     "trigger": "on_evaluate_header"
+    }
+   ],
+   "seed_code": "wo_demo_maintenance_v1",
+   "sequence_length": 5,
+   "suffix": "WO",
+   "version": 1,
+   "workflow_states": [
+    {
+     "name": "Pendiente"
+    },
+    {
+     "name": "En mantenimiento"
+    },
+    {
+     "name": "Finalizada"
+    }
+   ]
+  },
+  "2": {
+   "actions": [
+    {
+     "action": 2,
+     "block_reference": "",
+     "mapping_values": [
+      {
+       "context_path": "header:activo_inspeccionado",
+       "parameter": "asset",
+       "source": "context"
+      },
+      {
+       "context_path": "header:aprobada",
+       "parameter": "approved",
+       "source": "context"
+      },
+      {
+       "context_path": "header:lectura",
+       "parameter": "reading",
+       "source": "context"
+      },
+      {
+       "context_path": "header:fecha_inspeccion",
+       "parameter": "inspection_date",
+       "source": "context"
+      },
+      {
+       "context_path": "header:observaciones",
+       "parameter": "notes",
+       "source": "context"
+      }
+     ],
+     "trigger_point": "before_work_order"
+    },
+    {
+     "action": 3,
+     "block_reference": "Inspeccion",
+     "mapping_values": [
+      {
+       "context_path": "block:Inspeccion:line:lectura_final",
+       "parameter": "readings",
+       "source": "context",
+       "transform": "wrap_in_array"
+      },
+      {
+       "fixed_value": [
+        false,
+        true
+       ],
+       "parameter": "results",
+       "source": "fixed"
+      },
+      {
+       "fixed_value": [
+        "2026-11-15"
+       ],
+       "parameter": "dates",
+       "source": "fixed"
+      },
+      {
+       "fixed_value": [
+        "inicial",
+        "final"
+       ],
+       "parameter": "labels",
+       "source": "fixed"
+      }
+     ],
+     "trigger_point": "after_block"
+    }
+   ],
+   "add_any_consumables_allowed": true,
+   "asset_type_id": 10,
+   "blocks": [
+    {
+     "lines": [
+      {
+       "name": "lectura_final",
+       "type": "number"
+      },
+      {
+       "name": "resultado_final",
+       "type": "boolean"
+      }
+     ],
+     "name": "Inspeccion",
+     "predecessor": "",
+     "responsible_type": "third_party"
+    }
+   ],
+   "color": "#0ea5e9",
+   "consumables": [
+    {
+     "consumable_id": 3,
+     "quantity": 2
+    }
+   ],
+   "consumables_allowed": true,
+   "description": "Consumibles y extras, reglas y acciones. Incluye mapeos de contexto, listas fijas, false y 0.",
+   "header_items": [
+    {
+     "default_value": "19",
+     "required": true,
+     "tag": "activo_inspeccionado",
+     "to_fill_out": "upon_creating",
+     "type": "asset"
+    },
+    {
+     "default_value": "false",
+     "required": true,
+     "tag": "aprobada",
+     "to_fill_out": "upon_creating",
+     "type": "boolean"
+    },
+    {
+     "default_value": "0",
+     "required": true,
+     "tag": "lectura",
+     "to_fill_out": "upon_creating",
+     "type": "number"
+    },
+    {
+     "default_value": "2026-11-15",
+     "required": true,
+     "tag": "fecha_inspeccion",
+     "to_fill_out": "upon_creating",
+     "type": "date"
+    },
+    {
+     "default_value": "",
+     "required": false,
+     "tag": "observaciones",
+     "to_fill_out": "upon_creating",
+     "type": "text"
+    }
+   ],
+   "icon": "fact_check",
+   "latest": true,
+   "max_assets": 3,
+   "min_assets": 1,
+   "name": "Demo WO - Inspeccion y mediciones",
+   "prefix": "INSP",
+   "reset_policy": "annual",
+   "rule_item": [
+    {
+     "action_type": "set_mandatory",
+     "conditions": [
+      {
+       "comparison_value": "false",
+       "field": "header:aprobada",
+       "logical_operator_next": "None",
+       "operator": "equals"
+      }
+     ],
+     "message_text": "Explicar el motivo del rechazo.",
+     "message_type": "WARNING",
+     "name": "Explicar inspeccion rechazada",
+     "stop_execution": false,
+     "target_field": "header:observaciones",
+     "trigger": "on_evaluate_header"
+    }
+   ],
+   "seed_code": "wo_demo_inspection_v1",
+   "sequence_length": 5,
+   "suffix": "WO",
+   "version": 1,
+   "workflow_states": [
+    {
+     "name": "Pendiente"
+    },
+    {
+     "name": "En inspeccion"
+    },
+    {
+     "name": "Revisada"
+    },
+    {
+     "name": "Cerrada"
+    }
+   ]
+  },
+  "3": {
+   "actions": [
+    {
+     "action": 4,
+     "block_reference": "Traslado",
+     "mapping_values": [
+      {
+       "context_path": "block:Traslado:line:punto_llegada",
+       "parameter": "points",
+       "source": "context",
+       "transform": "wrap_in_array"
+      },
+      {
+       "context_path": "work_order.assets",
+       "parameter": "assets",
+       "source": "context"
+      },
+      {
+       "context_path": "header:descripcion_traslado",
+       "parameter": "description",
+       "source": "context"
+      }
+     ],
+     "trigger_point": "after_block"
+    },
+    {
+     "action": 1,
+     "block_reference": "",
+     "mapping_values": [
+      {
+       "context_path": "work_order.assets",
+       "parameter": "assets",
+       "source": "context"
+      },
+      {
+       "context_path": "header:ubicacion_destino",
+       "parameter": "location",
+       "source": "context"
+      }
+     ],
+     "trigger_point": "after_work_order"
+    }
+   ],
+   "add_any_consumables_allowed": false,
+   "asset_type_id": 10,
+   "blocks": [
+    {
+     "lines": [
+      {
+       "name": "punto_llegada",
+       "type": "gps"
+      },
+      {
+       "name": "fecha_llegada",
+       "type": "date"
+      }
+     ],
+     "name": "Traslado",
+     "predecessor": "",
+     "responsible_type": "crew"
+    }
+   ],
+   "color": "#10b981",
+   "consumables": [],
+   "consumables_allowed": false,
+   "description": "Sin consumibles ni reglas. Acciones de recorrido y actualización de ubicación GPS.",
+   "header_items": [
+    {
+     "default_value": "-34.9011,-56.1645",
+     "required": true,
+     "tag": "ubicacion_destino",
+     "to_fill_out": "upon_creating",
+     "type": "gps"
+    },
+    {
+     "default_value": "Traslado de equipos de prueba",
+     "required": true,
+     "tag": "descripcion_traslado",
+     "to_fill_out": "upon_creating",
+     "type": "text"
+    },
+    {
+     "default_value": "",
+     "required": true,
+     "tag": "recepcion_confirmada",
+     "to_fill_out": "upon_executing",
+     "type": "boolean"
+    }
+   ],
+   "icon": "location_on",
+   "latest": true,
+   "max_assets": 3,
+   "min_assets": 2,
+   "name": "Demo WO - Traslado de activos",
+   "prefix": "TRAS",
+   "reset_policy": "annual",
+   "rule_item": [],
+   "seed_code": "wo_demo_relocation_v1",
+   "sequence_length": 5,
+   "suffix": "WO",
+   "version": 1,
+   "workflow_states": [
+    {
+     "name": "Preparada"
+    },
+    {
+     "name": "En traslado"
+    },
+    {
+     "name": "Entregada"
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,56 @@
+{
+    "type": "object",
+    "x-seam-form": {
+        "module": "workorders",
+        "name": "direct-assignment",
+        "width": "md"
+    },
+    "properties": {
+        "direct_responsible_type": {
+            "type": "string",
+            "title": "Responsible type",
+            "x-seam-input": "select",
+            "enum": [
+                "user",
+                "crew",
+                "third_party"
+            ]
+        },
+        "direct_user_id": {
+            "type": "integer",
+            "title": "User",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-visible-when": {
+                "field": "direct_responsible_type",
+                "op": "eq",
+                "value": "user"
+            }
+        },
+        "direct_crew_id": {
+            "type": "integer",
+            "title": "Crew",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:crews",
+            "x-seam-visible-when": {
+                "field": "direct_responsible_type",
+                "op": "eq",
+                "value": "crew"
+            }
+        },
+        "direct_third_party_id": {
+            "type": "integer",
+            "title": "Third party",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:outsourced",
+            "x-seam-visible-when": {
+                "field": "direct_responsible_type",
+                "op": "eq",
+                "value": "third_party"
+            }
+        }
+    },
+    "required": [
+        "direct_responsible_type"
+    ]
+}

@@ -1,0 +1,12 @@
+Seam AMS Checkpoint Manifest
+==============================
+Version:      0.4.5
+Build date:   2026-11-18 09:52:51 UTC
+Git commit:   unavailable
+Go version:   go1.26.5
+Node version: v22.23.4
+
+Key asset SHA-256:
+5b1d82832a3ff34119e856e0ce92f929b747afc53e88e666fd716c1bcea4d1cd  web/static/css/tailwind.css
+8265f64786397d6b832d1ca0aafdf149ad84e72759fffa9f7272e91a0fb015d1  web/static/vendor/fonts/MaterialIcons-Regular.woff2
+b3bdcf5c741897a53648b1207fff0469a0d61901429ba1f6e88f98ebd84e669e  web/static/vendor/htmx@1.9.10.min.js

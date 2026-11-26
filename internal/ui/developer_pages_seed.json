@@ -1,0 +1,156 @@
+{
+  "asset/asset": {
+    "Module": "assets",
+    "Form": "asset"
+  },
+  "consumable/create": {
+    "Module": "consumable",
+    "Form": "consumable"
+  },
+  "crew/create": {
+    "Module": "crew",
+    "Form": "crew"
+  },
+  "developer/form_new": {
+    "Module": "developer",
+    "Form": "form_new"
+  },
+  "developer/schema_edit": {
+    "Module": "developer",
+    "Form": "schema_edit"
+  },
+  "developer/translation_edit": {
+    "Module": "developer",
+    "Form": "translation_edit"
+  },
+  "developer/translation_new": {
+    "Module": "developer",
+    "Form": "translation_new"
+  },
+  "developer/view_as": {
+    "Module": "developer",
+    "Form": "view_as"
+  },
+  "issues/assign": {
+    "Module": "issues",
+    "Form": "assign"
+  },
+  "issues/create": {
+    "Module": "issues",
+    "Form": "issue"
+  },
+  "masters/marca": {
+    "Module": "masters",
+    "Form": "marca"
+  },
+  "masters/moneda": {
+    "Module": "masters",
+    "Form": "moneda"
+  },
+  "masters/region": {
+    "Module": "masters",
+    "Form": "region"
+  },
+  "movement/create": {
+    "Module": "movement",
+    "Form": "movement"
+  },
+  "outsourced/account": {
+    "Module": "outsourced",
+    "Form": "account"
+  },
+  "outsourced/create": {
+    "Module": "outsourced",
+    "Form": "outsourced"
+  },
+  "sensors/bind": {
+    "Module": "assets",
+    "Form": "sensor_bind"
+  },
+  "system/password": {
+    "Module": "system",
+    "Form": "password"
+  },
+  "system/preferences": {
+    "Module": "system",
+    "Form": "preferences"
+  },
+  "system/profile": {
+    "Module": "system",
+    "Form": "profile"
+  },
+  "system/settings_features": {
+    "Module": "system",
+    "Form": "features"
+  },
+  "system/settings_general": {
+    "Module": "system",
+    "Form": "general"
+  },
+  "system/settings_notifications": {
+    "Module": "system",
+    "Form": "notifications"
+  },
+  "system/user_create": {
+    "Module": "system",
+    "Form": "user"
+  },
+  "system/user_edit": {
+    "Module": "system",
+    "Form": "user"
+  },
+  "unit/create": {
+    "Module": "unit",
+    "Form": "unit"
+  },
+  "warehouse/create": {
+    "Module": "warehouse",
+    "Form": "warehouse"
+  },
+  "warehouse/edit": {
+    "Module": "warehouse",
+    "Form": "warehouse"
+  },
+  "wo_action/create": {
+    "Module": "wo-actions",
+    "Form": "wo-action"
+  },
+  "wo_action/edit": {
+    "Module": "wo-actions",
+    "Form": "wo-action"
+  },
+  "workorders/complete": {
+    "Module": "workorders",
+    "Form": "workorder"
+  },
+  "workorders/create": {
+    "Module": "workorders",
+    "Form": "workorder"
+  },
+  "workorders/create-selections": {
+    "Module": "workorders",
+    "Form": "workorder"
+  },
+  "workorders/direct-assignment": {
+    "Module": "workorders",
+    "Form": "direct-assignment"
+  },
+  "workorders/template-picker": {
+    "Module": "workorders",
+    "Form": "template-picker"
+  },
+  "workorders_templates/create": [
+    {
+      "Module": "workorders-templates",
+      "Form": "workorders-template"
+    },
+    {
+      "Module": "workorders-templates",
+      "Form": "workorders-template-step-two"
+    }
+  ],
+  "workorders_templates/step-2": {
+    "Module": "workorders-templates",
+    "Form": "workorders-template-step-two"
+  }
+}

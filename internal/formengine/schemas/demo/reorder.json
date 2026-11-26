@@ -1,0 +1,166 @@
+{
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "title": "Category",
+      "x-seam-input": "select",
+      "x-seam-help": "A select with enough options to show a search box: type to filter, Arrow keys and Enter to choose.",
+      "enum": [
+        "Electrical",
+        "Mechanical",
+        "Hydraulic",
+        "Pneumatic",
+        "HVAC",
+        "Instrumentation",
+        "Civil",
+        "Safety",
+        "Lubrication",
+        "Software"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "title": "Priority",
+      "x-seam-input": "select",
+      "x-seam-help": "A short select with an icon before each option (x-seam-option-icons): no search box, the list is driven from the keyboard directly.",
+      "x-seam-option-icons": {
+        "Low": "arrow_downward",
+        "Medium": "drag_handle",
+        "High": "priority_high"
+      },
+      "enum": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "steps": {
+      "type": "array",
+      "title": "Steps",
+      "x-seam-input": "repeatable",
+      "x-seam-reorder": true,
+      "minItems": 1,
+      "maxItems": 5,
+      "x-seam-help": "Flat field names, row layout, x-seam-reorder. Drag the grip, or focus it and press the Arrow keys: the browser posts the rows in their new order. Between 1 and 5 steps (minItems, maxItems): Remove stops at 1 and Add at 5. Status shows its icon after the text (x-seam-icon-position).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string",
+            "title": "Step",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Step"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "x-seam-input": "select",
+            "x-seam-option-icons": {
+              "Open": "radio_button_unchecked",
+              "In progress": "autorenew",
+              "Done": "check_circle"
+            },
+            "x-seam-icon-position": "right",
+            "enum": [
+              "Open",
+              "In progress",
+              "Done"
+            ]
+          }
+        }
+      }
+    },
+    "checklist": {
+      "type": "array",
+      "title": "Checklist",
+      "x-seam-input": "repeatable",
+      "x-seam-naming": "indexed",
+      "x-seam-reorder": true,
+      "minItems": 2,
+      "maxItems": 4,
+      "x-seam-help": "Indexed names: each row also posts its position, and the server rebuilds the list in that order. Between 2 and 4 rows: submit with fewer or more (the echo shows the server-side check).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task": {
+            "type": "string",
+            "title": "Task",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Task"
+          },
+          "owner_id": {
+            "type": "integer",
+            "title": "Owner",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Owner"
+          }
+        }
+      }
+    },
+    "stages": {
+      "type": "array",
+      "title": "Stages",
+      "x-seam-input": "repeatable",
+      "x-seam-reorder": true,
+      "x-seam-layout": "form",
+      "maxItems": 3,
+      "x-seam-help": "Form layout (the grip is a bar across the top of each card) with a reorderable repeatable nested inside: stages and their tasks move independently. Up to 3 stages; each stage keeps at least one task.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Stage name",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Stage name"
+          },
+          "tasks": {
+            "type": "array",
+            "title": "Tasks",
+            "x-seam-input": "repeatable",
+            "x-seam-reorder": true,
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "string",
+                  "title": "Task",
+                  "x-seam-input": "text",
+                  "x-seam-placeholder": "Task"
+                },
+                "hours": {
+                  "type": "number",
+                  "title": "Hours",
+                  "x-seam-input": "number",
+                  "x-seam-placeholder": "Hours"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "fixed": {
+      "type": "array",
+      "title": "Fixed list",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "No x-seam-reorder: no grip, rows keep their place. Reordering is opt-in.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "item": {
+            "type": "string",
+            "title": "Item",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Item"
+          }
+        }
+      }
+    }
+  }
+}

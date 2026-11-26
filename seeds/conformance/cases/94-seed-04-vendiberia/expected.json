@@ -1,0 +1,3612 @@
+{
+ "alert_types": {
+  "1": {
+   "criticality": "Media",
+   "description": "Stock bajo — canal vacío o próximo a vacío",
+   "type": "Operativa"
+  },
+  "10": {
+   "criticality": "Media",
+   "description": "Mantenimiento preventivo vencido",
+   "type": "Mantenimiento"
+  },
+  "11": {
+   "criticality": "Baja",
+   "description": "Recaudación anómala (>20% desviación de media)",
+   "type": "Operativa"
+  },
+  "12": {
+   "criticality": "Alta",
+   "description": "Vandalismo o robo reportado",
+   "type": "Seguridad"
+  },
+  "2": {
+   "criticality": "Alta",
+   "description": "Máquina fuera de servicio (>2 horas)",
+   "type": "Operativa"
+  },
+  "3": {
+   "criticality": "Media",
+   "description": "Máquina sin visita de reposición en >48 horas",
+   "type": "Operativa"
+  },
+  "4": {
+   "criticality": "Media",
+   "description": "Avería mecanismo de monedas / cambio",
+   "type": "Operativa"
+  },
+  "5": {
+   "criticality": "Alta",
+   "description": "Terminal cashless sin conexión (>1 hora)",
+   "type": "Operativa"
+  },
+  "6": {
+   "criticality": "Alta",
+   "description": "Temperatura fuera de rango — refrigeración (>8 °C)",
+   "type": "Seguridad"
+  },
+  "7": {
+   "criticality": "Media",
+   "description": "Producto próximo a caducar (48 horas)",
+   "type": "Seguridad"
+  },
+  "8": {
+   "criticality": "Alta",
+   "description": "Producto caducado en máquina",
+   "type": "Seguridad"
+  },
+  "9": {
+   "criticality": "Media",
+   "description": "Limpieza programada vencida (>7 días)",
+   "type": "Mantenimiento"
+  }
+ },
+ "alerts": {
+  "1": {
+   "alerta_id": 8,
+   "asset_id": 26,
+   "asset_name": "Comida fresca Festival — HTOL-FR01",
+   "created_at": "2027-02-13T08:00:00Z",
+   "message": "3 sándwiches mixtos caducan mañana. Retirar en próxima visita.",
+   "severity": "high",
+   "source": "seed",
+   "status": "open",
+   "title": "Producto próximo a caducidad — HTOL-FR01"
+  },
+  "2": {
+   "acknowledged_at": "2027-02-10T09:00:00Z",
+   "acknowledged_by": "hl@example.com",
+   "alerta_id": 0,
+   "asset_id": 89,
+   "asset_name": "Bebidas G-Drink DM8 — ALM-W01 (compresor)",
+   "created_at": "2027-02-09T14:00:00Z",
+   "message": "Compresor no arranca. Repuesto pedido a SandenVendo, ETA 5 días.",
+   "severity": "medium",
+   "source": "seed",
+   "status": "acknowledged",
+   "title": "Compresor averiado — ALM-W01"
+  },
+  "3": {
+   "alerta_id": 0,
+   "asset_id": 68,
+   "asset_name": "Café Phedra EVO — IES-C01 (2015)",
+   "created_at": "2027-02-12T07:00:00Z",
+   "message": "Última visita hace 4 días. Baja rotación (IES en periodo lectivo bajo).",
+   "severity": "low",
+   "source": "seed",
+   "status": "open",
+   "title": "Máquina sin visita >48h — IES-C01"
+  }
+ },
+ "asset_types": {
+  "1": {
+   "color": "#92400e",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "description": "Máquinas expendedoras de bebidas calientes: café, té, chocolate. Grano, soluble o cápsula. Azkoyen, Necta, Bianchi, Saeco.",
+   "fsm_id": 1,
+   "identity_template": {
+    "coffee_type": {
+     "label": "Tipo café (grano/soluble)",
+     "required": true,
+     "type": "text"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "water_connection": {
+     "label": "Conexión a red de agua",
+     "required": false,
+     "type": "boolean"
+    }
+   },
+   "name": "Máquina de Café",
+   "slug": "maq-cafe",
+   "state_template": {
+    "bean_level_pct": {
+     "label": "Nivel grano (%)",
+     "required": false,
+     "type": "number"
+    },
+    "cleaning_cycle_ok": {
+     "label": "Limpieza al día",
+     "required": false,
+     "type": "boolean"
+    },
+    "cup_level_pct": {
+     "label": "Nivel vasos (%)",
+     "required": false,
+     "type": "number"
+    },
+    "waste_tray": {
+     "label": "Bandeja de residuos",
+     "required": false,
+     "type": "text"
+    }
+   }
+  },
+  "2": {
+   "color": "#d97706",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "description": "Máquinas expendedoras de snacks y productos secos a temperatura ambiente. Espirales, 6–10 bandejas, 40–60 selecciones.",
+   "fsm_id": 1,
+   "identity_template": {
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "selection_count": {
+     "label": "Número de selecciones",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "tray_count": {
+     "label": "Número de bandejas",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Máquina de Snacks",
+   "slug": "maq-snacks",
+   "state_template": {
+    "coils_ok": {
+     "label": "Espirales funcionando",
+     "required": false,
+     "type": "boolean"
+    },
+    "coin_mech_ok": {
+     "label": "Monedero operativo",
+     "required": false,
+     "type": "boolean"
+    },
+    "fill_pct": {
+     "label": "Nivel llenado (%)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "3": {
+   "color": "#0284c7",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "description": "Máquinas expendedoras refrigeradas para latas y botellas. Requiere monitoreo de temperatura (APPCC).",
+   "fsm_id": 1,
+   "identity_template": {
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "refrigerant_type": {
+     "label": "Refrigerante (R290/R134a)",
+     "required": false,
+     "type": "text"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "unit_capacity": {
+     "label": "Capacidad (unidades)",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Máquina de Bebidas Frías",
+   "slug": "maq-bebidas-frias",
+   "state_template": {
+    "compressor_ok": {
+     "label": "Compresor operativo",
+     "required": false,
+     "type": "boolean"
+    },
+    "fill_pct": {
+     "label": "Nivel llenado (%)",
+     "required": false,
+     "type": "number"
+    },
+    "interior_temp_c": {
+     "label": "Temperatura interior (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "4": {
+   "color": "#7c3aed",
+   "connectivity_tiers": [
+    "qr"
+   ],
+   "description": "Máquina combinada snacks + bebidas frías en un solo módulo. Zona superior ambiente, zona inferior refrigerada.",
+   "fsm_id": 1,
+   "identity_template": {
+    "beverage_capacity": {
+     "label": "Selecciones bebidas",
+     "required": true,
+     "type": "number"
+    },
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "snack_capacity": {
+     "label": "Selecciones snacks",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Máquina Combo",
+   "slug": "maq-combo",
+   "state_template": {
+    "beverage_fill_pct": {
+     "label": "Llenado bebidas (%)",
+     "required": false,
+     "type": "number"
+    },
+    "cold_zone_temp_c": {
+     "label": "Temp. zona fría (°C)",
+     "required": false,
+     "type": "number"
+    },
+    "snack_fill_pct": {
+     "label": "Llenado snacks (%)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "5": {
+   "color": "#16a34a",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "description": "Máquina expendedora refrigerada para sándwiches, ensaladas y platos preparados. Control de temperatura y caducidad obligatorio (APPCC).",
+   "fsm_id": 1,
+   "identity_template": {
+    "manufacture_year": {
+     "label": "Año de fabricación",
+     "required": true,
+     "type": "number"
+    },
+    "refrigerant_type": {
+     "label": "Refrigerante",
+     "required": false,
+     "type": "text"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "tray_count": {
+     "label": "Número de bandejas",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Máquina de Comida Fresca",
+   "slug": "maq-comida-fresca",
+   "state_template": {
+    "expired_products": {
+     "label": "Productos vencidos",
+     "required": false,
+     "type": "number"
+    },
+    "fill_pct": {
+     "label": "Nivel llenado (%)",
+     "required": false,
+     "type": "number"
+    },
+    "interior_temp_c": {
+     "label": "Temperatura interior (°C)",
+     "required": false,
+     "type": "number"
+    },
+    "products_near_expiry": {
+     "label": "Productos próx. vencer",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "6": {
+   "color": "#4f46e5",
+   "connectivity_tiers": [
+    "gateway"
+   ],
+   "description": "Terminal de pago sin efectivo (NFC/contactless, app) instalado en máquinas expendedoras. Activo separable — se puede migrar entre máquinas.",
+   "identity_template": {
+    "firmware_version": {
+     "label": "Versión firmware",
+     "required": false,
+     "type": "text"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    },
+    "terminal_kind": {
+     "label": "Tipo (NFC/App/Mixto)",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Terminal de Pago Cashless",
+   "slug": "terminal-pago",
+   "state_template": {
+    "connected": {
+     "label": "Conectado",
+     "required": false,
+     "type": "boolean"
+    },
+    "error_code": {
+     "label": "Código de error",
+     "required": false,
+     "type": "text"
+    },
+    "last_transaction_date": {
+     "label": "Última transacción",
+     "required": false,
+     "type": "text"
+    }
+   }
+  },
+  "7": {
+   "color": "#0d9488",
+   "connectivity_tiers": [
+    "gateway"
+   ],
+   "description": "Punto de venta autoservicio abierto con cámaras/IA y kiosco de pago. Formato premium para oficinas corporativas y coworkings.",
+   "fsm_id": 1,
+   "identity_template": {
+    "chamber_count": {
+     "label": "Cámaras de vigilancia",
+     "required": true,
+     "type": "number"
+    },
+    "checkout_type": {
+     "label": "Tipo checkout",
+     "required": true,
+     "type": "text"
+    },
+    "module_count": {
+     "label": "Módulos de estantería",
+     "required": true,
+     "type": "number"
+    },
+    "serial_number": {
+     "label": "Número de serie",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Micromarket",
+   "slug": "micromarket",
+   "state_template": {
+    "cameras_ok": {
+     "label": "Cámaras operativas",
+     "required": false,
+     "type": "boolean"
+    },
+    "checkout_ok": {
+     "label": "Checkout operativo",
+     "required": false,
+     "type": "boolean"
+    },
+    "fill_pct": {
+     "label": "Nivel llenado (%)",
+     "required": false,
+     "type": "number"
+    },
+    "refrig_temp_c": {
+     "label": "Temp. refrigerado (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  }
+ },
+ "assets": {
+  "1": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 1,
+   "name": "Café Vitro S5 — TEL-C01",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "AZK-VS5-2022-0401",
+   "status": "active",
+   "tag_tecnico": "TEL-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "10": {
+   "arrival_date": "2023-09-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — TEL-S03",
+   "purchase_date": "2023-09-01",
+   "purchase_price": "6400",
+   "region_id": 1,
+   "serial_1": "JOF-VEV-2023-0901",
+   "status": "active",
+   "tag_tecnico": "TEL-S03",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "11": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — TEL-F01",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "5200",
+   "region_id": 1,
+   "serial_1": "SDV-GD8-2022-0110",
+   "status": "active",
+   "tag_tecnico": "TEL-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "12": {
+   "arrival_date": "2021-05-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 9,
+   "name": "Bebidas J Series — TEL-F02",
+   "purchase_date": "2021-05-01",
+   "purchase_price": "4800",
+   "region_id": 1,
+   "serial_1": "JOF-JSR-2021-0445",
+   "status": "active",
+   "tag_tecnico": "TEL-F02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "13": {
+   "arrival_date": "2024-06-15",
+   "brand_id": 2,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 12,
+   "name": "Comida fresca Vision Fresh — TEL-FR01",
+   "purchase_date": "2024-06-01",
+   "purchase_price": "11500",
+   "region_id": 1,
+   "serial_1": "JOF-VFR-2024-0045",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "condition_temperature",
+     "threshold": 6
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "TEL-FR01",
+   "tenure_type": "Propiedad",
+   "type_id": 5,
+   "warranty_end": "2027-06-01"
+  },
+  "14": {
+   "arrival_date": "2025-02-01",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 14,
+   "name": "Micromarket Coffinity — TEL-MM01",
+   "purchase_date": "2025-01-15",
+   "purchase_price": "22000",
+   "region_id": 1,
+   "serial_1": "AZK-CFN-2025-0012",
+   "status": "active",
+   "tag_tecnico": "TEL-MM01",
+   "tenure_type": "Propiedad",
+   "type_id": 7,
+   "warranty_end": "2028-01-15"
+  },
+  "15": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 11,
+   "name": "Combo Vision — TEL-X01",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "7800",
+   "region_id": 1,
+   "serial_1": "JOF-VCO-2022-0088",
+   "status": "active",
+   "tag_tecnico": "TEL-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "16": {
+   "arrival_date": "2016-04-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 5,
+   "name": "Café Phedra EVO — TEL-C08 (2016)",
+   "purchase_date": "2016-04-01",
+   "purchase_price": "4200",
+   "region_id": 1,
+   "serial_1": "SAE-PHE-2016-0110",
+   "status": "active",
+   "tag_tecnico": "TEL-C08",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "17": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 15,
+   "name": "Terminal Nayax — TEL-TP01",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "450",
+   "region_id": 1,
+   "serial_1": "NAY-VPT-2022-1001",
+   "status": "active",
+   "tag_tecnico": "TEL-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "18": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 15,
+   "name": "Terminal Nayax — TEL-TP02",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "450",
+   "region_id": 1,
+   "serial_1": "NAY-VPT-2022-1002",
+   "status": "active",
+   "tag_tecnico": "TEL-TP02",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "19": {
+   "arrival_date": "2024-02-10",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 16,
+   "name": "Terminal Nayax — TEL-TP03",
+   "purchase_date": "2024-02-01",
+   "purchase_price": "580",
+   "region_id": 1,
+   "serial_1": "NAY-VPF-2024-0201",
+   "status": "active",
+   "tag_tecnico": "TEL-TP03",
+   "tenure_type": "Propiedad",
+   "type_id": 6,
+   "warranty_end": "2027-02-01"
+  },
+  "2": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 1,
+   "name": "Café Vitro S5 — TEL-C02",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "AZK-VS5-2022-0402",
+   "status": "active",
+   "tag_tecnico": "TEL-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "20": {
+   "arrival_date": "2021-04-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 1,
+   "name": "Café Vitro S5 — HTOL-C01",
+   "purchase_date": "2021-04-01",
+   "purchase_price": "8500",
+   "region_id": 3,
+   "serial_1": "AZK-VS5-2021-0290",
+   "status": "active",
+   "tag_tecnico": "HTOL-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "21": {
+   "arrival_date": "2021-04-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 2,
+   "name": "Café Vitro M — HTOL-C02",
+   "purchase_date": "2021-04-01",
+   "purchase_price": "5800",
+   "region_id": 3,
+   "serial_1": "AZK-VTM-2021-0110",
+   "status": "active",
+   "tag_tecnico": "HTOL-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "22": {
+   "arrival_date": "2019-06-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 5,
+   "name": "Café Phedra EVO — HTOL-C03",
+   "purchase_date": "2019-06-01",
+   "purchase_price": "5200",
+   "region_id": 3,
+   "serial_1": "SAE-PHE-2019-0201",
+   "status": "active",
+   "tag_tecnico": "HTOL-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "23": {
+   "arrival_date": "2021-04-15",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 7,
+   "name": "Snacks Melodia — HTOL-S01",
+   "purchase_date": "2021-04-01",
+   "purchase_price": "5500",
+   "region_id": 3,
+   "serial_1": "NEC-MEL-2021-0320",
+   "status": "active",
+   "tag_tecnico": "HTOL-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "24": {
+   "arrival_date": "2019-06-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 8,
+   "name": "Snacks G-Snack — HTOL-S02",
+   "purchase_date": "2019-06-01",
+   "purchase_price": "5200",
+   "region_id": 3,
+   "serial_1": "SDV-GSN-2019-0180",
+   "status": "active",
+   "tag_tecnico": "HTOL-S02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "25": {
+   "arrival_date": "2021-04-15",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 9,
+   "name": "Bebidas J Series — HTOL-F01",
+   "purchase_date": "2021-04-01",
+   "purchase_price": "4800",
+   "region_id": 3,
+   "serial_1": "JOF-JSR-2021-0501",
+   "status": "active",
+   "tag_tecnico": "HTOL-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "26": {
+   "arrival_date": "2023-03-15",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 13,
+   "name": "Comida fresca Festival — HTOL-FR01",
+   "purchase_date": "2023-03-01",
+   "purchase_price": "10500",
+   "region_id": 3,
+   "serial_1": "NEC-FES-2023-0055",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "condition_temperature",
+     "threshold": 6
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "HTOL-FR01",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "27": {
+   "arrival_date": "2021-04-15",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 11,
+   "name": "Combo Vision — HTOL-X01",
+   "purchase_date": "2021-04-01",
+   "purchase_price": "7200",
+   "region_id": 3,
+   "serial_1": "JOF-VCO-2021-0120",
+   "status": "active",
+   "tag_tecnico": "HTOL-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "28": {
+   "arrival_date": "2021-04-15",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 15,
+   "name": "Terminal Nayax — HTOL-TP01",
+   "purchase_date": "2021-04-01",
+   "purchase_price": "420",
+   "region_id": 3,
+   "serial_1": "NAY-VPT-2021-0501",
+   "status": "active",
+   "tag_tecnico": "HTOL-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "29": {
+   "arrival_date": "2023-03-15",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 3,
+   "model_id": 15,
+   "name": "Terminal Nayax — HTOL-TP02",
+   "purchase_date": "2023-03-01",
+   "purchase_price": "450",
+   "region_id": 3,
+   "serial_1": "NAY-VPT-2023-0301",
+   "status": "active",
+   "tag_tecnico": "HTOL-TP02",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "3": {
+   "arrival_date": "2023-06-10",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 3,
+   "name": "Café Krea Touch — TEL-C03",
+   "purchase_date": "2023-06-01",
+   "purchase_price": "9200",
+   "region_id": 1,
+   "serial_1": "NEC-KRT-2023-1100",
+   "status": "active",
+   "tag_tecnico": "TEL-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2026-06-01"
+  },
+  "30": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 1,
+   "name": "Café Vitro S5 — UC3M-C01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "7800",
+   "region_id": 2,
+   "serial_1": "AZK-VS5-2020-0180",
+   "status": "active",
+   "tag_tecnico": "UC3M-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "31": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 2,
+   "name": "Café Vitro M — UC3M-C02",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "5500",
+   "region_id": 2,
+   "serial_1": "AZK-VTM-2020-0055",
+   "status": "active",
+   "tag_tecnico": "UC3M-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "32": {
+   "arrival_date": "2022-02-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 5,
+   "name": "Café Phedra EVO — UC3M-C03",
+   "purchase_date": "2022-02-01",
+   "purchase_price": "5500",
+   "region_id": 2,
+   "serial_1": "SAE-PHE-2022-0440",
+   "status": "active",
+   "tag_tecnico": "UC3M-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "33": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — UC3M-S01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "5800",
+   "region_id": 2,
+   "serial_1": "JOF-VEV-2020-0390",
+   "status": "active",
+   "tag_tecnico": "UC3M-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "34": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 8,
+   "name": "Snacks G-Snack — UC3M-S02",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "5400",
+   "region_id": 2,
+   "serial_1": "SDV-GSN-2020-0310",
+   "status": "active",
+   "tag_tecnico": "UC3M-S02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "35": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — UC3M-F01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "4600",
+   "region_id": 2,
+   "serial_1": "SDV-GD8-2020-0150",
+   "status": "active",
+   "tag_tecnico": "UC3M-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "36": {
+   "arrival_date": "2022-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 9,
+   "name": "Bebidas J Series — UC3M-F02",
+   "purchase_date": "2022-02-01",
+   "purchase_price": "4800",
+   "region_id": 2,
+   "serial_1": "JOF-JSR-2022-0610",
+   "status": "active",
+   "tag_tecnico": "UC3M-F02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "37": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 11,
+   "name": "Combo Vision — UC3M-X01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "7000",
+   "region_id": 2,
+   "serial_1": "JOF-VCO-2020-0201",
+   "status": "active",
+   "tag_tecnico": "UC3M-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "38": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 15,
+   "name": "Terminal Nayax — UC3M-TP01",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "400",
+   "region_id": 2,
+   "serial_1": "NAY-VPT-2020-0801",
+   "status": "active",
+   "tag_tecnico": "UC3M-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "39": {
+   "arrival_date": "2022-02-10",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 15,
+   "name": "Terminal Nayax — UC3M-TP02",
+   "purchase_date": "2022-02-01",
+   "purchase_price": "420",
+   "region_id": 2,
+   "serial_1": "NAY-VPT-2022-0201",
+   "status": "active",
+   "tag_tecnico": "UC3M-TP02",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "4": {
+   "arrival_date": "2023-06-10",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 3,
+   "name": "Café Krea Touch — TEL-C04",
+   "purchase_date": "2023-06-01",
+   "purchase_price": "9200",
+   "region_id": 1,
+   "serial_1": "NEC-KRT-2023-1101",
+   "status": "active",
+   "tag_tecnico": "TEL-C04",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2026-06-01"
+  },
+  "40": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 1,
+   "name": "Café Vitro S5 — ATOC-C01",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "AZK-VS5-2023-0601",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "time_days",
+     "threshold": 1
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "ATOC-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "41": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 3,
+   "name": "Café Krea Touch — ATOC-C02",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "9200",
+   "region_id": 1,
+   "serial_1": "NEC-KRT-2023-1200",
+   "status": "active",
+   "tag_tecnico": "ATOC-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "42": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — ATOC-S01",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "6400",
+   "region_id": 1,
+   "serial_1": "JOF-VEV-2023-0950",
+   "status": "active",
+   "tag_tecnico": "ATOC-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "43": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 7,
+   "name": "Snacks Melodia — ATOC-S02",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "5800",
+   "region_id": 1,
+   "serial_1": "NEC-MEL-2023-0450",
+   "status": "active",
+   "tag_tecnico": "ATOC-S02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "44": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — ATOC-F01",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "5200",
+   "region_id": 1,
+   "serial_1": "SDV-GD8-2023-0301",
+   "status": "active",
+   "tag_tecnico": "ATOC-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "45": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 9,
+   "name": "Bebidas J Series — ATOC-F02",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "4800",
+   "region_id": 1,
+   "serial_1": "JOF-JSR-2023-0710",
+   "status": "active",
+   "tag_tecnico": "ATOC-F02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "46": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 11,
+   "name": "Combo Vision — ATOC-X01",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "7800",
+   "region_id": 1,
+   "serial_1": "JOF-VCO-2023-0301",
+   "status": "active",
+   "tag_tecnico": "ATOC-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "47": {
+   "arrival_date": "2023-01-25",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 5,
+   "location_id": 5,
+   "model_id": 16,
+   "name": "Terminal Nayax — ATOC-TP01",
+   "purchase_date": "2023-01-15",
+   "purchase_price": "580",
+   "region_id": 1,
+   "serial_1": "NAY-VPF-2023-0101",
+   "status": "active",
+   "tag_tecnico": "ATOC-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "48": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 6,
+   "model_id": 1,
+   "name": "Café Vitro S5 — ILLE-C01",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "7500",
+   "region_id": 3,
+   "serial_1": "AZK-VS5-2019-0110",
+   "status": "active",
+   "tag_tecnico": "ILLE-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "49": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 6,
+   "model_id": 2,
+   "name": "Café Vitro M — ILLE-C02",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "5200",
+   "region_id": 3,
+   "serial_1": "AZK-VTM-2019-0045",
+   "status": "active",
+   "tag_tecnico": "ILLE-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "5": {
+   "arrival_date": "2021-01-25",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 4,
+   "name": "Café LEI 700 Plus — TEL-C05",
+   "purchase_date": "2021-01-15",
+   "purchase_price": "7800",
+   "region_id": 1,
+   "serial_1": "BIA-L700-2021-0088",
+   "status": "active",
+   "tag_tecnico": "TEL-C05",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "50": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 6,
+   "model_id": 8,
+   "name": "Snacks G-Snack — ILLE-S01",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "5200",
+   "region_id": 3,
+   "serial_1": "SDV-GSN-2019-0190",
+   "status": "active",
+   "tag_tecnico": "ILLE-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "51": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 6,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — ILLE-F01",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "4200",
+   "region_id": 3,
+   "serial_1": "SDV-GD8-2019-0080",
+   "status": "active",
+   "tag_tecnico": "ILLE-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "52": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 6,
+   "model_id": 11,
+   "name": "Combo Vision — ILLE-X01",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "6800",
+   "region_id": 3,
+   "serial_1": "JOF-VCO-2019-0090",
+   "status": "active",
+   "tag_tecnico": "ILLE-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "53": {
+   "arrival_date": "2019-03-10",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 6,
+   "location_id": 6,
+   "model_id": 15,
+   "name": "Terminal Nayax — ILLE-TP01",
+   "purchase_date": "2019-03-01",
+   "purchase_price": "380",
+   "region_id": 3,
+   "serial_1": "NAY-VPT-2019-0301",
+   "status": "active",
+   "tag_tecnico": "ILLE-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "54": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 3,
+   "name": "Café Krea Touch — DEL-C01",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "9500",
+   "region_id": 1,
+   "serial_1": "NEC-KRT-2024-0301",
+   "status": "active",
+   "tag_tecnico": "DEL-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-03-01"
+  },
+  "55": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 4,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 4,
+   "name": "Café LEI 700 Plus — DEL-C02",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "8200",
+   "region_id": 1,
+   "serial_1": "BIA-L700-2024-0190",
+   "status": "active",
+   "tag_tecnico": "DEL-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-03-01"
+  },
+  "56": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 2,
+   "name": "Café Vitro M — DEL-C03",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "5800",
+   "region_id": 1,
+   "serial_1": "AZK-VTM-2024-0220",
+   "status": "active",
+   "tag_tecnico": "DEL-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-03-01"
+  },
+  "57": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 7,
+   "name": "Snacks Melodia — DEL-S01",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "6000",
+   "region_id": 1,
+   "serial_1": "NEC-MEL-2024-0510",
+   "status": "active",
+   "tag_tecnico": "DEL-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "58": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — DEL-F01",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "5400",
+   "region_id": 1,
+   "serial_1": "SDV-GD8-2024-0401",
+   "status": "active",
+   "tag_tecnico": "DEL-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "59": {
+   "arrival_date": "2024-06-15",
+   "brand_id": 2,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 12,
+   "name": "Comida fresca Vision Fresh — DEL-FR01",
+   "purchase_date": "2024-06-01",
+   "purchase_price": "11500",
+   "region_id": 1,
+   "serial_1": "JOF-VFR-2024-0090",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "condition_temperature",
+     "threshold": 6
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "DEL-FR01",
+   "tenure_type": "Propiedad",
+   "type_id": 5,
+   "warranty_end": "2027-06-01"
+  },
+  "6": {
+   "arrival_date": "2020-09-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 5,
+   "name": "Café Phedra EVO — TEL-C06",
+   "purchase_date": "2020-09-01",
+   "purchase_price": "5500",
+   "region_id": 1,
+   "serial_1": "SAE-PHE-2020-0334",
+   "status": "active",
+   "tag_tecnico": "TEL-C06",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "60": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 11,
+   "name": "Combo Vision — DEL-X01",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "7800",
+   "region_id": 1,
+   "serial_1": "JOF-VCO-2024-0401",
+   "status": "active",
+   "tag_tecnico": "DEL-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "61": {
+   "arrival_date": "2025-02-15",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 14,
+   "name": "Micromarket Coffinity — DEL-MM01",
+   "purchase_date": "2025-02-01",
+   "purchase_price": "24000",
+   "region_id": 1,
+   "serial_1": "AZK-CFN-2025-0035",
+   "status": "active",
+   "tag_tecnico": "DEL-MM01",
+   "tenure_type": "Propiedad",
+   "type_id": 7,
+   "warranty_end": "2028-02-01"
+  },
+  "62": {
+   "arrival_date": "2024-03-15",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 7,
+   "location_id": 7,
+   "model_id": 16,
+   "name": "Terminal Nayax — DEL-TP01",
+   "purchase_date": "2024-03-01",
+   "purchase_price": "580",
+   "region_id": 1,
+   "serial_1": "NAY-VPF-2024-0301",
+   "status": "active",
+   "tag_tecnico": "DEL-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "63": {
+   "arrival_date": "2021-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 8,
+   "model_id": 1,
+   "name": "Café Vitro S5 — ACC-C01",
+   "purchase_date": "2021-09-01",
+   "purchase_price": "8200",
+   "region_id": 1,
+   "serial_1": "AZK-VS5-2021-0310",
+   "status": "active",
+   "tag_tecnico": "ACC-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "64": {
+   "arrival_date": "2021-09-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 8,
+   "model_id": 2,
+   "name": "Café Vitro M — ACC-C02",
+   "purchase_date": "2021-09-01",
+   "purchase_price": "5500",
+   "region_id": 1,
+   "serial_1": "AZK-VTM-2021-0130",
+   "status": "active",
+   "tag_tecnico": "ACC-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "65": {
+   "arrival_date": "2021-09-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 8,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — ACC-S01",
+   "purchase_date": "2021-09-01",
+   "purchase_price": "6000",
+   "region_id": 1,
+   "serial_1": "JOF-VEV-2021-0610",
+   "status": "active",
+   "tag_tecnico": "ACC-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "66": {
+   "arrival_date": "2021-09-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 8,
+   "model_id": 9,
+   "name": "Bebidas J Series — ACC-F01",
+   "purchase_date": "2021-09-01",
+   "purchase_price": "4800",
+   "region_id": 1,
+   "serial_1": "JOF-JSR-2021-0580",
+   "status": "active",
+   "tag_tecnico": "ACC-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "67": {
+   "arrival_date": "2021-09-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 8,
+   "location_id": 8,
+   "model_id": 11,
+   "name": "Combo Vision — ACC-X01",
+   "purchase_date": "2021-09-01",
+   "purchase_price": "7000",
+   "region_id": 1,
+   "serial_1": "JOF-VCO-2021-0180",
+   "status": "active",
+   "tag_tecnico": "ACC-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "68": {
+   "arrival_date": "2015-09-10",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 9,
+   "location_id": 9,
+   "model_id": 5,
+   "name": "Café Phedra EVO — IES-C01 (2015)",
+   "purchase_date": "2015-09-01",
+   "purchase_price": "3800",
+   "region_id": 2,
+   "serial_1": "SAE-PHE-2015-0090",
+   "status": "active",
+   "tag_tecnico": "IES-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "69": {
+   "arrival_date": "2016-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 9,
+   "location_id": 9,
+   "model_id": 11,
+   "name": "Combo Vision — IES-X01 (2016)",
+   "purchase_date": "2016-02-01",
+   "purchase_price": "5500",
+   "region_id": 2,
+   "serial_1": "JOF-VCO-2016-0045",
+   "status": "active",
+   "tag_tecnico": "IES-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "7": {
+   "arrival_date": "2024-02-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 2,
+   "name": "Café Vitro M — TEL-C07",
+   "purchase_date": "2024-02-01",
+   "purchase_price": "5800",
+   "region_id": 1,
+   "serial_1": "AZK-VTM-2024-0190",
+   "status": "active",
+   "tag_tecnico": "TEL-C07",
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-02-01"
+  },
+  "70": {
+   "arrival_date": "2017-01-25",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 9,
+   "location_id": 9,
+   "model_id": 9,
+   "name": "Bebidas J Series — IES-F01 (2017)",
+   "purchase_date": "2017-01-15",
+   "purchase_price": "3500",
+   "region_id": 2,
+   "serial_1": "JOF-JSR-2017-0190",
+   "status": "active",
+   "tag_tecnico": "IES-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "71": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 1,
+   "name": "Café Vitro S5 — XAN-C01",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "8500",
+   "region_id": 2,
+   "serial_1": "AZK-VS5-2022-0510",
+   "status": "active",
+   "tag_tecnico": "XAN-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "72": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 4,
+   "name": "Café LEI 700 Plus — XAN-C02",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "7800",
+   "region_id": 2,
+   "serial_1": "BIA-L700-2022-0210",
+   "status": "active",
+   "tag_tecnico": "XAN-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "73": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 2,
+   "name": "Café Vitro M — XAN-C03",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "5500",
+   "region_id": 2,
+   "serial_1": "AZK-VTM-2022-0190",
+   "status": "active",
+   "tag_tecnico": "XAN-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "74": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — XAN-S01",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "6200",
+   "region_id": 2,
+   "serial_1": "JOF-VEV-2022-0801",
+   "status": "active",
+   "tag_tecnico": "XAN-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "75": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 8,
+   "name": "Snacks G-Snack — XAN-S02",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "5800",
+   "region_id": 2,
+   "serial_1": "SDV-GSN-2022-0250",
+   "status": "active",
+   "tag_tecnico": "XAN-S02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "76": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — XAN-F01",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "5200",
+   "region_id": 2,
+   "serial_1": "SDV-GD8-2022-0180",
+   "status": "active",
+   "tag_tecnico": "XAN-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "77": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 9,
+   "name": "Bebidas J Series — XAN-F02",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "4800",
+   "region_id": 2,
+   "serial_1": "JOF-JSR-2022-0650",
+   "status": "active",
+   "tag_tecnico": "XAN-F02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "78": {
+   "arrival_date": "2024-01-25",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 13,
+   "name": "Comida fresca Festival — XAN-FR01",
+   "purchase_date": "2024-01-15",
+   "purchase_price": "10500",
+   "region_id": 2,
+   "serial_1": "NEC-FES-2024-0110",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "condition_temperature",
+     "threshold": 6
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "XAN-FR01",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "79": {
+   "arrival_date": "2022-06-10",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 10,
+   "location_id": 10,
+   "model_id": 15,
+   "name": "Terminal Nayax — XAN-TP01",
+   "purchase_date": "2022-06-01",
+   "purchase_price": "440",
+   "region_id": 2,
+   "serial_1": "NAY-VPT-2022-0601",
+   "status": "active",
+   "tag_tecnico": "XAN-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "8": {
+   "arrival_date": "2021-05-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — TEL-S01",
+   "purchase_date": "2021-05-01",
+   "purchase_price": "6200",
+   "region_id": 1,
+   "serial_1": "JOF-VEV-2021-0560",
+   "status": "active",
+   "tag_tecnico": "TEL-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "80": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 1,
+   "name": "Café Vitro S5 — HPH-C01",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "8500",
+   "region_id": 1,
+   "serial_1": "AZK-VS5-2023-0710",
+   "status": "active",
+   "tag_tecnico": "HPH-C01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "81": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 2,
+   "name": "Café Vitro M — HPH-C02",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "5800",
+   "region_id": 1,
+   "serial_1": "AZK-VTM-2023-0290",
+   "status": "active",
+   "tag_tecnico": "HPH-C02",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "82": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 4,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 4,
+   "name": "Café LEI 700 Plus — HPH-C03",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "7800",
+   "region_id": 1,
+   "serial_1": "BIA-L700-2023-0330",
+   "status": "active",
+   "tag_tecnico": "HPH-C03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "83": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 7,
+   "name": "Snacks Melodia — HPH-S01",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "5800",
+   "region_id": 1,
+   "serial_1": "NEC-MEL-2023-0520",
+   "status": "active",
+   "tag_tecnico": "HPH-S01",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "84": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — HPH-F01",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "5200",
+   "region_id": 1,
+   "serial_1": "SDV-GD8-2023-0350",
+   "status": "active",
+   "tag_tecnico": "HPH-F01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "85": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 9,
+   "name": "Bebidas J Series — HPH-F02",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "4800",
+   "region_id": 1,
+   "serial_1": "JOF-JSR-2023-0750",
+   "status": "active",
+   "tag_tecnico": "HPH-F02",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "86": {
+   "arrival_date": "2024-01-25",
+   "brand_id": 2,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 12,
+   "name": "Comida fresca Vision Fresh — HPH-FR01",
+   "purchase_date": "2024-01-15",
+   "purchase_price": "11500",
+   "region_id": 1,
+   "serial_1": "JOF-VFR-2024-0120",
+   "service_configs": [
+    {
+     "alert_id": 0,
+     "measure": "condition_temperature",
+     "threshold": 6
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "HPH-FR01",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "87": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 11,
+   "name": "Combo Vision — HPH-X01",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "7200",
+   "region_id": 1,
+   "serial_1": "JOF-VCO-2023-0350",
+   "status": "active",
+   "tag_tecnico": "HPH-X01",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "88": {
+   "arrival_date": "2023-04-15",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 11,
+   "location_id": 11,
+   "model_id": 15,
+   "name": "Terminal Nayax — HPH-TP01",
+   "purchase_date": "2023-04-01",
+   "purchase_price": "450",
+   "region_id": 1,
+   "serial_1": "NAY-VPT-2023-0401",
+   "status": "active",
+   "tag_tecnico": "HPH-TP01",
+   "tenure_type": "Propiedad",
+   "type_id": 6
+  },
+  "89": {
+   "arrival_date": "2018-06-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 10,
+   "name": "Bebidas G-Drink DM8 — ALM-W01 (compresor)",
+   "purchase_date": "2018-06-01",
+   "purchase_price": "4000",
+   "region_id": 2,
+   "serial_1": "SDV-GD8-2018-0045",
+   "status": "maintenance",
+   "tag_tecnico": "ALM-W01",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "9": {
+   "arrival_date": "2022-03-15",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 1,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "location_id": 2,
+   "model_id": 8,
+   "name": "Snacks G-Snack — TEL-S02",
+   "purchase_date": "2022-03-01",
+   "purchase_price": "5800",
+   "region_id": 1,
+   "serial_1": "SDV-GSN-2022-0220",
+   "status": "active",
+   "tag_tecnico": "TEL-S02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "90": {
+   "arrival_date": "2017-04-10",
+   "brand_id": 5,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 8,
+   "name": "Snacks G-Snack — ALM-W02 (monedero)",
+   "purchase_date": "2017-04-01",
+   "purchase_price": "4800",
+   "region_id": 2,
+   "serial_1": "SDV-GSN-2017-0090",
+   "status": "maintenance",
+   "tag_tecnico": "ALM-W02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "91": {
+   "arrival_date": "2020-03-10",
+   "brand_id": 3,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 3,
+   "name": "Café Krea Touch — ALM-W03 (pantalla)",
+   "purchase_date": "2020-03-01",
+   "purchase_price": "8500",
+   "region_id": 2,
+   "serial_1": "NEC-KRT-2020-0450",
+   "status": "maintenance",
+   "tag_tecnico": "ALM-W03",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "92": {
+   "arrival_date": "2014-01-25",
+   "brand_id": 6,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Baja",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "decommission_date": "2025-09-01",
+   "decommission_reason": "Desguace",
+   "location_id": 1,
+   "model_id": 5,
+   "name": "Café Phedra EVO — ALM-R01 (retirada)",
+   "purchase_date": "2014-01-15",
+   "purchase_price": "3500",
+   "region_id": 2,
+   "serial_1": "SAE-PHE-2014-0033",
+   "status": "inactive",
+   "tag_tecnico": "ALM-R01",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "93": {
+   "arrival_date": "2019-02-10",
+   "brand_id": 2,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "decommission_reason": "Robo",
+   "location_id": 1,
+   "model_id": 6,
+   "name": "Snacks Vision EVO — ALM-R02 (robada)",
+   "purchase_date": "2019-02-01",
+   "purchase_price": "5800",
+   "region_id": 2,
+   "serial_1": "JOF-VEV-2019-0330",
+   "status": "lost",
+   "tag_tecnico": "ALM-R02",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "94": {
+   "arrival_date": "2025-03-10",
+   "brand_id": 1,
+   "connectivity_tier": "qr_only",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 14,
+   "name": "Micromarket Coffinity — ALM-W04 (demo)",
+   "purchase_date": "2025-03-01",
+   "region_id": 2,
+   "serial_1": "AZK-CFN-2025-DEMO",
+   "status": "maintenance",
+   "tag_tecnico": "ALM-W04",
+   "tenure_type": "Alquiler",
+   "type_id": 7
+  }
+ },
+ "brands": {
+  "1": {
+   "code": "AZK",
+   "name": "Azkoyen"
+  },
+  "2": {
+   "code": "JOF",
+   "name": "Jofemar"
+  },
+  "3": {
+   "code": "NEC",
+   "name": "Necta"
+  },
+  "4": {
+   "code": "BIA",
+   "name": "Bianchi"
+  },
+  "5": {
+   "code": "SDV",
+   "name": "SandenVendo"
+  },
+  "6": {
+   "code": "SAE",
+   "name": "Saeco"
+  },
+  "7": {
+   "code": "NAY",
+   "name": "Nayax"
+  },
+  "8": {
+   "code": "CSL",
+   "name": "Caslab"
+  }
+ },
+ "cost_centers": {
+  "1": {
+   "accounting_code": "RTA-MC",
+   "name": "Ruta Madrid Centro"
+  },
+  "2": {
+   "accounting_code": "RTA-MS",
+   "name": "Ruta Madrid Sur — Toledo"
+  },
+  "3": {
+   "accounting_code": "SAT-001",
+   "name": "Servicio Técnico (SAT)"
+  },
+  "4": {
+   "accounting_code": "ALM-001",
+   "name": "Almacén y Logística"
+  },
+  "5": {
+   "accounting_code": "ADM-001",
+   "name": "Administración"
+  }
+ },
+ "currencies": {
+  "1": {
+   "iso_code": "EUR",
+   "symbol": "€"
+  }
+ },
+ "custodians": {
+  "1": {
+   "active": true,
+   "address": "Pol. Ind. Villaverde, C/ del Vending 12, Madrid",
+   "alias": "VendiBeria",
+   "email": "admin@vendiberia.es",
+   "legal_name": "VendiBeria S.L.",
+   "phone": "+34 91 345 67 89",
+   "subject_type": "RUT",
+   "tax_id": "B84321567"
+  },
+  "10": {
+   "active": true,
+   "address": "Autovía A-5, km 23.5, Arroyomolinos",
+   "alias": "Xanadú",
+   "email": "gerencia@xanadu.es",
+   "legal_name": "Xanadú Arrivals S.A.",
+   "phone": "+34 91 648 90 00",
+   "subject_type": "RUT",
+   "tax_id": "A82345678"
+  },
+  "11": {
+   "active": true,
+   "address": "C/ Joaquín Rodrigo 2, Majadahonda",
+   "alias": "H. Puerta Hierro",
+   "email": "mantenimiento.hpth@salud.madrid.org",
+   "legal_name": "SERMAS — Hospital Puerta de Hierro Majadahonda",
+   "phone": "+34 91 191 60 00",
+   "subject_type": "RUT",
+   "tax_id": "Q2800013A"
+  },
+  "2": {
+   "active": true,
+   "address": "Distrito Telefónica, Ronda de la Comunicación s/n, Madrid",
+   "alias": "Telefónica",
+   "email": "servicios.generales@telefonica.com",
+   "legal_name": "Telefónica S.A.",
+   "phone": "+34 91 482 30 00",
+   "subject_type": "RUT",
+   "tax_id": "A28015865"
+  },
+  "3": {
+   "active": true,
+   "address": "Av. de Barber 30, Toledo",
+   "alias": "H. Toledo",
+   "email": "mantenimiento@sescam.jccm.es",
+   "legal_name": "SESCAM — Hospital de Toledo",
+   "phone": "+34 925 26 92 00",
+   "subject_type": "RUT",
+   "tax_id": "S45000011"
+  },
+  "4": {
+   "active": true,
+   "address": "C/ Madrid 126, Getafe",
+   "alias": "UC3M",
+   "email": "campus.getafe@uc3m.es",
+   "legal_name": "Universidad Carlos III de Madrid",
+   "phone": "+34 91 624 95 00",
+   "subject_type": "RUT",
+   "tax_id": "Q2818029D"
+  },
+  "5": {
+   "active": true,
+   "address": "Estación Madrid-Puerta de Atocha, Madrid",
+   "alias": "ADIF",
+   "email": "estaciones@adif.es",
+   "legal_name": "ADIF Alta Velocidad",
+   "phone": "+34 91 774 40 00",
+   "subject_type": "RUT",
+   "tax_id": "Q2801660G"
+  },
+  "6": {
+   "active": true,
+   "address": "Av. de la Industria s/n, Illescas, Toledo",
+   "alias": "Pol. Illescas",
+   "email": "gerencia@poligonoillescas.es",
+   "legal_name": "Gestión Polígono Illescas S.L.",
+   "phone": "+34 925 51 12 00",
+   "subject_type": "RUT",
+   "tax_id": "B45678901"
+  },
+  "7": {
+   "active": true,
+   "address": "Paseo de la Castellana 36-38, Madrid",
+   "alias": "Deloitte",
+   "email": "facilities.madrid@deloitte.es",
+   "legal_name": "Deloitte España S.L.U.",
+   "phone": "+34 91 514 50 00",
+   "subject_type": "RUT",
+   "tax_id": "B79104469"
+  },
+  "8": {
+   "active": true,
+   "address": "Av. de Europa 18, Alcobendas",
+   "alias": "Acciona",
+   "email": "servicios.sede@acciona.com",
+   "legal_name": "Acciona S.A.",
+   "phone": "+34 91 663 28 50",
+   "subject_type": "RUT",
+   "tax_id": "A08001851"
+  },
+  "9": {
+   "active": true,
+   "address": "C/ de los Colegios 4, Alcalá de Henares",
+   "alias": "IES Cervantes",
+   "email": "ies.cervantes@educa.madrid.org",
+   "legal_name": "IES Miguel de Cervantes — Alcalá de Henares",
+   "phone": "+34 91 880 23 45",
+   "subject_type": "RUT",
+   "tax_id": "S2800186A"
+  }
+ },
+ "events": {
+  "1": {
+   "asset_id": 1,
+   "timestamp": "2027-02-13T08:15:00Z",
+   "trigger_type": "qr_scan",
+   "value": {
+    "beans_refilled_kg": 2.5,
+    "cleaning": true,
+    "cups_refilled": 200,
+    "restocker": "Carlos Martínez",
+    "visit": "reposicion"
+   }
+  },
+  "2": {
+   "asset_id": 8,
+   "timestamp": "2027-02-13T08:25:00Z",
+   "trigger_type": "qr_scan",
+   "value": {
+    "products_removed_expired": 0,
+    "restocker": "Carlos Martínez",
+    "trays_refilled": 4,
+    "visit": "reposicion"
+   }
+  },
+  "3": {
+   "sensor_id": 3,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "bean_level_pct": 60,
+    "boiler_temp_c": 92,
+    "collection_eur": 217.5,
+    "cups_remaining": 120,
+    "ventas_24h": 145
+   }
+  },
+  "4": {
+   "sensor_id": 7,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "humidity_pct": 65,
+    "status": "normal",
+    "temp_c": 4.2
+   }
+  },
+  "5": {
+   "sensor_id": 8,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "humidity_pct": 62,
+    "status": "normal",
+    "temp_c": 3.8
+   }
+  },
+  "6": {
+   "sensor_id": 5,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "bean_level_pct": 25,
+    "collection_eur": 420,
+    "cups_remaining": 45,
+    "stock_alert": true,
+    "ventas_24h": 280
+   }
+  },
+  "7": {
+   "asset_id": 48,
+   "timestamp": "2027-02-12T16:00:00Z",
+   "trigger_type": "custom_driver",
+   "value": {
+    "bills_eur": 0,
+    "coins_eur": 185.4,
+    "collector": "Ana García",
+    "operation": "recaudacion"
+   }
+  },
+  "8": {
+   "asset_id": 91,
+   "timestamp": "2027-02-11T10:00:00Z",
+   "trigger_type": "custom_driver",
+   "value": {
+    "component": "pantalla_tactil",
+    "diagnosis": "Digitalizador dañado, reemplazo completo",
+    "operation": "reparacion",
+    "status": "en_curso",
+    "technician": "Miguel Ángel López"
+   }
+  },
+  "9": {
+   "sensor_id": 6,
+   "timestamp": "2027-02-14T06:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "products_near_expiry": 3,
+    "status": "atencion_caducidad",
+    "temp_c": 4.5,
+    "ventas_24h": 32
+   }
+  }
+ },
+ "fsm_machines": {
+  "1": {
+   "description": "Estados operativos de una máquina expendedora en campo",
+   "name": "Estado Operativo — Máquina Vending",
+   "states": [
+    {
+     "color": "#10b981",
+     "is_initial": true,
+     "label": "Operativa",
+     "name": "operativa",
+     "transitions": [
+      {
+       "condition": {
+        "field": "fill_pct",
+        "threshold": 20,
+        "type": "value_lt"
+       },
+       "priority": 50,
+       "to": "stock_bajo"
+      },
+      {
+       "condition": {
+        "field": "temp_interior_c",
+        "threshold": 8,
+        "type": "value_gt"
+       },
+       "priority": 90,
+       "to": "alarma_temperatura"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "fuera_de_servicio"
+      }
+     ]
+    },
+    {
+     "color": "#f59e0b",
+     "label": "Stock bajo",
+     "name": "stock_bajo",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "qr_scan",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "operativa"
+      },
+      {
+       "condition": {
+        "field": "fill_pct",
+        "threshold": 5,
+        "type": "value_lt"
+       },
+       "priority": 70,
+       "to": "sin_stock"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "fuera_de_servicio"
+      }
+     ]
+    },
+    {
+     "color": "#ef4444",
+     "label": "Sin stock",
+     "name": "sin_stock",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "qr_scan",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "operativa"
+      }
+     ]
+    },
+    {
+     "color": "#dc2626",
+     "label": "Alarma temperatura",
+     "name": "alarma_temperatura",
+     "transitions": [
+      {
+       "condition": {
+        "field": "temp_interior_c",
+        "threshold": 6,
+        "type": "value_lt"
+       },
+       "priority": 50,
+       "to": "operativa"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "fuera_de_servicio"
+      }
+     ]
+    },
+    {
+     "color": "#6b7280",
+     "label": "Fuera de servicio",
+     "name": "fuera_de_servicio",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "en_reparacion"
+      }
+     ]
+    },
+    {
+     "color": "#3b82f6",
+     "label": "En reparación",
+     "name": "en_reparacion",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "operativa"
+      }
+     ]
+    }
+   ]
+  },
+  "2": {
+   "description": "Ciclo de vida largo de una máquina expendedora",
+   "name": "Ciclo de Vida — Máquina",
+   "states": [
+    {
+     "color": "#10b981",
+     "is_initial": true,
+     "label": "En servicio",
+     "name": "en_servicio",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "mantenimiento_mayor"
+      },
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 30,
+       "to": "retirada"
+      }
+     ]
+    },
+    {
+     "color": "#f59e0b",
+     "label": "Mantenimiento mayor",
+     "name": "mantenimiento_mayor",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "en_servicio"
+      },
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 30,
+       "to": "retirada"
+      }
+     ]
+    },
+    {
+     "color": "#6b7280",
+     "is_final": true,
+     "label": "Retirada / dada de baja",
+     "name": "retirada",
+     "transitions": []
+    }
+   ]
+  }
+ },
+ "locations": {
+  "1": {
+   "description": "Almacén VendiBeria — Villaverde",
+   "region_id": 2,
+   "short_name": "ALM-VBI"
+  },
+  "10": {
+   "description": "Centro Comercial Xanadú — Arroyomolinos",
+   "region_id": 2,
+   "short_name": "XAN"
+  },
+  "11": {
+   "description": "Hospital Puerta de Hierro — Majadahonda",
+   "region_id": 1,
+   "short_name": "HPH"
+  },
+  "2": {
+   "description": "Telefónica — Distrito C, Ronda Comunicación",
+   "region_id": 1,
+   "short_name": "TEL-DC"
+  },
+  "3": {
+   "description": "Hospital Universitario de Toledo",
+   "region_id": 3,
+   "short_name": "HTOL"
+  },
+  "4": {
+   "description": "Universidad Carlos III — Campus Getafe",
+   "region_id": 2,
+   "short_name": "UC3M-GET"
+  },
+  "5": {
+   "description": "Estación Renfe Madrid-Puerta de Atocha",
+   "region_id": 1,
+   "short_name": "ATOC"
+  },
+  "6": {
+   "description": "Parque Industrial Illescas — Nave central",
+   "region_id": 3,
+   "short_name": "ILLE"
+  },
+  "7": {
+   "description": "Deloitte — Paseo de la Castellana 36",
+   "region_id": 1,
+   "short_name": "DEL-CAST"
+  },
+  "8": {
+   "description": "Sede Acciona — Alcobendas",
+   "region_id": 1,
+   "short_name": "ACC-ALC"
+  },
+  "9": {
+   "description": "IES Miguel de Cervantes — Alcalá de Henares",
+   "region_id": 2,
+   "short_name": "IES-CERV"
+  }
+ },
+ "models": {
+  "1": {
+   "brand_id": 1,
+   "name": "Vitro S5"
+  },
+  "10": {
+   "brand_id": 5,
+   "name": "G-Drink DM8"
+  },
+  "11": {
+   "brand_id": 2,
+   "name": "Vision Combo"
+  },
+  "12": {
+   "brand_id": 2,
+   "name": "Vision Fresh"
+  },
+  "13": {
+   "brand_id": 3,
+   "name": "Festival"
+  },
+  "14": {
+   "brand_id": 1,
+   "name": "Coffinity"
+  },
+  "15": {
+   "brand_id": 7,
+   "name": "VPOS Touch"
+  },
+  "16": {
+   "brand_id": 7,
+   "name": "VPOS Fusion"
+  },
+  "17": {
+   "brand_id": 8,
+   "name": "MÁSTER"
+  },
+  "2": {
+   "brand_id": 1,
+   "name": "Vitro M"
+  },
+  "3": {
+   "brand_id": 3,
+   "name": "Krea Touch"
+  },
+  "4": {
+   "brand_id": 4,
+   "name": "LEI 700 Plus"
+  },
+  "5": {
+   "brand_id": 6,
+   "name": "Phedra EVO"
+  },
+  "6": {
+   "brand_id": 2,
+   "name": "Vision EVO"
+  },
+  "7": {
+   "brand_id": 3,
+   "name": "Melodia"
+  },
+  "8": {
+   "brand_id": 5,
+   "name": "G-Snack"
+  },
+  "9": {
+   "brand_id": 2,
+   "name": "J Series"
+  }
+ },
+ "prop_associations": {
+  "1": {
+   "entity_id": 1,
+   "prop_definition_id": 1,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "10": {
+   "entity_id": 3,
+   "prop_definition_id": 6,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "11": {
+   "entity_id": 3,
+   "prop_definition_id": 17,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "12": {
+   "entity_id": 5,
+   "prop_definition_id": 5,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "13": {
+   "entity_id": 5,
+   "prop_definition_id": 17,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "14": {
+   "entity_id": 5,
+   "prop_definition_id": 12,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "15": {
+   "entity_id": 6,
+   "prop_definition_id": 19,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "16": {
+   "entity_id": 6,
+   "prop_definition_id": 20,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "17": {
+   "entity_id": 6,
+   "prop_definition_id": 10,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "18": {
+   "entity_id": 7,
+   "prop_definition_id": 21,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "19": {
+   "entity_id": 7,
+   "prop_definition_id": 22,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "2": {
+   "entity_id": 1,
+   "prop_definition_id": 2,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "3": {
+   "entity_id": 1,
+   "prop_definition_id": 7,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "4": {
+   "entity_id": 1,
+   "prop_definition_id": 12,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "5": {
+   "entity_id": 1,
+   "prop_definition_id": 11,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "6": {
+   "entity_id": 2,
+   "prop_definition_id": 4,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "7": {
+   "entity_id": 2,
+   "prop_definition_id": 3,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "8": {
+   "entity_id": 2,
+   "prop_definition_id": 8,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "9": {
+   "entity_id": 3,
+   "prop_definition_id": 5,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  }
+ },
+ "prop_definitions": {
+  "1": {
+   "data_type": "alfanumerico",
+   "short_name": "coffee_type"
+  },
+  "10": {
+   "data_type": "alfanumerico",
+   "short_name": "firmware_version"
+  },
+  "11": {
+   "data_type": "booleano",
+   "short_name": "telemetry_installed"
+  },
+  "12": {
+   "data_type": "fecha",
+   "short_name": "last_cleaning_date"
+  },
+  "13": {
+   "data_type": "fecha",
+   "short_name": "next_cleaning_date"
+  },
+  "14": {
+   "data_type": "fecha",
+   "short_name": "last_maintenance_date"
+  },
+  "15": {
+   "data_type": "fecha",
+   "short_name": "next_maintenance_date"
+  },
+  "16": {
+   "data_type": "fecha",
+   "short_name": "last_visit_date"
+  },
+  "17": {
+   "data_type": "alfanumerico",
+   "short_name": "haccp_status"
+  },
+  "18": {
+   "data_type": "booleano",
+   "short_name": "aqs_certification"
+  },
+  "19": {
+   "data_type": "alfanumerico",
+   "short_name": "terminal_type"
+  },
+  "2": {
+   "data_type": "numerico",
+   "short_name": "cup_capacity"
+  },
+  "20": {
+   "data_type": "alfanumerico",
+   "short_name": "terminal_connectivity"
+  },
+  "21": {
+   "data_type": "numerico",
+   "short_name": "chamber_count"
+  },
+  "22": {
+   "data_type": "alfanumerico",
+   "short_name": "checkout_type"
+  },
+  "3": {
+   "data_type": "numerico",
+   "short_name": "selection_count"
+  },
+  "4": {
+   "data_type": "numerico",
+   "short_name": "tray_count"
+  },
+  "5": {
+   "data_type": "alfanumerico",
+   "short_name": "refrigerant_type"
+  },
+  "6": {
+   "data_type": "numerico",
+   "short_name": "power_w"
+  },
+  "7": {
+   "data_type": "booleano",
+   "short_name": "water_connection"
+  },
+  "8": {
+   "data_type": "alfanumerico",
+   "short_name": "payment_method_type"
+  },
+  "9": {
+   "data_type": "alfanumerico",
+   "short_name": "payment_protocol"
+  }
+ },
+ "regions": {
+  "1": {
+   "description": "Madrid Centro"
+  },
+  "2": {
+   "description": "Madrid Sur"
+  },
+  "3": {
+   "description": "Castilla-La Mancha"
+  }
+ },
+ "rules": {
+  "1": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "3",
+   "condition_type": "value_gt",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Alerta si la temperatura interior supera 8 °C sostenido 5 min (APPCC)",
+   "duration": 5,
+   "enabled": true,
+   "name": "Temperatura refrigeración fuera de rango (>8 °C)",
+   "priority": 90,
+   "threshold": 8,
+   "trigger_type": "threshold"
+  },
+  "2": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "5",
+   "condition_type": "value_gt",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Alerta si la temperatura de máquina de comida fresca supera 6 °C (APPCC)",
+   "duration": 5,
+   "enabled": true,
+   "name": "Temperatura comida fresca fuera de rango (>6 °C)",
+   "priority": 95,
+   "threshold": 6,
+   "trigger_type": "threshold"
+  },
+  "3": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "1",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Notifica si una máquina de alta rotación no recibe visita en 48 horas",
+   "duration": 2880,
+   "enabled": true,
+   "name": "Máquina sin visita >48 horas",
+   "priority": 60,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "4": {
+   "action_config": "",
+   "action_type": "create_alert",
+   "asset_type_id": "6",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Alerta si un terminal de pago pierde conexión durante más de 1 hora",
+   "duration": 60,
+   "enabled": true,
+   "name": "Terminal cashless sin conexión >1 hora",
+   "priority": 80,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "5": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "1",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Notifica si una máquina de café no se limpia en más de 7 días",
+   "duration": 10080,
+   "enabled": true,
+   "name": "Limpieza vencida café (>7 días)",
+   "priority": 50,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "6": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "5",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Notifica si máquina de comida fresca sin limpieza en más de 3 días",
+   "duration": 4320,
+   "enabled": true,
+   "name": "Limpieza vencida comida fresca (>3 días)",
+   "priority": 70,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  }
+ },
+ "sensor_bindings": {
+  "1": {
+   "asset_id": 1,
+   "binding_metadata": {
+    "role": "visit_tracking"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 1
+  },
+  "2": {
+   "asset_id": 40,
+   "binding_metadata": {
+    "role": "visit_tracking"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 2
+  },
+  "3": {
+   "asset_id": 1,
+   "binding_metadata": {
+    "device": "caslab_master",
+    "role": "telemetry"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 3
+  },
+  "4": {
+   "asset_id": 13,
+   "binding_metadata": {
+    "device": "caslab_master",
+    "role": "telemetry"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 4
+  },
+  "5": {
+   "asset_id": 40,
+   "binding_metadata": {
+    "device": "caslab_master",
+    "role": "telemetry"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 5
+  },
+  "6": {
+   "asset_id": 26,
+   "binding_metadata": {
+    "device": "caslab_master",
+    "role": "telemetry"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 6
+  },
+  "7": {
+   "asset_id": 86,
+   "binding_metadata": {
+    "role": "temperature_monitoring"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 7
+  },
+  "8": {
+   "asset_id": 78,
+   "binding_metadata": {
+    "role": "temperature_monitoring"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 8
+  }
+ },
+ "sensors": {
+  "1": {
+   "driver": "manual_scan",
+   "external_id": "QR-TEL-C01",
+   "metadata": {
+    "format": "code128"
+   },
+   "name": "QR Café TEL-C01",
+   "type": "qr_tag"
+  },
+  "2": {
+   "driver": "manual_scan",
+   "external_id": "QR-ATOC-C01",
+   "metadata": {
+    "format": "code128"
+   },
+   "name": "QR Café ATOC-C01",
+   "type": "qr_tag"
+  },
+  "3": {
+   "driver": "http_webhook",
+   "external_id": "CSL-TEL-C01",
+   "metadata": {
+    "device_id": "CSL-M-2022-0401",
+    "interval_s": 900
+   },
+   "name": "Caslab TEL-C01",
+   "type": "caslab_master"
+  },
+  "4": {
+   "driver": "http_webhook",
+   "external_id": "CSL-TEL-FR01",
+   "metadata": {
+    "device_id": "CSL-M-2024-0045",
+    "interval_s": 900
+   },
+   "name": "Caslab TEL-FR01",
+   "type": "caslab_master"
+  },
+  "5": {
+   "driver": "http_webhook",
+   "external_id": "CSL-ATOC-C01",
+   "metadata": {
+    "device_id": "CSL-M-2023-0601",
+    "interval_s": 900
+   },
+   "name": "Caslab ATOC-C01",
+   "type": "caslab_master"
+  },
+  "6": {
+   "driver": "http_webhook",
+   "external_id": "CSL-HTOL-FR01",
+   "metadata": {
+    "device_id": "CSL-M-2023-0055",
+    "interval_s": 900
+   },
+   "name": "Caslab HTOL-FR01",
+   "type": "caslab_master"
+  },
+  "7": {
+   "driver": "http_webhook",
+   "external_id": "TEMP-HPH-FR01",
+   "metadata": {
+    "precision": 0.5,
+    "range_c": [
+     -2,
+     12
+    ]
+   },
+   "name": "Sonda temp HPH-FR01",
+   "type": "temp_probe"
+  },
+  "8": {
+   "driver": "http_webhook",
+   "external_id": "TEMP-XAN-FR01",
+   "metadata": {
+    "precision": 0.5,
+    "range_c": [
+     -2,
+     12
+    ]
+   },
+   "name": "Sonda temp XAN-FR01",
+   "type": "temp_probe"
+  }
+ },
+ "tenant_settings": {
+  "1": {
+   "key": "general",
+   "locale": "es",
+   "tenant_name": "VendiBeria S.L.",
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "2": {
+   "email_alerts": true,
+   "key": "notifications",
+   "slack_enabled": false,
+   "updated_at": "2027-02-14T13:17:00Z",
+   "webhooks_enabled": true
+  },
+  "3": {
+   "key": "features",
+   "map_enabled": true,
+   "updated_at": "2027-02-14T13:17:00Z"
+  }
+ },
+ "users": {
+  "1": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "hl@example.com",
+   "name": "HL",
+   "role": "admin",
+   "tenant_id": 1
+  },
+  "10": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "alan.machado@estudiantes.utec.edu.uy",
+   "name": "Alan Machado",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "11": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "matthew.freire@estudiantes.utec.edu.uy",
+   "name": "Matthew Freire",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "12": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "luciano.gamba@estudiantes.utec.edu.uy",
+   "name": "Luciano Gamba",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "13": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "gaston.perez@estudiantes.utec.edu.uy",
+   "name": "Gaston Perez",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "14": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "agustin.machado@estudiantes.utec.edu.uy",
+   "name": "Agustin Machado",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "15": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "fabricio.rivero.r@estudiantes.utec.edu.uy",
+   "name": "Fabricio Rivero",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "16": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "facundo.guerra.n@estudiantes.utec.edu.uy",
+   "name": "Facundo Guerra",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "2": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "dev@ual.li",
+   "name": "Dev",
+   "role": "developer",
+   "tenant_id": 1
+  },
+  "3": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "manager@example.com",
+   "name": "Manager",
+   "role": "manager",
+   "tenant_id": 1
+  },
+  "4": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "viewer@example.com",
+   "name": "Viewer",
+   "role": "viewer",
+   "tenant_id": 1
+  },
+  "5": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "facundo.salaberry.h@estudiantes.utec.edu.uy",
+   "name": "Facundo Salaberry",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "6": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "alexis.menchaca@estudiantes.utec.edu.uy",
+   "name": "Alexis Menchaca",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "7": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "ignacio.ortega@estudiantes.utec.edu.uy",
+   "name": "Ignacio Ortega",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "8": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "kevin.jaffe@estudiantes.utec.edu.uy",
+   "name": "Kevin Jaffe",
+   "role": "operator",
+   "tenant_id": 1
+  },
+  "9": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "lucas.brito@estudiantes.utec.edu.uy",
+   "name": "Lucas Brito",
+   "role": "operator",
+   "tenant_id": 1
+  }
+ }
+}

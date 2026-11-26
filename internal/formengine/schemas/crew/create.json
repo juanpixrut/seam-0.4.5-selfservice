@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "title": "New Crew",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "x-seam-input": "text",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "x-seam-input": "textarea"
+    },
+    "responsible_user_id": {
+      "type": "integer",
+      "title": "Responsible",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users",
+      "x-seam-selector": "users",
+      "x-seam-browse": "icon"
+    },
+    "members": {
+      "type": "array",
+      "title": "Members",
+      "minItems": 2,
+      "x-seam-input": "repeatable",
+      "items": {
+        "type": "object",
+        "properties": {
+          "member": {
+            "type": "integer",
+            "title": "Member...",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:users",
+            "x-seam-selector": "users",
+            "x-seam-browse": "icon"
+          }
+        }
+      },
+      "x-seam-add-label": "Add Member",
+      "x-seam-add-icon": "person_add",
+      "x-seam-remove-label": "Remove Member",
+      "x-seam-remove-icon": "person_remove"
+    }
+  },
+  "required": [
+    "name",
+    "responsible_user_id",
+    "members"
+  ]
+}

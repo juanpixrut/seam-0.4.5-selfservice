@@ -1,0 +1,99 @@
+{
+  "type": "object",
+  "properties": {
+    "asset_id": {
+      "type": "integer",
+      "title": "Asset",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:assets",
+      "x-seam-selector": "assets",
+      "x-seam-help": "Browse opens the assets Selector (name, tag, status, criticality); typing searches by name."
+    },
+    "cost_center_id": {
+      "type": "integer",
+      "title": "Cost center",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:cost_centers",
+      "x-seam-selector": "cost_centers",
+      "x-seam-help": "Cost centers of the tenant: accounting code and name."
+    },
+    "location_id": {
+      "type": "integer",
+      "title": "Location",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:locations",
+      "x-seam-selector": "locations",
+      "x-seam-browse": "icon",
+      "x-seam-highlight": "background",
+      "x-seam-help": "Locations, with an icon-only Browse button and a marker-style match."
+    },
+    "custodian_id": {
+      "type": "integer",
+      "title": "Custodian",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:custodians",
+      "x-seam-selector": "custodians",
+      "x-seam-help": "Custodians (legal name, alias, tax id, email)."
+    },
+    "owner_id": {
+      "type": "integer",
+      "title": "Owner",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users",
+      "x-seam-selector": "users",
+      "x-seam-help": "Users, as in the first tab: the list is limited to roles equal to or below yours."
+    },
+    "spare_location_id": {
+      "type": "integer",
+      "title": "Spare location (search only)",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:locations",
+      "x-seam-help": "The same widget without x-seam-selector: no Browse button, live search only."
+    },
+    "assignments": {
+      "type": "array",
+      "title": "Assignments",
+      "x-seam-input": "repeatable",
+      "x-seam-help": "Three different entities picked inside the same row, each with its own Selector; rows you add get working pickers too.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "integer",
+            "title": "Asset",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:assets",
+            "x-seam-selector": "assets",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Asset"
+          },
+          "custodian_id": {
+            "type": "integer",
+            "title": "Custodian",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:custodians",
+            "x-seam-selector": "custodians",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Custodian"
+          },
+          "location_id": {
+            "type": "integer",
+            "title": "Location",
+            "x-seam-input": "any-picker",
+            "x-seam-source": "entity:locations",
+            "x-seam-selector": "locations",
+            "x-seam-browse": "icon",
+            "x-seam-placeholder": "Location"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "x-seam-input": "text",
+            "x-seam-placeholder": "Note"
+          }
+        }
+      },
+      "x-seam-layout": "form"
+    }
+  }
+}

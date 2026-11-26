@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "title": "Bind Sensor to Asset",
+  "properties": {
+    "asset_id": {
+      "type": "integer",
+      "title": "Asset",
+      "x-seam-input": "asset-picker",
+      "x-seam-source": "entity:assets",
+      "x-seam-search-fields": ["name"],
+      "x-seam-display-fields": ["name", "status"],
+      "x-seam-help": "Search for the asset this sensor should be bound to",
+      "x-seam-help-style": "inline"
+    }
+  },
+  "required": ["asset_id"]
+}

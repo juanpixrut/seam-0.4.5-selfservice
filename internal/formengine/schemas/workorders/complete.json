@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "title": "Complete Work Order",
+  "properties": {
+    "technician_signature": {
+      "type": "string",
+      "title": "Technician Signature",
+      "x-seam-input": "signature",
+      "x-seam-help": "Sign to confirm the work order is complete",
+      "x-seam-help-style": "inline"
+    }
+  },
+  "required": ["technician_signature"]
+}

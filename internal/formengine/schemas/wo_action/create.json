@@ -1,0 +1,87 @@
+{
+    "type": "object",
+    "title": "New WO Action",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name",
+            "x-seam-input": "text",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "code": {
+            "type": "string",
+            "title": "Code",
+            "x-seam-input": "text",
+            "minLength": 1,
+            "maxLength": 200
+        },
+        "description": {
+            "type": "string",
+            "title": "Description",
+            "x-seam-input": "textarea"
+        },
+        "enabled": {
+            "type": "boolean",
+            "x-seam-input": "checkbox"
+        },
+        "parameters": {
+            "type": "array",
+            "title": "Parameters",
+            "x-seam-input": "repeatable",
+            "x-seam-naming": "indexed",
+            "minItems": 1,
+            "x-seam-layout": "form",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "title": "Parameter Key",
+                        "x-seam-input": "text",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Parameter Name",
+                        "x-seam-input": "text",
+                        "minLength": 1,
+                        "maxLength": 200
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Parameter Type",
+                        "x-seam-input": "select",
+                        "enum": [
+                            "boolean",
+                            "number",
+                            "text",
+                            "asset",
+                            "gps",
+                            "date"
+                        ]
+                    },
+                    "options": {
+                        "type": "array",
+                        "title": "Parameter options",
+                        "x-seam-input": "multi-select",
+                        "items": {
+                            "type": "string"
+                        },
+                        "enum": [
+                            "multiple",
+                            "required"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "name",
+        "code",
+        "parameters"
+    ]
+}

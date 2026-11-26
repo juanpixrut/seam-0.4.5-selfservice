@@ -1,0 +1,41 @@
+{
+ "about": "the work-order seeds give what their Python scripts gave, on an empty instance",
+ "entities": [
+  "wo_actions",
+  "asset_types",
+  "assets",
+  "unit",
+  "consumable_types",
+  "consumable",
+  "work_order_templates"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "../../../workorders/seed-wo-templates.seed"
+   ]
+  },
+  {
+   "run": [
+    "load",
+    "../../../workorders/seed-wo-templates.seed"
+   ],
+   "says": "present"
+  },
+  {
+   "run": [
+    "load",
+    "../../../workorders/seed-wo-actions.seed"
+   ],
+   "says": "present"
+  },
+  {
+   "run": [
+    "check",
+    "../../../workorders/seed-wo-templates.seed"
+   ],
+   "says": "same"
+  }
+ ]
+}

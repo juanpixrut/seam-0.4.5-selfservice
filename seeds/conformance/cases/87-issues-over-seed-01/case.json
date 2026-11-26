@@ -1,0 +1,55 @@
+{
+ "about": "the Issues seed loads over the seed it requires and not without it; a second load adds nothing",
+ "entities": [
+  "issue_templates",
+  "issue_template_assignments",
+  "issue_qr_codes",
+  "issues"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "exit": 3,
+   "says": "not loaded"
+  },
+  {
+   "run": [
+    "load",
+    "../../../seed-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "load",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "load",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "says": "present"
+  },
+  {
+   "run": [
+    "check",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "says": "same"
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "title": "New User",
+  "properties": {
+    "email": {
+      "type": "string",
+      "title": "Email",
+      "x-seam-input": "email",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "x-seam-input": "text",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "title": "Role",
+      "x-seam-input": "select",
+      "enum": ["admin", "manager", "operator", "viewer"]
+    },
+    "password": {
+      "type": "string",
+      "title": "Password",
+      "x-seam-input": "password",
+      "x-seam-autocomplete": "new-password",
+      "x-seam-help": "Minimum 8 characters",
+      "x-seam-help-style": "inline",
+      "minLength": 8
+    },
+    "password_confirm": {
+      "type": "string",
+      "title": "Confirm Password",
+      "x-seam-input": "password",
+      "x-seam-autocomplete": "new-password"
+    }
+  },
+  "required": [
+    "email",
+    "name",
+    "role",
+    "password",
+    "password_confirm"
+  ]
+}

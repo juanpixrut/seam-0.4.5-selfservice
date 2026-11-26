@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "title": "Notification Settings",
+  "properties": {
+    "email_alerts": {
+      "type": "boolean",
+      "title": "Email alerts",
+      "x-seam-input": "toggle"
+    },
+    "slack_enabled": {
+      "type": "boolean",
+      "title": "Slack notifications",
+      "x-seam-input": "toggle"
+    },
+    "webhook_enabled": {
+      "type": "boolean",
+      "title": "Webhook notifications",
+      "x-seam-input": "toggle"
+    }
+  },
+  "required": []
+}

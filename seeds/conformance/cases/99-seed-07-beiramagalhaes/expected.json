@@ -1,0 +1,2229 @@
+{
+ "alert_types": {
+  "1": {
+   "criticality": "Baja",
+   "description": "Manutenção preventiva programada",
+   "type": "Mantenimiento"
+  },
+  "10": {
+   "criticality": "Baja",
+   "description": "Calibração de sensores e termostatos",
+   "type": "Mantenimiento"
+  },
+  "2": {
+   "criticality": "Alta",
+   "description": "Parada inesperada do equipamento",
+   "type": "Operativa"
+  },
+  "3": {
+   "criticality": "Baja",
+   "description": "Inspeção de correias e mangueiras",
+   "type": "Mantenimiento"
+  },
+  "4": {
+   "criticality": "Alta",
+   "description": "Temperatura de operação excedida",
+   "type": "Seguridad"
+  },
+  "5": {
+   "criticality": "Alta",
+   "description": "Bateria em nível crítico",
+   "type": "Seguridad"
+  },
+  "6": {
+   "criticality": "Media",
+   "description": "Garantia próxima do vencimento",
+   "type": "Operativa"
+  },
+  "7": {
+   "criticality": "Media",
+   "description": "Contrato de comodato próximo do vencimento",
+   "type": "Operativa"
+  },
+  "8": {
+   "criticality": "Alta",
+   "description": "Passageiro retido no elevador",
+   "type": "Seguridad"
+  },
+  "9": {
+   "criticality": "Media",
+   "description": "Limpeza de filtros e serpentinas",
+   "type": "Mantenimiento"
+  }
+ },
+ "alerts": {
+  "1": {
+   "alerta_id": 1,
+   "asset_id": 2,
+   "asset_name": "Chiller Carrier AquaSnap 30RB — CHL-002",
+   "created_at": "2027-02-12T08:30:00Z",
+   "message": "Equipamento recolhido para inspeção do compressor. Horas de operação: 11.842.",
+   "severity": "medium",
+   "source": "seed",
+   "status": "open",
+   "title": "Equipamento recolhido para inspeção do compresso..."
+  },
+  "2": {
+   "alerta_id": 9,
+   "asset_id": 3,
+   "asset_name": "Central VRV Daikin IV — VRF-001",
+   "created_at": "2027-02-14T06:00:00Z",
+   "message": "491 horas de operação registradas — próxima manutenção em menos de 10 horas.",
+   "severity": "medium",
+   "source": "seed",
+   "status": "open",
+   "title": "491 horas de operação registradas — próxima manu..."
+  },
+  "3": {
+   "asset_id": 4,
+   "asset_name": "Mercedes-Benz Sprinter 416 — VAN-001",
+   "created_at": "2027-02-13T14:15:00Z",
+   "message": "Hodômetro: 9.850 km. Próxima revisão de 10.000 km em 150 km.",
+   "severity": "low",
+   "source": "seed",
+   "status": "open",
+   "title": "Hodômetro: 9.850 km. Próxima revisão de 10.000 k..."
+  },
+  "4": {
+   "acknowledged_at": "2027-02-09T10:30:00Z",
+   "acknowledged_by": "ops@beiramagalhaes.example",
+   "asset_id": 7,
+   "asset_name": "Grupo Gerador Cummins C400D6 — GER-001",
+   "created_at": "2027-02-09T09:00:00Z",
+   "message": "A garantia vence em 2027-03-14. Contatar o fornecedor para tratar da renovação.",
+   "severity": "low",
+   "status": "acknowledged"
+  }
+ },
+ "asset_types": {
+  "1": {
+   "color": "#06b6d4",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 4,
+   "description": "Chillers, sistemas VRF e centrais de ar condicionado",
+   "fsm_id": 2,
+   "identity_template": {
+    "capacidade_tr": {
+     "label": "Capacidade (TR)",
+     "required": true,
+     "type": "number"
+    },
+    "numero_serie": {
+     "label": "Número de série",
+     "required": true,
+     "type": "text"
+    },
+    "refrigerante": {
+     "label": "Fluido refrigerante",
+     "required": false,
+     "type": "text"
+    }
+   },
+   "name": "Climatização",
+   "slug": "climatizacao",
+   "state_template": {
+    "pressao_bar": {
+     "label": "Pressão (bar)",
+     "required": false,
+     "type": "number"
+    },
+    "temp_entrada": {
+     "label": "Temp. de entrada (°C)",
+     "required": false,
+     "type": "number"
+    },
+    "temp_saida": {
+     "label": "Temp. de saída (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "2": {
+   "color": "#f97316",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 1,
+   "description": "Fornos combinados, lava-louças e equipamentos de cozinha industrial",
+   "identity_template": {
+    "alimentacao": {
+     "label": "Alimentação",
+     "required": false,
+     "type": "text"
+    },
+    "numero_serie": {
+     "label": "Número de série",
+     "required": true,
+     "type": "text"
+    },
+    "potencia_kw": {
+     "label": "Potência (kW)",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Cozinha Industrial",
+   "slug": "cozinha-industrial",
+   "state_template": {
+    "ciclos": {
+     "label": "Ciclos realizados",
+     "required": false,
+     "type": "number"
+    },
+    "horas_operacao": {
+     "label": "Horas de operação",
+     "required": false,
+     "type": "number"
+    },
+    "temp_camara": {
+     "label": "Temp. da câmara (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "3": {
+   "color": "#8b5cf6",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 8,
+   "description": "Elevadores sociais e de serviço",
+   "fsm_id": 2,
+   "identity_template": {
+    "capacidade_kg": {
+     "label": "Capacidade (kg)",
+     "required": true,
+     "type": "number"
+    },
+    "numero_serie": {
+     "label": "Número de série",
+     "required": true,
+     "type": "text"
+    },
+    "paradas": {
+     "label": "Número de paradas",
+     "required": false,
+     "type": "number"
+    }
+   },
+   "name": "Elevador",
+   "slug": "elevador",
+   "state_template": {
+    "andar_atual": {
+     "label": "Andar atual",
+     "required": false,
+     "type": "text"
+    },
+    "porta_aberta": {
+     "label": "Porta aberta",
+     "required": false,
+     "type": "text"
+    },
+    "viagens": {
+     "label": "Viagens realizadas",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "4": {
+   "color": "#0ea5e9",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 1,
+   "description": "Lavadoras extratoras, secadoras e calandras",
+   "identity_template": {
+    "aquecimento": {
+     "label": "Aquecimento",
+     "required": false,
+     "type": "text"
+    },
+    "capacidade_kg": {
+     "label": "Capacidade (kg)",
+     "required": true,
+     "type": "number"
+    },
+    "numero_serie": {
+     "label": "Número de série",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Lavanderia",
+   "slug": "lavanderia",
+   "state_template": {
+    "ciclos": {
+     "label": "Ciclos realizados",
+     "required": false,
+     "type": "number"
+    },
+    "horas_operacao": {
+     "label": "Horas de operação",
+     "required": false,
+     "type": "number"
+    },
+    "temp_agua": {
+     "label": "Temp. da água (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "5": {
+   "color": "#eab308",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 1,
+   "description": "Grupos geradores de energia de emergência",
+   "identity_template": {
+    "fases": {
+     "label": "Fases",
+     "required": false,
+     "type": "text"
+    },
+    "numero_serie": {
+     "label": "Número de série",
+     "required": true,
+     "type": "text"
+    },
+    "potencia_kva": {
+     "label": "Potência (kVA)",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Grupo Gerador",
+   "slug": "grupo-gerador",
+   "state_template": {
+    "frequencia_hz": {
+     "label": "Frequência (Hz)",
+     "required": false,
+     "type": "number"
+    },
+    "horas_motor": {
+     "label": "Horas de motor",
+     "required": false,
+     "type": "number"
+    },
+    "tensao_v": {
+     "label": "Tensão (V)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "6": {
+   "color": "#ef4444",
+   "connectivity_tiers": [
+    "qr",
+    "gateway"
+   ],
+   "default_alerta_id": 4,
+   "description": "Caldeiras e aquecedores de água central",
+   "identity_template": {
+    "combustivel": {
+     "label": "Combustível",
+     "required": false,
+     "type": "text"
+    },
+    "numero_serie": {
+     "label": "Número de série",
+     "required": true,
+     "type": "text"
+    },
+    "potencia_kw": {
+     "label": "Potência (kW)",
+     "required": true,
+     "type": "number"
+    }
+   },
+   "name": "Caldeira e Aquecimento",
+   "slug": "caldeira-aquecimento",
+   "state_template": {
+    "horas_queimador": {
+     "label": "Horas de queimador",
+     "required": false,
+     "type": "number"
+    },
+    "pressao_bar": {
+     "label": "Pressão (bar)",
+     "required": false,
+     "type": "number"
+    },
+    "temp_saida": {
+     "label": "Temp. de saída (°C)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  },
+  "7": {
+   "color": "#10b981",
+   "connectivity_tiers": [
+    "qr",
+    "gps"
+   ],
+   "default_alerta_id": 1,
+   "description": "Vans de transfer e veículos de apoio",
+   "fsm_id": 1,
+   "identity_template": {
+    "chassi": {
+     "label": "Chassi",
+     "required": true,
+     "type": "text"
+    },
+    "lugares": {
+     "label": "Lugares",
+     "required": false,
+     "type": "number"
+    },
+    "placa": {
+     "label": "Placa",
+     "required": true,
+     "type": "text"
+    }
+   },
+   "name": "Veículo de Apoio",
+   "slug": "veiculo-apoio",
+   "state_template": {
+    "combustivel_pct": {
+     "label": "Combustível (%)",
+     "required": false,
+     "type": "number"
+    },
+    "motorista": {
+     "label": "Motorista",
+     "required": false,
+     "type": "text"
+    },
+    "quilometragem_km": {
+     "label": "Quilometragem (km)",
+     "required": false,
+     "type": "number"
+    }
+   }
+  }
+ },
+ "assets": {
+  "1": {
+   "arrival_date": "2023-03-14",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 2,
+   "loan_expiry": "2027-08-13",
+   "location_id": 2,
+   "model_id": 2,
+   "name": "Chiller Carrier AquaForce 30XA — CHL-001",
+   "purchase_date": "2023-03-06",
+   "purchase_price": "980000",
+   "refrigerant": "R-134a",
+   "region_id": 1,
+   "serial_1": "30XA0802-2311-0457",
+   "service_configs": [
+    {
+     "alert_id": 9,
+     "measure": "time_hours",
+     "threshold": 500
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "CHL-001",
+   "temp_max": 14,
+   "temp_min": 5,
+   "tenure_type": "Comodato",
+   "type_id": 1,
+   "warranty_end": "2028-03-06"
+  },
+  "10": {
+   "arrival_date": "2021-04-28",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 4,
+   "model_id": 5,
+   "name": "Forno Combinado Rational iCombi Pro 20-1/1 — FOR-002",
+   "purchase_date": "2021-04-26",
+   "purchase_price": "236000",
+   "region_id": 2,
+   "serial_1": "E21SJ21042990213",
+   "status": "maintenance",
+   "tag_tecnico": "FOR-002",
+   "tenure_type": "Propiedad",
+   "type_id": 2
+  },
+  "11": {
+   "arrival_date": "2022-06-28",
+   "brand_id": 4,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 6,
+   "name": "Lava-louças Hobart CL44eN — LVL-001",
+   "purchase_date": "2022-06-20",
+   "purchase_price": "172000",
+   "region_id": 1,
+   "serial_1": "CL44EN-2206-31-7745",
+   "status": "active",
+   "tag_tecnico": "LVL-001",
+   "tenure_type": "Propiedad",
+   "type_id": 2,
+   "warranty_end": "2025-06-20"
+  },
+  "12": {
+   "arrival_date": "2020-01-28",
+   "brand_id": 5,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 1,
+   "model_id": 8,
+   "name": "Elevador Social Schindler 5500 — ELV-001",
+   "purchase_date": "2020-01-27",
+   "purchase_price": "610000",
+   "region_id": 1,
+   "serial_1": "SCH5500-BR-2001-0412",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 720
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "ELV-001",
+   "tenure_type": "Propiedad",
+   "type_id": 3,
+   "warranty_end": "2030-01-27"
+  },
+  "13": {
+   "arrival_date": "2020-01-28",
+   "brand_id": 5,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 1,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 3,
+   "location_id": 1,
+   "model_id": 7,
+   "name": "Elevador de Serviço Schindler 3300 — ELV-002",
+   "purchase_date": "2020-01-27",
+   "purchase_price": "390000",
+   "region_id": 1,
+   "serial_1": "SCH3300-BR-2001-0413",
+   "status": "active",
+   "tag_tecnico": "ELV-002",
+   "tenure_type": "Propiedad",
+   "type_id": 3
+  },
+  "14": {
+   "arrival_date": "2023-02-21",
+   "brand_id": 6,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 3,
+   "model_id": 9,
+   "name": "Lavadora Extratora Electrolux WH6-33 — LAV-001",
+   "purchase_date": "2023-02-13",
+   "purchase_price": "198000",
+   "region_id": 1,
+   "serial_1": "WH633-23020457",
+   "service_configs": [
+    {
+     "alert_id": 3,
+     "measure": "time_hours",
+     "threshold": 600
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "LAV-001",
+   "tenure_type": "Propiedad",
+   "type_id": 4,
+   "warranty_end": "2026-02-13"
+  },
+  "15": {
+   "arrival_date": "2022-09-13",
+   "brand_id": 6,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 4,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 3,
+   "model_id": 11,
+   "name": "Calandra Electrolux IC4 4832 — LAV-002",
+   "purchase_date": "2022-09-05",
+   "purchase_price": "224000",
+   "region_id": 1,
+   "serial_1": "IC44832-22090118",
+   "status": "active",
+   "tag_tecnico": "LAV-002",
+   "tenure_type": "Propiedad",
+   "type_id": 4
+  },
+  "16": {
+   "arrival_date": "2021-12-14",
+   "brand_id": 9,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 15,
+   "name": "Caldeira Bosch Logano GE515 — CLD-001",
+   "purchase_date": "2021-12-06",
+   "purchase_price": "286000",
+   "region_id": 1,
+   "serial_1": "GE515-7747-211206",
+   "service_configs": [
+    {
+     "alert_id": 10,
+     "measure": "time_hours",
+     "threshold": 1000
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "CLD-001",
+   "temp_max": 85,
+   "temp_min": 55,
+   "tenure_type": "Propiedad",
+   "type_id": 6,
+   "warranty_end": "2026-12-06"
+  },
+  "2": {
+   "arrival_date": "2021-09-21",
+   "brand_id": 1,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 4,
+   "model_id": 1,
+   "name": "Chiller Carrier AquaSnap 30RB — CHL-002",
+   "purchase_date": "2021-09-13",
+   "purchase_price": "540000",
+   "refrigerant": "R-410A",
+   "region_id": 2,
+   "serial_1": "30RB0602-2109-0182",
+   "status": "maintenance",
+   "tag_tecnico": "CHL-002",
+   "tenure_type": "Propiedad",
+   "type_id": 1
+  },
+  "3": {
+   "arrival_date": "2022-11-28",
+   "brand_id": 2,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 5,
+   "model_id": 3,
+   "name": "Central VRV Daikin IV — VRF-001",
+   "purchase_date": "2022-11-21",
+   "purchase_price": "310000",
+   "refrigerant": "R-410A",
+   "region_id": 3,
+   "serial_1": "RXYQ20T-2211-00931",
+   "service_configs": [
+    {
+     "alert_id": 9,
+     "measure": "time_hours",
+     "threshold": 500
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VRF-001",
+   "temp_max": 16,
+   "temp_min": 7,
+   "tenure_type": "Propiedad",
+   "type_id": 1,
+   "warranty_end": "2027-11-21"
+  },
+  "4": {
+   "arrival_date": "2023-05-20",
+   "brand_id": 8,
+   "codigo_barras_rfid": "RFID-VAN-001",
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 5,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 14,
+   "name": "Mercedes-Benz Sprinter 416 — VAN-001",
+   "purchase_date": "2023-05-12",
+   "purchase_price": "328000",
+   "region_id": 1,
+   "serial_1": "8AC907655PE123456",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "distance_kilometers",
+     "threshold": 10000
+    },
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 200
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VAN-001",
+   "tenure_type": "Propiedad",
+   "type_id": 7,
+   "warranty_end": "2026-05-12"
+  },
+  "5": {
+   "arrival_date": "2022-11-09",
+   "brand_id": 8,
+   "codigo_barras_rfid": "RFID-VAN-002",
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 5,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 4,
+   "location_id": 4,
+   "model_id": 14,
+   "name": "Mercedes-Benz Sprinter 416 — VAN-002",
+   "purchase_date": "2022-11-01",
+   "purchase_price": "315000",
+   "region_id": 2,
+   "serial_1": "8AC907655NE234567",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "distance_kilometers",
+     "threshold": 10000
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VAN-002",
+   "tenure_type": "Alquiler",
+   "type_id": 7
+  },
+  "6": {
+   "arrival_date": "2021-07-27",
+   "brand_id": 8,
+   "connectivity_tier": "gps_cellular",
+   "cost_center_id": 5,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 7,
+   "model_id": 14,
+   "name": "Mercedes-Benz Sprinter 416 — VAN-003",
+   "purchase_date": "2021-07-19",
+   "purchase_price": "301000",
+   "region_id": 5,
+   "serial_1": "8AC907655ME345678",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "distance_kilometers",
+     "threshold": 10000
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "VAN-003",
+   "tenure_type": "Propiedad",
+   "type_id": 7
+  },
+  "7": {
+   "arrival_date": "2022-02-22",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 2,
+   "model_id": 12,
+   "name": "Grupo Gerador Cummins C400D6 — GER-001",
+   "purchase_date": "2022-02-14",
+   "purchase_price": "420000",
+   "region_id": 1,
+   "serial_1": "C400D6-K22-104577",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 250
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "GER-001",
+   "temp_max": 95,
+   "temp_min": 10,
+   "tenure_type": "Propiedad",
+   "type_id": 5,
+   "warranty_end": "2027-03-14"
+  },
+  "8": {
+   "arrival_date": "2020-10-13",
+   "brand_id": 7,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 2,
+   "criticality": "Alta",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 4,
+   "model_id": 13,
+   "name": "Grupo Gerador Cummins C220D6 — GER-002",
+   "purchase_date": "2020-10-05",
+   "purchase_price": "265000",
+   "region_id": 2,
+   "serial_1": "C220D6-J20-088213",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 250
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "GER-002",
+   "tenure_type": "Propiedad",
+   "type_id": 5
+  },
+  "9": {
+   "arrival_date": "2023-08-15",
+   "brand_id": 3,
+   "connectivity_tier": "gateway",
+   "cost_center_id": 3,
+   "criticality": "Media",
+   "currency_id": 1,
+   "custodian_id": 1,
+   "location_id": 1,
+   "model_id": 4,
+   "name": "Forno Combinado Rational iCombi Pro 10-1/1 — FOR-001",
+   "purchase_date": "2023-08-07",
+   "purchase_price": "148000",
+   "region_id": 1,
+   "serial_1": "E11SJ23082991547",
+   "service_configs": [
+    {
+     "alert_id": 1,
+     "measure": "time_hours",
+     "threshold": 1000
+    }
+   ],
+   "status": "active",
+   "tag_tecnico": "FOR-001",
+   "temp_max": 300,
+   "temp_min": 30,
+   "tenure_type": "Propiedad",
+   "type_id": 2,
+   "warranty_end": "2026-08-07"
+  }
+ },
+ "brands": {
+  "1": {
+   "code": "CARR",
+   "name": "Carrier"
+  },
+  "2": {
+   "code": "DAIK",
+   "name": "Daikin"
+  },
+  "3": {
+   "code": "RATI",
+   "name": "Rational"
+  },
+  "4": {
+   "code": "HOBA",
+   "name": "Hobart"
+  },
+  "5": {
+   "code": "SCHI",
+   "name": "Atlas Schindler"
+  },
+  "6": {
+   "code": "ELUX",
+   "name": "Electrolux Professional"
+  },
+  "7": {
+   "code": "CUMM",
+   "name": "Cummins"
+  },
+  "8": {
+   "code": "MBNZ",
+   "name": "Mercedes-Benz"
+  },
+  "9": {
+   "code": "BOSC",
+   "name": "Bosch"
+  }
+ },
+ "cost_centers": {
+  "1": {
+   "accounting_code": "OP-001",
+   "name": "Operações Hoteleiras"
+  },
+  "2": {
+   "accounting_code": "MANT-001",
+   "name": "Manutenção e Engenharia"
+  },
+  "3": {
+   "accounting_code": "AB-001",
+   "name": "Alimentos e Bebidas"
+  },
+  "4": {
+   "accounting_code": "GOV-001",
+   "name": "Governança e Lavanderia"
+  },
+  "5": {
+   "accounting_code": "TRF-001",
+   "name": "Transfers e Passeios"
+  }
+ },
+ "currencies": {
+  "1": {
+   "iso_code": "BRL",
+   "symbol": "R$"
+  },
+  "2": {
+   "iso_code": "USD",
+   "symbol": "US$"
+  },
+  "3": {
+   "iso_code": "EUR",
+   "symbol": "€"
+  }
+ },
+ "custodians": {
+  "1": {
+   "active": true,
+   "address": "Av. Oceânica, 2400, Ondina, Salvador, BA, 40170-010",
+   "alias": "Beira Magalhães",
+   "email": "patrimonio@beiramagalhaes.example",
+   "legal_name": "Beira Magalhães Hotéis e Resorts Ltda.",
+   "phone": "+55 71 5550 0142",
+   "subject_type": "RUT",
+   "tax_id": "12.345.678/0001-90"
+  },
+  "2": {
+   "active": true,
+   "address": "Rua da Paciência, 310, Rio Vermelho, Salvador, BA, 41950-010",
+   "alias": "Clima Bahia",
+   "email": "contratos@climabahia.example",
+   "legal_name": "Clima Bahia Engenharia Térmica Ltda.",
+   "phone": "+55 71 5550 0198",
+   "subject_type": "RUT",
+   "tax_id": "23.456.789/0001-01"
+  },
+  "3": {
+   "active": true,
+   "address": "Av. Tancredo Neves, 1632, Caminho das Árvores, Salvador, BA, 41820-020",
+   "alias": "Elevar",
+   "email": "atendimento@elevarba.example",
+   "legal_name": "Elevar Manutenção de Elevadores Ltda.",
+   "phone": "+55 71 5550 0117",
+   "subject_type": "RUT",
+   "tax_id": "34.567.890/0001-12"
+  },
+  "4": {
+   "active": true,
+   "address": "Rod. BA-099, km 52, Praia do Forte, Mata de São João, BA, 48280-000",
+   "alias": "Rota do Coco",
+   "email": "frota@rotadococo.example",
+   "legal_name": "Rota do Coco Locadora de Veículos Ltda.",
+   "phone": "+55 71 5550 0163",
+   "subject_type": "RUT",
+   "tax_id": "45.678.901/0001-23"
+  },
+  "5": {
+   "active": true,
+   "address": "Rua das Pedras, 88, Lençóis, BA, 46960-000",
+   "alias": "R. Tavares",
+   "email": "renata.tavares@beiramagalhaes.example",
+   "legal_name": "Renata Tavares de Oliveira",
+   "phone": "+55 75 5550 0134",
+   "subject_type": "CI",
+   "tax_id": "123.456.789-09"
+  }
+ },
+ "events": {
+  "1": {
+   "location": {
+    "lat": -13.0094,
+    "lon": -38.5108
+   },
+   "sensor_id": 1,
+   "timestamp": "2027-02-13T08:15:00Z",
+   "trigger_type": "gateway_poll",
+   "unit": "km/h",
+   "value": {
+    "lat": -13.0094,
+    "lon": -38.5108,
+    "odometer_km": 9850,
+    "speed_kmh": 45
+   }
+  },
+  "2": {
+   "location": {
+    "lat": -12.5795,
+    "lon": -38.0017
+   },
+   "sensor_id": 2,
+   "timestamp": "2027-02-13T09:05:00Z",
+   "trigger_type": "gateway_poll",
+   "unit": "km/h",
+   "value": {
+    "lat": -12.5795,
+    "lon": -38.0017,
+    "odometer_km": 32410,
+    "speed_kmh": 88
+   }
+  },
+  "3": {
+   "sensor_id": 4,
+   "timestamp": "2027-02-13T09:30:00Z",
+   "trigger_type": "sensor_driver",
+   "unit": "hours",
+   "value": {
+    "horas_operacao": 12435,
+    "temp_entrada": 12.4,
+    "temp_saida": 6.8
+   }
+  },
+  "4": {
+   "sensor_id": 6,
+   "timestamp": "2027-02-14T00:00:00Z",
+   "trigger_type": "sensor_driver",
+   "unit": "hours",
+   "value": {
+    "carga_pct": 0,
+    "frequencia_hz": 60,
+    "horas_motor": 1260,
+    "tensao_v": 380
+   }
+  },
+  "5": {
+   "sensor_id": 8,
+   "timestamp": "2027-02-14T07:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "pressao_bar": 3.1,
+    "temp_saida": 72
+   }
+  },
+  "6": {
+   "sensor_id": 10,
+   "timestamp": "2027-02-14T07:00:00Z",
+   "trigger_type": "sensor_driver",
+   "value": {
+    "andar_atual": "T",
+    "porta_aberta": false,
+    "viagens": 184220
+   }
+  }
+ },
+ "fsm_machines": {
+  "1": {
+   "description": "Estados de operação das vans de transfer e veículos de apoio",
+   "name": "Ciclo de Vida de Veículos",
+   "states": [
+    {
+     "color": "#10b981",
+     "is_initial": true,
+     "label": "Disponível",
+     "name": "disponivel",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "qr_scan",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "em_uso"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "em_revisao"
+      }
+     ]
+    },
+    {
+     "color": "#3b82f6",
+     "label": "Em Uso",
+     "name": "em_uso",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "qr_scan",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "disponivel"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "em_revisao"
+      }
+     ]
+    },
+    {
+     "color": "#f59e0b",
+     "label": "Em Revisão",
+     "name": "em_revisao",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "disponivel"
+      },
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 30,
+       "to": "baixado"
+      }
+     ]
+    },
+    {
+     "color": "#6b7280",
+     "is_final": true,
+     "label": "Baixado",
+     "name": "baixado",
+     "transitions": []
+    }
+   ]
+  },
+  "2": {
+   "description": "Estados de operação dos equipamentos prediais (climatização e elevadores)",
+   "name": "Ciclo de Vida de Equipamentos Prediais",
+   "states": [
+    {
+     "color": "#10b981",
+     "is_initial": true,
+     "label": "Operacional",
+     "name": "operacional",
+     "transitions": [
+      {
+       "condition": {
+        "duration": "500h",
+        "type": "duration_exceeded"
+       },
+       "priority": 60,
+       "to": "manutencao_programada"
+      },
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 80,
+       "to": "em_reparo"
+      }
+     ]
+    },
+    {
+     "color": "#f59e0b",
+     "label": "Manutenção Programada",
+     "name": "manutencao_programada",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "operacional"
+      }
+     ]
+    },
+    {
+     "color": "#ef4444",
+     "label": "Em Reparo",
+     "name": "em_reparo",
+     "transitions": [
+      {
+       "condition": {
+        "trigger": "custom_driver",
+        "type": "trigger_type"
+       },
+       "priority": 50,
+       "to": "operacional"
+      },
+      {
+       "condition": {
+        "trigger": "api_call",
+        "type": "trigger_type"
+       },
+       "priority": 30,
+       "to": "fora_de_servico"
+      }
+     ]
+    },
+    {
+     "color": "#6b7280",
+     "is_final": true,
+     "label": "Fora de Serviço",
+     "name": "fora_de_servico",
+     "transitions": []
+    }
+   ]
+  }
+ },
+ "issue_templates": {
+  "1": {
+   "created_at": "2027-01-15T13:17:00Z",
+   "deleted": 0,
+   "description": "O que se pergunta quando é relatada uma falha em um chiller ou em uma central VRF.",
+   "fields": [
+    {
+     "key": "horas_operacao",
+     "label": "Horas de operação",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "key": "codigo_alarme",
+     "label": "Código de alarme no painel",
+     "required": false,
+     "type": "text"
+    },
+    {
+     "key": "equipamento_parado",
+     "label": "O equipamento está parado?",
+     "required": false,
+     "type": "boolean"
+    }
+   ],
+   "is_current": 1,
+   "key": "falha_climatizacao",
+   "name": "Falha de climatização",
+   "sla_config": {
+    "first_response": {
+     "critical": 30,
+     "high": 60,
+     "low": 480,
+     "medium": 240
+    },
+    "resolution": {
+     "critical": 240,
+     "high": 480,
+     "low": 2880,
+     "medium": 1440
+    }
+   },
+   "version": 1
+  },
+  "2": {
+   "created_at": "2027-01-15T13:17:00Z",
+   "deleted": 0,
+   "description": "O que se pergunta quando é relatada uma falha em um grupo gerador.",
+   "fields": [
+    {
+     "key": "horas_motor",
+     "label": "Horas de motor",
+     "required": true,
+     "type": "number"
+    }
+   ],
+   "is_current": 0,
+   "key": "falha_gerador",
+   "name": "Falha de gerador",
+   "version": 1
+  },
+  "3": {
+   "created_at": "2027-02-02T13:17:00Z",
+   "deleted": 0,
+   "description": "O que se pergunta quando é relatada uma falha em um grupo gerador.",
+   "fields": [
+    {
+     "key": "horas_motor",
+     "label": "Horas de motor",
+     "required": true,
+     "type": "number"
+    },
+    {
+     "key": "nivel_combustivel",
+     "label": "Nível de combustível (%)",
+     "required": false,
+     "type": "number"
+    },
+    {
+     "key": "deu_partida",
+     "label": "Deu partida?",
+     "required": false,
+     "type": "boolean"
+    }
+   ],
+   "is_current": 1,
+   "key": "falha_gerador",
+   "name": "Falha de gerador",
+   "version": 2
+  }
+ },
+ "issues": {
+  "1": {
+   "asset_category": "critico",
+   "asset_id": 1,
+   "channel": "qr",
+   "created_at": "2027-02-14T11:17:00Z",
+   "description": "Há água pingando sob o evaporador do chiller. Relatado pelo código QR do equipamento.",
+   "machine_id": 1,
+   "priority": "medium",
+   "seed_code": "ISS-01",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T15:17:00Z",
+   "sla_resolution_deadline": "2027-02-15T11:17:00Z",
+   "state": "reported",
+   "title": "Vazamento de água no chiller"
+  },
+  "10": {
+   "asset_category": "critico",
+   "asset_id": 16,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-13T17:17:00Z",
+   "description": "A caldeira desarmou por falha do queimador. Este caso agrupa os relatos dos setores afetados.",
+   "first_responded_by": 6,
+   "first_response_at": "2027-02-13T18:17:00Z",
+   "machine_id": 10,
+   "priority": "high",
+   "reported_by": 4,
+   "seed_code": "ISS-10",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T19:17:00Z",
+   "sla_resolution_deadline": "2027-02-14T17:17:00Z",
+   "state": "in_progress",
+   "title": "Falta de água quente no hotel",
+   "updated_at": "2027-02-14T06:37:00Z"
+  },
+  "11": {
+   "asset_category": "normal",
+   "asset_id": 11,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-13T18:17:00Z",
+   "description": "A lava-louças não chega à temperatura de enxágue desde que a caldeira desarmou.",
+   "machine_id": 11,
+   "master_id": 10,
+   "priority": "high",
+   "reported_by": 8,
+   "seed_code": "ISS-11",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T22:17:00Z",
+   "sla_resolution_deadline": "2027-02-15T18:17:00Z",
+   "state": "in_progress",
+   "title": "Lava-louças não atinge a temperatura de enxágue",
+   "updated_at": "2027-02-14T06:57:00Z"
+  },
+  "12": {
+   "asset_category": "normal",
+   "asset_id": 15,
+   "assignee": 6,
+   "channel": "qr",
+   "created_at": "2027-02-13T18:17:00Z",
+   "description": "A calandra não aquece e os lençóis saem úmidos. Relatado pelo código QR do equipamento.",
+   "machine_id": 12,
+   "master_id": 10,
+   "priority": "medium",
+   "seed_code": "ISS-12",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T02:17:00Z",
+   "sla_resolution_deadline": "2027-02-16T18:17:00Z",
+   "state": "in_progress",
+   "title": "Calandra sem aquecimento",
+   "updated_at": "2027-02-14T06:57:00Z"
+  },
+  "2": {
+   "asset_category": "normal",
+   "asset_id": 4,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-14T08:17:00Z",
+   "description": "O ar-condicionado do salão de passageiros não gela. A van continua em uso nos transfers curtos.",
+   "machine_id": 2,
+   "priority": "medium",
+   "reported_by": 7,
+   "seed_code": "ISS-02",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-14T16:17:00Z",
+   "sla_resolution_deadline": "2027-02-17T08:17:00Z",
+   "state": "reported",
+   "title": "Ar-condicionado da van não gela"
+  },
+  "3": {
+   "asset_category": "normal",
+   "asset_id": 9,
+   "assignee": 8,
+   "channel": "app",
+   "created_at": "2027-02-13T11:17:00Z",
+   "description": "O forno mostra erro de geração de vapor desde o café da manhã.",
+   "machine_id": 3,
+   "priority": "high",
+   "reported_by": 6,
+   "seed_code": "ISS-03",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T15:17:00Z",
+   "sla_resolution_deadline": "2027-02-15T11:17:00Z",
+   "state": "triaged",
+   "title": "Forno combinado com erro de geração de vapor",
+   "updated_at": "2027-02-14T00:17:00Z"
+  },
+  "4": {
+   "asset_category": "critico",
+   "asset_id": 3,
+   "assignee": 6,
+   "channel": "app",
+   "created_at": "2027-02-13T07:17:00Z",
+   "description": "Os apartamentos do bloco B não passam de 26 °C com o sistema em carga máxima.",
+   "first_responded_by": 6,
+   "first_response_at": "2027-02-13T08:17:00Z",
+   "form_data": {
+    "codigo_alarme": "A-17",
+    "equipamento_parado": "false",
+    "horas_operacao": "12435"
+   },
+   "machine_id": 4,
+   "priority": "high",
+   "reported_by": 8,
+   "seed_code": "ISS-04",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-13T08:17:00Z",
+   "sla_resolution_deadline": "2027-02-13T15:17:00Z",
+   "state": "in_progress",
+   "template_id": 1,
+   "title": "Central VRF não mantém a temperatura",
+   "updated_at": "2027-02-14T03:17:00Z"
+  },
+  "5": {
+   "asset_category": "critico",
+   "asset_id": 12,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-11T13:17:00Z",
+   "description": "O elevador social parou entre o 3º e o 4º andar. Os hóspedes estão usando o elevador de serviço.",
+   "first_responded_by": 7,
+   "first_response_at": "2027-02-11T16:17:00Z",
+   "machine_id": 5,
+   "priority": "critical",
+   "reported_by": 4,
+   "seed_code": "ISS-05",
+   "severity": "critical",
+   "sla_first_response_deadline": "2027-02-11T14:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T17:17:00Z",
+   "state": "in_progress",
+   "title": "Elevador social parado entre andares",
+   "updated_at": "2027-02-13T13:17:00Z"
+  },
+  "6": {
+   "asset_category": "critico",
+   "asset_id": 7,
+   "assignee": 9,
+   "channel": "app",
+   "created_at": "2027-02-10T13:17:00Z",
+   "description": "O gerador não deu partida no teste semanal. Aguardando a bateria de reposição.",
+   "first_responded_by": 9,
+   "first_response_at": "2027-02-10T15:17:00Z",
+   "form_data": {
+    "deu_partida": "false",
+    "horas_motor": "1260",
+    "nivel_combustivel": "78"
+   },
+   "machine_id": 6,
+   "priority": "medium",
+   "reported_by": 9,
+   "seed_code": "ISS-06",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-10T17:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T13:17:00Z",
+   "state": "on_hold",
+   "template_id": 3,
+   "title": "Gerador não parte no teste semanal",
+   "updated_at": "2027-02-13T05:17:00Z"
+  },
+  "7": {
+   "asset_category": "normal",
+   "asset_id": 14,
+   "assignee": 8,
+   "channel": "app",
+   "created_at": "2027-02-08T13:17:00Z",
+   "description": "A lavadora vibra muito na centrifugação. Os amortecedores foram trocados.",
+   "first_responded_by": 8,
+   "first_response_at": "2027-02-08T17:17:00Z",
+   "machine_id": 7,
+   "priority": "medium",
+   "reported_by": 6,
+   "seed_code": "ISS-07",
+   "severity": "major",
+   "sla_first_response_deadline": "2027-02-08T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-11T13:17:00Z",
+   "state": "resolved",
+   "title": "Lavadora com vibração excessiva na centrifugação",
+   "updated_at": "2027-02-13T01:17:00Z"
+  },
+  "8": {
+   "asset_category": "normal",
+   "asset_id": 4,
+   "assignee": 7,
+   "channel": "app",
+   "created_at": "2027-02-02T13:17:00Z",
+   "description": "As palhetas deixavam riscos no para-brisa. As duas foram trocadas.",
+   "first_responded_by": 7,
+   "first_response_at": "2027-02-02T19:17:00Z",
+   "machine_id": 8,
+   "priority": "low",
+   "reported_by": 7,
+   "seed_code": "ISS-08",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-02T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-09T13:17:00Z",
+   "state": "closed",
+   "title": "Palhetas do limpador trocadas",
+   "updated_at": "2027-02-11T13:17:00Z"
+  },
+  "9": {
+   "asset_category": "normal",
+   "assignee": 4,
+   "channel": "app",
+   "created_at": "2027-02-06T13:17:00Z",
+   "description": "O portão de correr da doca de serviço faz ruído ao abrir.",
+   "machine_id": 9,
+   "priority": "low",
+   "reject_reason": "O portão não é um ativo gerenciado no Seam. Encaminhado à manutenção predial.",
+   "reported_by": 9,
+   "seed_code": "ISS-09",
+   "severity": "minor",
+   "sla_first_response_deadline": "2027-02-06T21:17:00Z",
+   "sla_resolution_deadline": "2027-02-13T13:17:00Z",
+   "state": "rejected",
+   "title": "Ruído no portão da doca",
+   "updated_at": "2027-02-11T21:17:00Z"
+  }
+ },
+ "locations": {
+  "1": {
+   "description": "Hotel Beira Magalhães Ondina, Salvador",
+   "region_id": 1,
+   "short_name": "HTL-SSA"
+  },
+  "2": {
+   "description": "Central de Utilidades, Hotel Ondina",
+   "region_id": 1,
+   "short_name": "UTIL-SSA"
+  },
+  "3": {
+   "description": "Lavanderia Central, Lauro de Freitas",
+   "region_id": 1,
+   "short_name": "LAV-LDF"
+  },
+  "4": {
+   "description": "Resort Beira Magalhães Praia do Forte",
+   "region_id": 2,
+   "short_name": "RST-PDF"
+  },
+  "5": {
+   "description": "Pousada Beira Magalhães Morro de São Paulo",
+   "region_id": 3,
+   "short_name": "PSD-MSP"
+  },
+  "6": {
+   "description": "Pousada Beira Magalhães Lençóis",
+   "region_id": 4,
+   "short_name": "PSD-LEN"
+  },
+  "7": {
+   "description": "Resort Beira Magalhães Arraial d'Ajuda",
+   "region_id": 5,
+   "short_name": "RST-AJU"
+  }
+ },
+ "models": {
+  "1": {
+   "brand_id": 1,
+   "name": "AquaSnap 30RB"
+  },
+  "10": {
+   "brand_id": 6,
+   "name": "TD6-37"
+  },
+  "11": {
+   "brand_id": 6,
+   "name": "IC4 4832"
+  },
+  "12": {
+   "brand_id": 7,
+   "name": "C400D6"
+  },
+  "13": {
+   "brand_id": 7,
+   "name": "C220D6"
+  },
+  "14": {
+   "brand_id": 8,
+   "name": "Sprinter 416 CDI"
+  },
+  "15": {
+   "brand_id": 9,
+   "name": "Logano GE515"
+  },
+  "2": {
+   "brand_id": 1,
+   "name": "AquaForce 30XA"
+  },
+  "3": {
+   "brand_id": 2,
+   "name": "VRV IV"
+  },
+  "4": {
+   "brand_id": 3,
+   "name": "iCombi Pro 10-1/1"
+  },
+  "5": {
+   "brand_id": 3,
+   "name": "iCombi Pro 20-1/1"
+  },
+  "6": {
+   "brand_id": 4,
+   "name": "CL44eN"
+  },
+  "7": {
+   "brand_id": 5,
+   "name": "Schindler 3300"
+  },
+  "8": {
+   "brand_id": 5,
+   "name": "Schindler 5500"
+  },
+  "9": {
+   "brand_id": 6,
+   "name": "WH6-33"
+  }
+ },
+ "prop_associations": {
+  "1": {
+   "entity_id": 7,
+   "prop_definition_id": 3,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "10": {
+   "entity_id": 5,
+   "prop_definition_id": 2,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "11": {
+   "entity_id": 5,
+   "prop_definition_id": 5,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "12": {
+   "entity_id": 3,
+   "prop_definition_id": 10,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "13": {
+   "entity_id": 3,
+   "prop_definition_id": 11,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "14": {
+   "entity_id": 3,
+   "prop_definition_id": 12,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "15": {
+   "entity_id": 4,
+   "prop_definition_id": 10,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "16": {
+   "entity_id": 2,
+   "prop_definition_id": 13,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "17": {
+   "entity_id": 6,
+   "prop_definition_id": 13,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "2": {
+   "entity_id": 7,
+   "prop_definition_id": 1,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "3": {
+   "entity_id": 7,
+   "prop_definition_id": 4,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "4": {
+   "entity_id": 7,
+   "prop_definition_id": 5,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "5": {
+   "entity_id": 1,
+   "prop_definition_id": 8,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "6": {
+   "entity_id": 1,
+   "prop_definition_id": 9,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "7": {
+   "entity_id": 1,
+   "prop_definition_id": 2,
+   "requirement": "opcional",
+   "target_entity": "asset_type"
+  },
+  "8": {
+   "entity_id": 5,
+   "prop_definition_id": 6,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  },
+  "9": {
+   "entity_id": 5,
+   "prop_definition_id": 7,
+   "requirement": "requerida",
+   "target_entity": "asset_type"
+  }
+ },
+ "prop_definitions": {
+  "1": {
+   "data_type": "numerico",
+   "default_value": "0",
+   "short_name": "quilometragem_km"
+  },
+  "10": {
+   "data_type": "numerico",
+   "short_name": "capacidade_kg"
+  },
+  "11": {
+   "data_type": "numerico",
+   "short_name": "numero_paradas"
+  },
+  "12": {
+   "data_type": "fecha",
+   "short_name": "vencimento_laudo_tecnico"
+  },
+  "13": {
+   "data_type": "numerico",
+   "short_name": "potencia_kw"
+  },
+  "2": {
+   "data_type": "numerico",
+   "default_value": "0",
+   "short_name": "horas_operacao"
+  },
+  "3": {
+   "data_type": "alfanumerico",
+   "short_name": "placa"
+  },
+  "4": {
+   "data_type": "fecha",
+   "short_name": "vencimento_licenciamento"
+  },
+  "5": {
+   "data_type": "seleccion_unica",
+   "short_name": "tipo_combustivel"
+  },
+  "6": {
+   "data_type": "numerico",
+   "short_name": "potencia_kva"
+  },
+  "7": {
+   "data_type": "numerico",
+   "short_name": "tensao_saida"
+  },
+  "8": {
+   "data_type": "numerico",
+   "short_name": "capacidade_tr"
+  },
+  "9": {
+   "data_type": "alfanumerico",
+   "short_name": "tipo_refrigerante"
+  }
+ },
+ "regions": {
+  "1": {
+   "description": "Salvador e Região Metropolitana"
+  },
+  "2": {
+   "description": "Litoral Norte"
+  },
+  "3": {
+   "description": "Costa do Dendê"
+  },
+  "4": {
+   "description": "Chapada Diamantina"
+  },
+  "5": {
+   "description": "Costa do Descobrimento"
+  }
+ },
+ "rules": {
+  "1": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "7",
+   "condition_type": "value_gt",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Avisar quando uma van atingir 10.000 km desde a última revisão",
+   "duration": 0,
+   "enabled": true,
+   "name": "Revisão de van — 10.000 km",
+   "priority": 60,
+   "threshold": 10000,
+   "trigger_type": "threshold"
+  },
+  "2": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "1",
+   "condition_type": "value_gt",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Avisar quando um equipamento de climatização passar de 500 horas de operação",
+   "duration": 0,
+   "enabled": true,
+   "name": "Manutenção de climatização — 500 horas",
+   "priority": 70,
+   "threshold": 500,
+   "trigger_type": "threshold"
+  },
+  "3": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "7",
+   "condition_type": "value_gt",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Alertar quando uma van rastreada por GPS sair da zona atribuída",
+   "duration": 0,
+   "enabled": true,
+   "name": "Van fora da área de operação",
+   "priority": 85,
+   "threshold": 0,
+   "trigger_type": "geofence"
+  },
+  "4": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "7",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Detectar veículos que não informam posição há mais de 72 horas",
+   "duration": 72,
+   "enabled": true,
+   "name": "Van sem reporte de GPS — 72 horas",
+   "priority": 50,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  },
+  "5": {
+   "action_config": "",
+   "action_type": "notify",
+   "asset_type_id": "5",
+   "condition_type": "duration_exceeded",
+   "created_at": "2027-02-14T13:17:00Z",
+   "description": "Os geradores devem ser testados em carga pelo menos uma vez por mês",
+   "duration": 720,
+   "enabled": true,
+   "name": "Gerador sem teste de partida — 30 dias",
+   "priority": 55,
+   "threshold": 0,
+   "trigger_type": "schedule"
+  }
+ },
+ "sensor_bindings": {
+  "1": {
+   "asset_id": 4,
+   "binding_metadata": {
+    "role": "primary_gps"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 1
+  },
+  "2": {
+   "asset_id": 5,
+   "binding_metadata": {
+    "role": "primary_gps"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 2
+  },
+  "3": {
+   "asset_id": 6,
+   "binding_metadata": {
+    "role": "primary_gps"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 3
+  },
+  "4": {
+   "asset_id": 1,
+   "binding_metadata": {
+    "protocol": "Modbus-TCP",
+    "role": "controller"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 4
+  },
+  "5": {
+   "asset_id": 3,
+   "binding_metadata": {
+    "protocol": "Modbus-TCP",
+    "role": "controller"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 5
+  },
+  "6": {
+   "asset_id": 7,
+   "binding_metadata": {
+    "protocol": "Modbus-TCP",
+    "role": "controller"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 6
+  },
+  "7": {
+   "asset_id": 8,
+   "binding_metadata": {
+    "protocol": "Modbus-TCP",
+    "role": "controller"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 7
+  },
+  "8": {
+   "asset_id": 16,
+   "binding_metadata": {
+    "protocol": "Modbus-RTU",
+    "role": "temperature_probe"
+   },
+   "created_at": "2027-02-14T13:17:00Z",
+   "sensor_id": 8
+  }
+ },
+ "sensors": {
+  "1": {
+   "driver": "mqtt_ota",
+   "external_id": "GPS-VAN001",
+   "metadata": {
+    "asset_tag": "VAN-001",
+    "imei": "356938035643809"
+   },
+   "name": "GPS Sprinter VAN-001",
+   "type": "gps_telematics"
+  },
+  "10": {
+   "driver": "snmp_v2",
+   "external_id": "ELV-MON-001",
+   "metadata": {
+    "oid_base": ".1.3.6.1.4.1.52330"
+   },
+   "name": "Monitor ELV-001",
+   "type": "elevator_monitor"
+  },
+  "2": {
+   "driver": "mqtt_ota",
+   "external_id": "GPS-VAN002",
+   "metadata": {
+    "asset_tag": "VAN-002",
+    "imei": "356938035643810"
+   },
+   "name": "GPS Sprinter VAN-002",
+   "type": "gps_telematics"
+  },
+  "3": {
+   "driver": "mqtt_ota",
+   "external_id": "GPS-VAN003",
+   "metadata": {
+    "asset_tag": "VAN-003",
+    "imei": "356938035643811"
+   },
+   "name": "GPS Sprinter VAN-003",
+   "type": "gps_telematics"
+  },
+  "4": {
+   "driver": "modbus_tcp",
+   "external_id": "CHL-CTRL-001",
+   "metadata": {
+    "ip": "10.0.10.11",
+    "port": 502
+   },
+   "name": "Controlador CHL-001",
+   "type": "chiller_controller"
+  },
+  "5": {
+   "driver": "modbus_tcp",
+   "external_id": "VRF-CTRL-001",
+   "metadata": {
+    "ip": "10.0.30.11",
+    "port": 502
+   },
+   "name": "Controlador VRF-001",
+   "type": "chiller_controller"
+  },
+  "6": {
+   "driver": "modbus_tcp",
+   "external_id": "GER-CTRL-001",
+   "metadata": {
+    "ip": "10.0.10.21",
+    "port": 502
+   },
+   "name": "Controlador GER-001",
+   "type": "genset_controller"
+  },
+  "7": {
+   "driver": "modbus_tcp",
+   "external_id": "GER-CTRL-002",
+   "metadata": {
+    "ip": "10.0.20.21",
+    "port": 502
+   },
+   "name": "Controlador GER-002",
+   "type": "genset_controller"
+  },
+  "8": {
+   "driver": "modbus_rtu",
+   "external_id": "TEMP-CLD-001",
+   "metadata": {
+    "unit_id": 1,
+    "zona": "Casa de caldeiras"
+   },
+   "name": "Sonda de temperatura CLD-001",
+   "type": "temperature_humidity"
+  },
+  "9": {
+   "driver": "modbus_rtu",
+   "external_id": "TEMP-COZ-001",
+   "metadata": {
+    "unit_id": 2,
+    "zona": "Cozinha central"
+   },
+   "name": "Sonda de temperatura da cozinha",
+   "type": "temperature_humidity"
+  }
+ },
+ "tenant_settings": {
+  "1": {
+   "key": "general",
+   "locale": "pt",
+   "tenant_name": "Beira Magalhães Hotéis e Resorts Ltda.",
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "2": {
+   "email_alerts": true,
+   "key": "notifications",
+   "slack_enabled": false,
+   "updated_at": "2027-02-14T13:17:00Z",
+   "webhooks_enabled": true
+  }
+ },
+ "users": {
+  "1": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "admin@beiramagalhaes.example",
+   "name": "Administração",
+   "role": "admin",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "10": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "lucas.brito@estudiantes.utec.edu.uy",
+   "name": "Lucas Brito",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "11": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "alan.machado@estudiantes.utec.edu.uy",
+   "name": "Alan Machado",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "12": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "matthew.freire@estudiantes.utec.edu.uy",
+   "name": "Matthew Freire",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "13": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "luciano.gamba@estudiantes.utec.edu.uy",
+   "name": "Luciano Gamba",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "14": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "gaston.perez@estudiantes.utec.edu.uy",
+   "name": "Gastón Pérez",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "15": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "agustin.machado@estudiantes.utec.edu.uy",
+   "name": "Agustín Machado",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "16": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "fabricio.rivero.r@estudiantes.utec.edu.uy",
+   "name": "Fabricio Rivero",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "17": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "facundo.guerra.n@estudiantes.utec.edu.uy",
+   "name": "Facundo Guerra",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "2": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "ops@beiramagalhaes.example",
+   "name": "Gerência de Operações",
+   "role": "admin",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "3": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "dev@ual.li",
+   "name": "Dev",
+   "role": "developer",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "4": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "manager@example.com",
+   "name": "Gerente de Manutenção",
+   "role": "manager",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "5": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "viewer@example.com",
+   "name": "Consulta",
+   "role": "viewer",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "6": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "facundo.salaberry.h@estudiantes.utec.edu.uy",
+   "name": "Facundo Salaberry",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "7": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "alexis.menchaca@estudiantes.utec.edu.uy",
+   "name": "Alexis Menchaca",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "8": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "ignacio.ortega@estudiantes.utec.edu.uy",
+   "name": "Ignacio Ortega",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  },
+  "9": {
+   "active": true,
+   "created_at": "2027-02-14T13:17:00Z",
+   "email": "kevin.jaffe@estudiantes.utec.edu.uy",
+   "name": "Kevin Jaffe",
+   "role": "operator",
+   "tenant_id": 1,
+   "updated_at": "2027-02-14T13:17:00Z"
+  }
+ }
+}

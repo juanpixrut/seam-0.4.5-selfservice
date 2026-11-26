@@ -1,0 +1,4 @@
+{"seed": 2, "name": "module", "addition": true}
+{"kind": "entity", "entity": "adm_instance", "match": ["name"], "data": {"name": "Main"}}
+{"kind": "entity", "entity": "adm_account", "match": ["code"], "data": {"code": "1", "name": "Activo", "postable": false}}
+{"kind": "entity", "entity": "adm_ae", "match": ["slug"], "data": {"kind": "virtual", "slug": "seam_web", "name": "Seam Web", "account_code": "2.1.2"}}

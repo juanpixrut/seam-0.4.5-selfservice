@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required": ["role"],
+  "properties": {
+    "role": {
+      "type": "string",
+      "title": "View the application as",
+      "x-seam-input": "select",
+      "x-seam-source": "developer:view-as-roles",
+      "x-seam-help": "Every page and permission follows that role until you exit. Your account and tenant stay yours."
+    }
+  }
+}

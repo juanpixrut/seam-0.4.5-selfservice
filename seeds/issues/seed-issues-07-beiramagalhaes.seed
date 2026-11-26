@@ -1,0 +1,426 @@
+# Seam AMS demonstration data: the Issues module, over the seed 07-beiramagalhaes.
+# A .seed file, format version 2 (docs/SEED_FORMAT.md). It is an addition: load the seed it requires first, then:
+#   python3 seeds/seed.py load issues-07-beiramagalhaes --url http://localhost:9090
+# xolu must run with XOLU_API_V2_ENABLED=true: the lifecycle of an issue is a state machine (/api/v2/fsm).
+# Seam must run with the Issues module on (SEAM_ENABLE_ISSUES=1), as with any module that is off by default.
+# Times written as {"$now": "-120m"} are relative to the moment of the load.
+{"seed": 2,
+  "name": "issues-07-beiramagalhaes",
+  "description": "Ocorrências na Beira Magalhães Hotéis e Resorts: relatos, modelos, códigos QR e um caso agrupado",
+  "tags": ["issues", "hospitality", "br", "pt"],
+  "version": "1",
+  "addition": true,
+  "requires": ["07-beiramagalhaes"],
+  "entities": ["issue_templates", "issue_template_assignments", "issue_qr_codes", "issues"],
+  "notes": "12 issues in every state of the lifecycle (one case with two grouped issues), 2 templates (one with two versions) assigned to 2 asset types, 4 QR codes (one revoked). Seam must run with the module on (SEAM_ENABLE_ISSUES=1).",
+  "x": {"seam": {"module": "issues"}}
+  }
+
+# The lifecycle of an issue: the state machine the application itself makes on first use, found here by name.
+{"kind": "fsm_def", "match": ["name"], "as": "lifecycle", "body": {
+  "name": "seam_issue_lifecycle",
+  "description": "Seam AMS Issues lifecycle (8 states, iteration 1)",
+  "initial": "reported",
+  "determinism": "firstmatch",
+  "states": {
+    "reported": {"terminal": false},
+    "triaged": {"terminal": false},
+    "in_progress": {"terminal": false},
+    "on_hold": {"terminal": false},
+    "resolved": {"terminal": false},
+    "closed": {"terminal": true},
+    "rejected": {"terminal": true},
+    "duplicate": {"terminal": true}
+  },
+  "transitions": [
+    {"from": "reported", "input": "triage", "to": "triaged"},
+    {"from": ["reported", "triaged"], "input": "start", "to": "in_progress"},
+    {"from": ["triaged", "in_progress"], "input": "hold", "to": "on_hold"},
+    {"from": "on_hold", "input": "resume", "to": "in_progress"},
+    {"from": "in_progress", "input": "resolve", "to": "resolved"},
+    {"from": "resolved", "input": "close", "to": "closed"},
+    {
+      "from": ["reported", "triaged", "in_progress", "on_hold", "resolved"],
+      "input": "reject",
+      "to": "rejected"
+    },
+    {"from": ["reported", "triaged", "in_progress"], "input": "merge", "to": "duplicate"}
+  ]
+  }}
+
+# What this file expects to find, put there by the seed it adds to: users, asset types and assets.
+{"kind": "entity", "entity": "users", "find": {"email": "facundo.salaberry.h@estudiantes.utec.edu.uy"}, "as": "u_op1"}
+{"kind": "entity", "entity": "users", "find": {"email": "alexis.menchaca@estudiantes.utec.edu.uy"}, "as": "u_op2"}
+{"kind": "entity", "entity": "users", "find": {"email": "ignacio.ortega@estudiantes.utec.edu.uy"}, "as": "u_op3"}
+{"kind": "entity", "entity": "users", "find": {"email": "kevin.jaffe@estudiantes.utec.edu.uy"}, "as": "u_op4"}
+{"kind": "entity", "entity": "users", "find": {"email": "manager@example.com"}, "as": "u_manager"}
+{"kind": "entity", "entity": "users", "find": {"email": "admin@beiramagalhaes.example"}, "as": "u_admin"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "climatizacao"}, "as": "type_t1"}
+{"kind": "entity", "entity": "asset_types", "find": {"slug": "grupo-gerador"}, "as": "type_t2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "CHL-001"}, "as": "asset_a1"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "VRF-001"}, "as": "asset_a1b"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "VAN-001"}, "as": "asset_a2"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "FOR-001"}, "as": "asset_a3"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "ELV-001"}, "as": "asset_a4"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "GER-001"}, "as": "asset_a5"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "LAV-001"}, "as": "asset_a6"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "CLD-001"}, "as": "asset_a7"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "LVL-001"}, "as": "asset_a8"}
+{"kind": "entity", "entity": "assets", "find": {"tag_tecnico": "LAV-002"}, "as": "asset_a9"}
+
+# Issue templates: the extra fields an issue asks for, by asset type. The second one has two versions; the current one is version 2.
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t1", "data": {
+  "key": "falha_climatizacao",
+  "name": "Falha de climatização",
+  "description": "O que se pergunta quando é relatada uma falha em um chiller ou em uma central VRF.",
+  "version": 1,
+  "fields": [
+    {"key": "horas_operacao", "label": "Horas de operação", "type": "number", "required": true},
+    {"key": "codigo_alarme", "label": "Código de alarme no painel", "type": "text", "required": false},
+    {"key": "equipamento_parado", "label": "O equipamento está parado?", "type": "boolean", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"},
+  "sla_config": {
+    "first_response": {"critical": 30, "high": 60, "medium": 240, "low": 480},
+    "resolution": {"critical": 240, "high": 480, "medium": 1440, "low": 2880}
+  }
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2_v1", "data": {
+  "key": "falha_gerador",
+  "name": "Falha de gerador",
+  "description": "O que se pergunta quando é relatada uma falha em um grupo gerador.",
+  "version": 1,
+  "fields": [{"key": "horas_motor", "label": "Horas de motor", "type": "number", "required": true}],
+  "is_current": 0,
+  "deleted": 0,
+  "created_at": {"$now": "-30d"}
+  }}
+{"kind": "entity", "entity": "issue_templates", "match": ["key", "version"], "as": "tpl_t2", "data": {
+  "key": "falha_gerador",
+  "name": "Falha de gerador",
+  "description": "O que se pergunta quando é relatada uma falha em um grupo gerador.",
+  "version": 2,
+  "fields": [
+    {"key": "horas_motor", "label": "Horas de motor", "type": "number", "required": true},
+    {"key": "nivel_combustivel", "label": "Nível de combustível (%)", "type": "number", "required": false},
+    {"key": "deu_partida", "label": "Deu partida?", "type": "boolean", "required": false}
+  ],
+  "is_current": 1,
+  "deleted": 0,
+  "created_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t1"},
+  "template_key": "falha_climatizacao",
+  "updated_at": {"$now": "-12d"}
+  }}
+{"kind": "entity", "entity": "issue_template_assignments", "match": ["asset_type_id"], "data": {
+  "asset_type_id": {"$seed": "type_t2"},
+  "template_key": "falha_gerador",
+  "updated_at": {"$now": "-12d"}
+  }}
+
+# QR codes for reporting an issue from the asset itself. The third asset had its code replaced: the old one is kept, revoked.
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "OXBFF43TO3UBYIRG",
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "FLCMQDJJOCAQMR7K",
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "active": true,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "NMKVHAVKO2A2IV7Y",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "active": false,
+  "created_at": {"$now": "-20d"},
+  "created_by": {"$seed": "u_admin"},
+  "revoked_at": {"$now": "-6d"}
+  }}
+{"kind": "entity", "entity": "issue_qr_codes", "match": ["code"], "data": {
+  "code": "RYKJCUPTGU3OXERY",
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "active": true,
+  "created_at": {"$now": "-6d"},
+  "created_by": {"$seed": "u_admin"}
+  }}
+
+# One state machine per issue, and the inputs that took it to where it is. The history of each issue shows these
+# steps with the time of the load, which is when they are made.
+{"kind": "fsm_machine", "as": "m_iss_01", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_02", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_machine", "as": "m_iss_03", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_03"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_04", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_04"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_05", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_05"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_06", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "start", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_06"}, "input": "hold", "payload": {"actor": {"$seed": "u_op4"}}}
+{"kind": "fsm_machine", "as": "m_iss_07", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "start", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_07"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op3"}}}
+{"kind": "fsm_machine", "as": "m_iss_08", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "start", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "resolve", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_08"}, "input": "close", "payload": {"actor": {"$seed": "u_op2"}}}
+{"kind": "fsm_machine", "as": "m_iss_09", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_09"}, "input": "reject", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_machine", "as": "m_iss_10", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_10"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_11", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_11"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+{"kind": "fsm_machine", "as": "m_iss_12", "phase": 36, "body": {"definition": {"$seed": "lifecycle"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "triage", "payload": {"actor": {"$seed": "u_manager"}}}
+{"kind": "fsm_walk", "phase": 37, "machine": {"$seed": "m_iss_12"}, "input": "start", "payload": {"actor": {"$seed": "u_op1"}}}
+
+# The issues. Each is found by its seed_code, so loading the file again adds nothing. ISS-10 is a case: ISS-11 and
+# ISS-12 are grouped under it and follow its state.
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_01", "data": {
+  "seed_code": "ISS-01",
+  "title": "Vazamento de água no chiller",
+  "description": "Há água pingando sob o evaporador do chiller. Relatado pelo código QR do equipamento.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_01"},
+  "channel": "qr",
+  "created_at": {"$now": "-120m"},
+  "asset_id": {"$seed": "asset_a1"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "+120m"},
+  "sla_resolution_deadline": {"$now": "+1320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_02", "data": {
+  "seed_code": "ISS-02",
+  "title": "Ar-condicionado da van não gela",
+  "description": "O ar-condicionado do salão de passageiros não gela. A van continua em uso nos transfers curtos.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "reported",
+  "machine_id": {"$seed": "m_iss_02"},
+  "channel": "app",
+  "created_at": {"$now": "-300m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "+180m"},
+  "sla_resolution_deadline": {"$now": "+4020m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_03", "data": {
+  "seed_code": "ISS-03",
+  "title": "Forno combinado com erro de geração de vapor",
+  "description": "O forno mostra erro de geração de vapor desde o café da manhã.",
+  "priority": "high",
+  "severity": "major",
+  "state": "triaged",
+  "machine_id": {"$seed": "m_iss_03"},
+  "channel": "app",
+  "created_at": {"$now": "-1560m"},
+  "asset_id": {"$seed": "asset_a3"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-1320m"},
+  "sla_resolution_deadline": {"$now": "+1320m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-780m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_04", "data": {
+  "seed_code": "ISS-04",
+  "title": "Central VRF não mantém a temperatura",
+  "description": "Os apartamentos do bloco B não passam de 26 °C com o sistema em carga máxima.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_04"},
+  "channel": "app",
+  "created_at": {"$now": "-1800m"},
+  "asset_id": {"$seed": "asset_a1b"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1740m"},
+  "sla_resolution_deadline": {"$now": "-1320m"},
+  "template_id": {"$seed": "tpl_t1"},
+  "form_data": {"horas_operacao": "12435", "codigo_alarme": "A-17", "equipamento_parado": "false"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1740m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-600m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_05", "data": {
+  "seed_code": "ISS-05",
+  "title": "Elevador social parado entre andares",
+  "description": "O elevador social parou entre o 3º e o 4º andar. Os hóspedes estão usando o elevador de serviço.",
+  "priority": "critical",
+  "severity": "critical",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_05"},
+  "channel": "app",
+  "created_at": {"$now": "-4320m"},
+  "asset_id": {"$seed": "asset_a4"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-4260m"},
+  "sla_resolution_deadline": {"$now": "-4080m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-4140m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-1440m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_06", "data": {
+  "seed_code": "ISS-06",
+  "title": "Gerador não parte no teste semanal",
+  "description": "O gerador não deu partida no teste semanal. Aguardando a bateria de reposição.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "on_hold",
+  "machine_id": {"$seed": "m_iss_06"},
+  "channel": "app",
+  "created_at": {"$now": "-5760m"},
+  "asset_id": {"$seed": "asset_a5"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-5520m"},
+  "sla_resolution_deadline": {"$now": "-4320m"},
+  "template_id": {"$seed": "tpl_t2"},
+  "form_data": {"horas_motor": "1260", "nivel_combustivel": "78", "deu_partida": "false"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_op4"},
+  "first_response_at": {"$now": "-5640m"},
+  "first_responded_by": {"$seed": "u_op4"},
+  "updated_at": {"$now": "-1920m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_07", "data": {
+  "seed_code": "ISS-07",
+  "title": "Lavadora com vibração excessiva na centrifugação",
+  "description": "A lavadora vibra muito na centrifugação. Os amortecedores foram trocados.",
+  "priority": "medium",
+  "severity": "major",
+  "state": "resolved",
+  "machine_id": {"$seed": "m_iss_07"},
+  "channel": "app",
+  "created_at": {"$now": "-8640m"},
+  "asset_id": {"$seed": "asset_a6"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-8160m"},
+  "sla_resolution_deadline": {"$now": "-4320m"},
+  "reported_by": {"$seed": "u_op1"},
+  "assignee": {"$seed": "u_op3"},
+  "first_response_at": {"$now": "-8400m"},
+  "first_responded_by": {"$seed": "u_op3"},
+  "updated_at": {"$now": "-2160m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_08", "data": {
+  "seed_code": "ISS-08",
+  "title": "Palhetas do limpador trocadas",
+  "description": "As palhetas deixavam riscos no para-brisa. As duas foram trocadas.",
+  "priority": "low",
+  "severity": "minor",
+  "state": "closed",
+  "machine_id": {"$seed": "m_iss_08"},
+  "channel": "app",
+  "created_at": {"$now": "-17280m"},
+  "asset_id": {"$seed": "asset_a2"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-16800m"},
+  "sla_resolution_deadline": {"$now": "-7200m"},
+  "reported_by": {"$seed": "u_op2"},
+  "assignee": {"$seed": "u_op2"},
+  "first_response_at": {"$now": "-16920m"},
+  "first_responded_by": {"$seed": "u_op2"},
+  "updated_at": {"$now": "-4320m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_09", "data": {
+  "seed_code": "ISS-09",
+  "title": "Ruído no portão da doca",
+  "description": "O portão de correr da doca de serviço faz ruído ao abrir.",
+  "priority": "low",
+  "severity": "minor",
+  "state": "rejected",
+  "machine_id": {"$seed": "m_iss_09"},
+  "channel": "app",
+  "created_at": {"$now": "-11520m"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-11040m"},
+  "sla_resolution_deadline": {"$now": "-1440m"},
+  "reported_by": {"$seed": "u_op4"},
+  "assignee": {"$seed": "u_manager"},
+  "reject_reason": "O portão não é um ativo gerenciado no Seam. Encaminhado à manutenção predial.",
+  "updated_at": {"$now": "-3840m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_10", "data": {
+  "seed_code": "ISS-10",
+  "title": "Falta de água quente no hotel",
+  "description": "A caldeira desarmou por falha do queimador. Este caso agrupa os relatos dos setores afetados.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_10"},
+  "channel": "app",
+  "created_at": {"$now": "-1200m"},
+  "asset_id": {"$seed": "asset_a7"},
+  "asset_category": "critico",
+  "sla_first_response_deadline": {"$now": "-1080m"},
+  "sla_resolution_deadline": {"$now": "+240m"},
+  "reported_by": {"$seed": "u_manager"},
+  "assignee": {"$seed": "u_op1"},
+  "first_response_at": {"$now": "-1140m"},
+  "first_responded_by": {"$seed": "u_op1"},
+  "updated_at": {"$now": "-400m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_11", "data": {
+  "seed_code": "ISS-11",
+  "title": "Lava-louças não atinge a temperatura de enxágue",
+  "description": "A lava-louças não chega à temperatura de enxágue desde que a caldeira desarmou.",
+  "priority": "high",
+  "severity": "major",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_11"},
+  "channel": "app",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a8"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-900m"},
+  "sla_resolution_deadline": {"$now": "+1740m"},
+  "reported_by": {"$seed": "u_op3"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}
+{"kind": "entity", "entity": "issues", "match": ["seed_code"], "as": "issue_iss_12", "data": {
+  "seed_code": "ISS-12",
+  "title": "Calandra sem aquecimento",
+  "description": "A calandra não aquece e os lençóis saem úmidos. Relatado pelo código QR do equipamento.",
+  "priority": "medium",
+  "severity": "minor",
+  "state": "in_progress",
+  "machine_id": {"$seed": "m_iss_12"},
+  "channel": "qr",
+  "created_at": {"$now": "-1140m"},
+  "asset_id": {"$seed": "asset_a9"},
+  "asset_category": "normal",
+  "sla_first_response_deadline": {"$now": "-660m"},
+  "sla_resolution_deadline": {"$now": "+3180m"},
+  "assignee": {"$seed": "u_op1"},
+  "master_id": {"$seed": "issue_iss_10"},
+  "updated_at": {"$now": "-380m"}
+  }}

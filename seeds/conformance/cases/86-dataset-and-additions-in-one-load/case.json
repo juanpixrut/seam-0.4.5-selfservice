@@ -1,0 +1,41 @@
+{
+ "about": "a dataset and its additions named in one command: the additions run after it, and the result is the one of loading them one by one",
+ "entities": [
+  "issue_templates",
+  "issue_template_assignments",
+  "issue_qr_codes",
+  "issues"
+ ],
+ "steps": [
+  {
+   "run": [
+    "load",
+    "../../../seed-01-constructec.seed",
+    "../../../workorders/seed-wo-templates.seed",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ]
+  },
+  {
+   "run": [
+    "check",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "says": "same"
+  },
+  {
+   "run": [
+    "load",
+    "../../../seed-01-constructec.seed",
+    "../../../workorders/seed-wo-templates.seed",
+    "../../../issues/seed-issues-01-constructec.seed",
+    "--as-of",
+    "2027-02-14T13:17:00Z"
+   ],
+   "says": "present"
+  }
+ ]
+}

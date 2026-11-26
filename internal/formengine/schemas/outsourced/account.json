@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "responsible_user_id": {
+      "type": "integer",
+      "title": "Representative account",
+      "x-seam-input": "any-picker",
+      "x-seam-source": "entity:users"
+    }
+  }
+}

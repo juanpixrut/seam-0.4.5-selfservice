@@ -1,0 +1,893 @@
+package ui
+
+// validation_handler_test.go — end-to-end validation tests.
+//
+// Each test submits a form with a specific violation and asserts that:
+//   1. The handler re-renders the form (HTTP 200) rather than redirecting (303).
+//   2. The response body contains the queryfy error message for that field.
+//   3. The xolu backend is never called (validateForm short-circuits before it).
+//
+// On valid input the handler must redirect (303) and the xolu mock must be called.
+//
+// Coverage: every handler wired with validateForm, one violation per constraint
+// type (required, minLength, maxLength, enum, number positive).
+
+import (
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"strings"
+	"testing"
+)
+
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+// assertValidationFail checks a form re-render response.
+func assertValidationFail(t *testing.T, rec *httptest.ResponseRecorder, errFragment string) {
+	t.Helper()
+	if rec.Code != http.StatusOK {
+		t.Errorf("expected 200 (form re-render) on validation failure, got %d\nbody: %s",
+			rec.Code, rec.Body.String())
+	}
+	if rec.Header().Get("Location") != "" {
+		t.Errorf("handler should not redirect on validation failure, got Location: %s",
+			rec.Header().Get("Location"))
+	}
+	if !strings.Contains(rec.Body.String(), errFragment) {
+		t.Errorf("expected response body to contain %q\nbody excerpt: %.300s",
+			errFragment, rec.Body.String())
+	}
+}
+
+// assertRedirectsTo checks a successful redirect response.
+func assertRedirectsTo(t *testing.T, rec *httptest.ResponseRecorder, location string) {
+	t.Helper()
+	if rec.Code != http.StatusSeeOther {
+		t.Errorf("expected 303 SeeOther on success, got %d\nbody: %s",
+			rec.Code, rec.Body.String())
+	}
+	if loc := rec.Header().Get("Location"); loc != location {
+		t.Errorf("expected redirect to %q, got %q", location, loc)
+	}
+}
+
+// ooluCreatedOnce returns a mock that responds to one POST create and counts calls.
+func ooluCreatedOnce(t *testing.T) (*httptest.Server, *int) {
+	t.Helper()
+	count := 0
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			count++
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusCreated)
+			json.NewEncoder(w).Encode(map[string]any{"id": float64(1)})
+		},
+	})
+	return server, &count
+}
+
+// ── Región ────────────────────────────────────────────────────────────────────
+
+func TestRegionCreate_MissingDescripcion_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.RegionCreate, "/regiones", url.Values{})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestRegionCreate_DescripcionTooLong_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.RegionCreate, "/regiones", url.Values{
+		"descripcion": {strings.Repeat("x", 201)},
+	})
+
+	assertValidationFail(t, rec, "length must be at most")
+}
+
+func TestRegionCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.RegionCreate, "/regiones", url.Values{
+		"descripcion": {"Región Sur"},
+	})
+
+	assertRedirectsTo(t, rec, "/regiones")
+	if *count == 0 {
+		t.Error("xolu.Create was not called on valid submission")
+	}
+}
+
+// ── Moneda ────────────────────────────────────────────────────────────────────
+
+func TestMonedaCreate_MissingCodigoISO_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.MonedaCreate, "/monedas", url.Values{
+		"simbolo": {"$"},
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestMonedaCreate_CodigoISOWrongLength_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.MonedaCreate, "/monedas", url.Values{
+		"codigo_iso": {"US"}, // must be exactly 3 chars
+		"simbolo":    {"$"},
+	})
+
+	assertValidationFail(t, rec, "length must be at least 3")
+}
+
+func TestMonedaCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.MonedaCreate, "/monedas", url.Values{
+		"codigo_iso": {"USD"},
+		"simbolo":    {"$"},
+	})
+
+	assertRedirectsTo(t, rec, "/monedas")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── Marca ─────────────────────────────────────────────────────────────────────
+
+func TestMarcaCreate_MissingCodigo_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.MarcaCreate, "/marcas", url.Values{
+		"nombre": {"Acme"},
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestMarcaCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.MarcaCreate, "/marcas", url.Values{
+		"codigo": {"ACM"},
+		"nombre": {"Acme Corp"},
+	})
+
+	assertRedirectsTo(t, rec, "/marcas")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── Custodio ──────────────────────────────────────────────────────────────────
+
+func TestCustodioCreate_InvalidTipoSujeto_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.CustodioCreate, "/custodios", url.Values{
+		"tipo_sujeto":          {"PASSPORT"}, // not in enum DNI/CI/RUT/RUC
+		"nombre_razon_social":  {"Empresa SA"},
+		"identificador_fiscal": {"12345678"},
+		"email":                {"empresa@example.com"},
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestCustodioCreate_MissingEmail_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.CustodioCreate, "/custodios", url.Values{
+		"tipo_sujeto":          {"DNI"},
+		"nombre_razon_social":  {"Empresa SA"},
+		"identificador_fiscal": {"12345678"},
+		// no email
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestCustodioCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.CustodioCreate, "/custodios", url.Values{
+		"tipo_sujeto":          {"DNI"},
+		"nombre_razon_social":  {"Empresa SA"},
+		"identificador_fiscal": {"12345678"},
+		"email":                {"empresa@example.com"},
+		"estado":               {"on"},
+	})
+
+	assertRedirectsTo(t, rec, "/custodios")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── Alerta (master table) ─────────────────────────────────────────────────────
+
+func TestAlertaMasterCreate_InvalidTipo_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AlertaMasterCreate, "/alertas", url.Values{
+		"tipo":        {"Incendio"}, // not in enum
+		"descripcion": {"Alerta test"},
+		"criticidad":  {"Alta"},
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestAlertaMasterCreate_InvalidCriticidad_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AlertaMasterCreate, "/alertas", url.Values{
+		"tipo":        {"Mantenimiento"},
+		"descripcion": {"Test"},
+		"criticidad":  {"Extrema"}, // not in enum
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestAlertaMasterCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AlertaMasterCreate, "/alertas", url.Values{
+		"tipo":        {"Mantenimiento"},
+		"descripcion": {"Temperatura elevada"},
+		"criticidad":  {"Alta"},
+	})
+
+	assertRedirectsTo(t, rec, "/alertas")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── PropDefinición ────────────────────────────────────────────────────────────
+
+func TestPropDefCreate_MissingNombreCorto_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.PropDefCreate, "/propiedades", url.Values{
+		"tipo_dato": {"numerico"},
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestPropDefCreate_InvalidTipoDato_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.PropDefCreate, "/propiedades", url.Values{
+		"nombre_corto": {"temp_max"},
+		"tipo_dato":    {"texto_libre"}, // not in enum
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestPropDefCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.PropDefCreate, "/propiedades", url.Values{
+		"nombre_corto": {"temp_max"},
+		"tipo_dato":    {"numerico"},
+	})
+
+	assertRedirectsTo(t, rec, "/propiedades")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── Modelo ────────────────────────────────────────────────────────────────────
+
+func TestModeloCreate_MissingMarcaID_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.ModeloCreate, "/modelos", url.Values{
+		"nombre": {"Modelo X1"},
+		// no marca_id — stripped as int64(0) → absent → "field is required"
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestModeloCreate_MissingNombre_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.ModeloCreate, "/modelos", url.Values{
+		"marca_id": {"1"},
+		// no nombre
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestModeloCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.ModeloCreate, "/modelos", url.Values{
+		"marca_id": {"1"},
+		"nombre":   {"Modelo X1"},
+	})
+
+	assertRedirectsTo(t, rec, "/modelos")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── Ubicación ─────────────────────────────────────────────────────────────────
+
+func TestUbicacionCreate_MissingNombreCorto_ReturnsForm(t *testing.T) {
+	// loadRegiones is called on error re-render — mock OQL for it
+	server2 := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w)
+		},
+	})
+	defer server2.Close()
+	h := newHandler(t, server2)
+
+	rec := postForm(t, h.UbicacionCreate, "/ubicaciones", url.Values{
+		"region_id": {"1"},
+		// no nombre_corto
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestUbicacionCreate_MissingRegionID_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w)
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.UbicacionCreate, "/ubicaciones", url.Values{
+		"nombre_corto": {"Depósito A"},
+		// region_id absent → int64(0) stripped → "field is required"
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestUbicacionCreate_Valid_Redirects(t *testing.T) {
+	count := 0
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			count++
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusCreated)
+			json.NewEncoder(w).Encode(map[string]any{"id": float64(1)})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.UbicacionCreate, "/ubicaciones", url.Values{
+		"nombre_corto": {"Depósito A"},
+		"region_id":    {"1"},
+	})
+
+	assertRedirectsTo(t, rec, "/ubicaciones")
+	if count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── PropAssoc ─────────────────────────────────────────────────────────────────
+
+func TestPropAssocCreate_InvalidEntidadDestino_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w)
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.PropAssocCreate, "/propiedades/asociaciones", url.Values{
+		"prop_definition_id": {"1"},
+		"entidad_destino":    {"sensor"}, // not in enum asset_type|asset
+		"entidad_id":         {"1"},
+		"obligatoriedad":     {"opcional"},
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestPropAssocCreate_InvalidObligatoriedad_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w)
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.PropAssocCreate, "/propiedades/asociaciones", url.Values{
+		"prop_definition_id": {"1"},
+		"entidad_destino":    {"asset_type"},
+		"entidad_id":         {"1"},
+		"obligatoriedad":     {"requerido"}, // was the schema typo — now "requerida" is correct
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestPropAssocCreate_Valid_Redirects(t *testing.T) {
+	count := 0
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			count++
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusCreated)
+			json.NewEncoder(w).Encode(map[string]any{"id": float64(1)})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.PropAssocCreate, "/propiedades/asociaciones", url.Values{
+		"prop_definition_id": {"1"},
+		"entidad_destino":    {"asset_type"},
+		"entidad_id":         {"1"},
+		"obligatoriedad":     {"requerida"},
+	})
+
+	assertRedirectsTo(t, rec, "/propiedades/asociaciones")
+	if count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── AssetCreate ───────────────────────────────────────────────────────────────
+
+func TestAssetCreate_MissingName_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w) // asset types query
+		},
+	})
+	defer server.Close()
+
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetCreate, "/assets", url.Values{
+		"type_id":    {"1"},
+		"criticidad": {"Alta"},
+		// no name
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestAssetCreate_MissingTypeID_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w)
+		},
+	})
+	defer server.Close()
+
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetCreate, "/assets", url.Values{
+		"name":       {"Compresor 1"},
+		"criticidad": {"Alta"},
+		// type_id absent → int64(0) → must be positive
+	})
+
+	assertValidationFail(t, rec, "must be positive")
+}
+
+func TestAssetCreate_InvalidCriticidad_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			oqlEmpty(w)
+		},
+	})
+	defer server.Close()
+
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetCreate, "/assets", url.Values{
+		"name":       {"Compresor 1"},
+		"type_id":    {"1"},
+		"criticidad": {"Extrema"}, // not in enum Alta|Media|Baja
+	})
+
+	assertValidationFail(t, rec, "must be one of")
+}
+
+func TestAssetCreate_Valid_Redirects(t *testing.T) {
+	count := 0
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"POST /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			count++
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusCreated)
+			json.NewEncoder(w).Encode(map[string]any{"id": float64(1), "data": map[string]any{}})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetCreate, "/assets", url.Values{
+		"name":       {"Compresor Norte"},
+		"type_id":    {"1"},
+		"criticidad": {"Alta"},
+	})
+
+	assertRedirectsTo(t, rec, "/assets")
+	if count == 0 {
+		t.Error("xolu was never called on valid asset create")
+	}
+}
+
+// ── CentroCosto ───────────────────────────────────────────────────────────────
+
+func TestCentroCostoCreate_MissingCodigo_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.CentroCostoCreate, "/centros-costo", url.Values{
+		"nombre": {"Administración"},
+		// no codigo_contable
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestCentroCostoCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.CentroCostoCreate, "/centros-costo", url.Values{
+		"codigo_contable": {"ADM-001"},
+		"nombre":          {"Administración"},
+	})
+
+	assertRedirectsTo(t, rec, "/centros-costo")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── Update variants (schemas reused from Create) ──────────────────────────────
+
+func TestRegionUpdate_MissingDescripcion_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"GET /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]any{
+				"id":   float64(1),
+				"data": map[string]any{"descripcion": "Original"},
+			})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	// RegionUpdate extracts id from URL path — use URL directly, not PathValue
+	rec := postForm(t, h.RegionUpdate, "/regiones/1", url.Values{})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+func TestModeloUpdate_MissingMarcaID_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"GET /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]any{
+				"id":   float64(1),
+				"data": map[string]any{"nombre": "Modelo X", "marca_id": float64(5)},
+			})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.ModeloUpdate, "/modelos/1", url.Values{
+		"nombre": {"Modelo X"},
+		// no marca_id — zero → stripped → "field is required"
+	})
+
+	assertValidationFail(t, rec, "field is required")
+}
+
+// ── AssetTypeCreate ───────────────────────────────────────────────────────────
+
+func TestAssetTypeCreate_MissingName_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetTypeCreate, "/asset-types", url.Values{
+		"slug": {"motor"},
+		// no name
+	})
+
+	// AssetTypeCreate returns RenderError on validation failure (422)
+	if rec.Code == http.StatusSeeOther {
+		t.Errorf("expected non-redirect on validation failure, got 303")
+	}
+	if rec.Code == http.StatusSeeOther {
+		t.Error("should not redirect when required field is missing")
+	}
+}
+
+func TestAssetTypeCreate_MissingSlug_ReturnsError(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetTypeCreate, "/asset-types", url.Values{
+		"name": {"Motor"},
+		// no slug
+	})
+
+	if rec.Code == http.StatusSeeOther {
+		t.Errorf("expected non-redirect on validation failure, got 303")
+	}
+}
+
+func TestAssetTypeCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AssetTypeCreate, "/asset-types", url.Values{
+		"name": {"Motor"},
+		"slug": {"motor"},
+	})
+
+	assertRedirectsTo(t, rec, "/asset-types")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── RuleCreate ────────────────────────────────────────────────────────────────
+
+func TestRuleCreate_MissingName_ReturnsError(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.RuleCreate, "/rules", url.Values{
+		// no name — the handler has an ad-hoc required check for name
+		"trigger_type": {"event"},
+		"action_type":  {"notify"},
+	})
+
+	// Handler returns a full page render (not 303) on missing name
+	if rec.Code == http.StatusSeeOther {
+		t.Errorf("expected non-redirect on missing name, got 303")
+	}
+}
+
+func TestRuleCreate_InvalidTriggerType_ReturnsError(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.RuleCreate, "/rules", url.Values{
+		"name":         {"Alerta Temperatura"},
+		"trigger_type": {"invalid_type"}, // not in enum
+		"action_type":  {"notify"},
+	})
+
+	if rec.Code == http.StatusSeeOther {
+		t.Errorf("expected non-redirect on invalid trigger_type, got 303")
+	}
+}
+
+func TestRuleCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.RuleCreate, "/rules", url.Values{
+		"name":         {"Alerta Temperatura"},
+		"trigger_type": {"threshold"},
+		"action_type":  {"notify"},
+	})
+
+	assertRedirectsTo(t, rec, "/rules")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── SensorCreate ──────────────────────────────────────────────────────────────
+
+func TestSensorCreate_MissingExternalID_ReturnsForm(t *testing.T) {
+	server := mockOLU(t, nil)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.SensorCreate, "/sensors", url.Values{
+		"type":   {"temperature"},
+		"driver": {"mqtt"},
+		// no external_id
+	})
+
+	// SensorCreate has ad-hoc required checks; returns full-page render on error
+	if rec.Code == http.StatusSeeOther {
+		t.Errorf("expected non-redirect on missing external_id, got 303")
+	}
+}
+
+func TestSensorCreate_Valid_Redirects(t *testing.T) {
+	server, count := ooluCreatedOnce(t)
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.SensorCreate, "/sensors", url.Values{
+		"external_id": {"SENSOR-001"},
+		"type":        {"temperature"},
+		"driver":      {"mqtt"},
+	})
+
+	assertRedirectsTo(t, rec, "/sensors")
+	if *count == 0 {
+		t.Error("xolu.Create was not called")
+	}
+}
+
+// ── AdminUserUpdate ───────────────────────────────────────────────────────────
+
+func TestAdminUserUpdate_InvalidRole_ReturnsError(t *testing.T) {
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"GET /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]any{
+				"id":   float64(1),
+				"data": map[string]any{"name": "Ana García", "role": "operator"},
+			})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	rec := postForm(t, h.AdminUserUpdate, "/admin/users/1", url.Values{
+		"name": {"Ana García"},
+		"role": {"superuser"}, // not in enum
+	})
+
+	if rec.Code == http.StatusSeeOther {
+		t.Errorf("expected non-redirect on invalid role, got 303")
+	}
+}
+
+func TestAdminUserUpdate_Valid_Redirects(t *testing.T) {
+	count := 0
+	// xolu.Update sends PUT /api/v1/users/1 — match on "PUT /api/v1"
+	server := mockOLU(t, map[string]http.HandlerFunc{
+		"PUT /api/v1": func(w http.ResponseWriter, r *http.Request) {
+			count++
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(map[string]any{"message": "updated"})
+		},
+	})
+	defer server.Close()
+	h := newHandler(t, server)
+
+	// AdminUserUpdate uses r.PathValue("id") — must be set on the request
+	req := httptest.NewRequest("POST", "/admin/users/1",
+		strings.NewReader(url.Values{"name": {"Ana García"}, "role": {"manager"}}.Encode()))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.SetPathValue("id", "1")
+	rec := httptest.NewRecorder()
+	h.AdminUserUpdate(rec, req)
+
+	assertRedirectsTo(t, rec, "/admin/users")
+	if count == 0 {
+		t.Error("xolu.Update was not called")
+	}
+}
+
+// ── errorsToSummary ───────────────────────────────────────────────────────────
+
+func TestErrorsToSummary_Empty(t *testing.T) {
+	if got := errorsToSummary(nil); got != "" {
+		t.Errorf("expected empty string for nil map, got %q", got)
+	}
+	if got := errorsToSummary(map[string]string{}); got != "" {
+		t.Errorf("expected empty string for empty map, got %q", got)
+	}
+}
+
+func TestErrorsToSummary_SingleField(t *testing.T) {
+	got := errorsToSummary(map[string]string{"name": "field is required"})
+	if got != "name: field is required" {
+		t.Errorf("unexpected summary: %q", got)
+	}
+}
+
+func TestErrorsToSummary_MultipleFields_Sorted(t *testing.T) {
+	got := errorsToSummary(map[string]string{
+		"status":     "must be one of: active, inactive",
+		"criticidad": "must be one of: Alta, Media, Baja",
+		"name":       "field is required",
+	})
+	lines := strings.Split(got, "\n")
+	if len(lines) != 3 {
+		t.Fatalf("expected 3 lines, got %d: %q", len(lines), got)
+	}
+	// Lines should be sorted: criticidad, name, status
+	if lines[0] != "criticidad: must be one of: Alta, Media, Baja" {
+		t.Errorf("line 0 wrong: %q", lines[0])
+	}
+	if lines[1] != "name: field is required" {
+		t.Errorf("line 1 wrong: %q", lines[1])
+	}
+	if lines[2] != "status: must be one of: active, inactive" {
+		t.Errorf("line 2 wrong: %q", lines[2])
+	}
+}
+
+func TestErrorsToSummary_TopLevelFirst(t *testing.T) {
+	got := errorsToSummary(map[string]string{
+		"_":    "submission failed",
+		"name": "field is required",
+	})
+	lines := strings.Split(got, "\n")
+	if lines[0] != "submission failed" {
+		t.Errorf("top-level error should be first, got: %q", lines[0])
+	}
+}
